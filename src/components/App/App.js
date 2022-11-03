@@ -18,15 +18,16 @@ function App() {
   // передрать с макета или создать свои карточки с фильмами для теста
 
   const [currentUser, setCurrentUser] = useState({});
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [movies, setMovies] = useState(initialCards); // временное решение
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='app'>
         <Routes>
-          <Route exact strict path='/'>
-            <Main isLoggedIn={isLoggedIn}/>
+          <Route exact strict path='/' element={
+            <Main loggedIn={isLoggedIn}/>
+          }>
           </Route>
           <Route exact strict path='/sign-in'>
             {/* <Login /> */}

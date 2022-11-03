@@ -1,16 +1,17 @@
 /* import { useState } from 'react'; */
 import './Header.css';
+import Logo from '../Logo/Logo';
 import { Link, useLocation } from 'react-router-dom';
 
-function Header({isLoggedIn, isStartPage}) {
+function Header({loggedIn, isBigHeader}) {
   const location = useLocation();
   /* const [isLoggedIn, setIsLoggedIn] = useState(false); */
 
   return (
-    <header className={`${isStartPage ? 'header' : ''}`}>
-      <Link to='/' className='header__logo header__logo_top app__buttons' />
-      {isLoggedIn ? (
-        <div className='header__nav-elemements'>
+    <header className={`${isBigHeader || loggedIn ? 'header' : ''}`}>
+      <Logo/>
+      {loggedIn ? (
+        <nav className='header__nav-elemements'>
           {location.pathname === '/' && (
             <Link
               to='/sign-up'
@@ -24,12 +25,12 @@ function Header({isLoggedIn, isStartPage}) {
               to='/sign-in'
               className='header__nav-elemement header__nav-elemement_button app__buttons'
             >
-              <p className='header__nav-elemement_button-text'>Войти</p>
+              <p className='header__nav-elemement header__nav-elemement_button-text'>Войти</p>
             </Link>
           )}
-        </div>
+        </nav>
       ) : (
-        <div className='header__nav-elemements'>
+        <nav className='header__nav-elemements'>
           {location.pathname === '/' && (
             <Link
               to='/sign-up'
@@ -46,7 +47,7 @@ function Header({isLoggedIn, isStartPage}) {
               <p className='header__nav-elemement_button-text'>Войти</p>
             </Link>
           )}
-        </div>
+        </nav>
       )}
     </header>
   );

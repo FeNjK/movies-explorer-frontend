@@ -1,6 +1,8 @@
 // из старой работы
 
 import { useState } from 'react';
+import Header from '../Header/Header';
+
 import './Login.css';
 
 function Login({ onLogin }) {
@@ -26,6 +28,7 @@ function Login({ onLogin }) {
   }
 
   return (
+
     <div className='login'>
       <h3 className='login__title'>Вход</h3>
       <form
