@@ -1,8 +1,9 @@
-/* body, header, footer, section, nav, div, h1, h2, h3, h4, h5, h6, p, a, link, ul, li, img, article {
+body, header, footer, section, button, nav, div, h1, h2, h3, h4, h5, h6, p, a, link, ul, li, img, article {
   border: 1px solid rgba(250, 50, 50, 0.7);
-} */
+}
 @import url(./vendor/normalize.css);
 @import url(./vendor/fonts/fonts.css);
 @import url(./components/App/App.css);
 @import url(./components/Header/Header.css);
+
 @import url(./components/Footer/Footer.css);
