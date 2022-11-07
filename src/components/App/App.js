@@ -26,22 +26,24 @@ function App() {
       <div className='app'>
         <Routes>
           <Route exact strict path='/' element={
-            <Main loggedIn={isLoggedIn}/>
+            <Main />
           }>
           </Route>
-          <Route exact strict path='/sign-in'>
-            {/* <Login /> */}
+          <Route exact strict path='/sign-in' element={
+            <Login />
+          }>
           </Route>
-          <Route exact strict path='/sign-up'>
-            {/* <Register /> */}
+          <Route exact strict path='/sign-up' element={
+            <Register />
+          }>
           </Route>
-          <Route exact strict path='/movies'>
-            {/* Домыслы */}
-            {/* <Movies movies={movies} isLoggedIn={isLoggedIn}/> */}
+          <Route exact strict path='/movies' element={
+            <Movies movies={movies} isLoggedIn={isLoggedIn}/>
+          }>
           </Route>
-          <Route exact strict path='/saved-movies'>
-            {/* Домыслы */}
-            {/* <SavedMovies movies={movies} isLoggedIn={isLoggedIn}/> */}
+          <Route exact strict path='/saved-movies' element={
+            <SavedMovies movies={movies} isLoggedIn={isLoggedIn}/>
+          }>
           </Route>
         </Routes>
       </div>

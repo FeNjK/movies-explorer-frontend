@@ -8,53 +8,51 @@ function Header({ loggedIn, isBigHeader }) {
   /* const [isLoggedIn, setIsLoggedIn] = useState(false); */
 
   return (
-
-    <header className={`${isBigHeader ? 'header' : ''}`}>
+    <header className='header'>
       <Logo />
-      {!loggedIn ? (
+      {/* !loggedIn ? ( */
         <nav className='header__nav-elemements'>
           {location.pathname === '/' && (
-            <Link
-              to='/sign-up'
-              className='header__nav-elemement header__nav-elemement_link app__links'
-            >
-              Регистрация
-            </Link>
-          )}
-          {location.pathname === '/' && (
-            <Link
-              to='/sign-in'
-              className='header__nav-elemement header__nav-elemement_button app__buttons'
-            >
-              <p className='header__nav-elemement header__nav-elemement_button-text'>
-                Войти
-              </p>
-            </Link>
+            <>
+              <Link
+                to='/sign-up'
+                className='header__nav-elemement header__nav-elemement_link app__links'
+              >
+                Регистрация
+              </Link>
+              <Link
+                to='/sign-in'
+                className='header__nav-elemement header__nav-elemement_button app__buttons'
+              >
+                <p className='header__nav-elemement header__nav-elemement_button-text'>
+                  Войти
+                </p>
+              </Link>
+            </>
           )}
         </nav>
-      ) : (
-    
+      /* ) : ( */
         /// Переделать!!!
 
-        <nav className='header__nav-elemements'>
+        /* {/* <nav className='header__nav-elemements'>
           {location.pathname === '/' && (
-            <Link
-              to='/sign-up'
-              className='header__nav-elemement header__nav-elemement_link app__links'
-            >
-              Регистрация
-            </Link>
-          )}
-          {location.pathname === '/' && (
-            <Link
-              to='/sign-in'
-              className='header__nav-elemement header__nav-elemement_button app__buttons'
-            >
-              <p className='header__nav-elemement_button-text'>Войти</p>
-            </Link>
+            <>
+              <Link
+                to='/sign-up'
+                className='header__nav-elemement header__nav-elemement_link app__links'
+              >
+                Регистрация
+              </Link>
+              <Link
+                to='/sign-in'
+                className='header__nav-elemement header__nav-elemement_button app__buttons'
+              >
+                <p className='header__nav-elemement_button-text'>Войти</p>
+              </Link>
+            </>
           )}
         </nav>
-      )}
+      )} */}
     </header>
   );
 }
