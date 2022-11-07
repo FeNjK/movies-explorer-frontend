@@ -7,20 +7,19 @@ import Techs from './Techs/Techs';
 import AboutMe from './AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
 
-function Main({isLoggedIn}) {
+function Main({ isLoggedIn }) {
   return (
-      <>
+    <>
       <Header isLoggedIn={isLoggedIn} isBigHeader={true} />
       <main className='main'>
-        <Promo/>
-        
-        {/* <AboutProject />
+        <Promo />
+        <AboutProject />
         <Techs />
-        <AboutMe /> */}
+        <AboutMe />
       </main>
       <Footer />
-      </>
-  )
+    </>
+  );
 }
 
 export default Main;

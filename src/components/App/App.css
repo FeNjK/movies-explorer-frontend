@@ -14,7 +14,6 @@
 .app__links {
   text-decoration: none;
   cursor: pointer;
-  position: relative;
   transition: box-shadow 0.2s ease-out, opacity 0.2s ease-out;
   -webkit-transition: box-shadow 0.2s ease-out, opacity 0.2s ease-out;
   -moz-transition: box-shadow 0.2s ease-out, opacity 0.2s ease-out;

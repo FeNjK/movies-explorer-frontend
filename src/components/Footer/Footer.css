@@ -1,5 +1,5 @@
 .footer {
-  max-width: 1280px;
+  max-width: 1140px;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -106,4 +106,3 @@
   text-align: right;
   color: #fff;
 }
-

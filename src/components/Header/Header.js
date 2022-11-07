@@ -3,14 +3,15 @@ import './Header.css';
 import Logo from '../Logo/Logo';
 import { Link, useLocation } from 'react-router-dom';
 
-function Header({loggedIn, isBigHeader}) {
+function Header({ loggedIn, isBigHeader }) {
   const location = useLocation();
   /* const [isLoggedIn, setIsLoggedIn] = useState(false); */
 
   return (
-    <header className={`${isBigHeader || loggedIn ? 'header' : ''}`}>
-      <Logo/>
-      {loggedIn ? (
+
+    <header className={`${isBigHeader ? 'header' : ''}`}>
+      <Logo />
+      {!loggedIn ? (
         <nav className='header__nav-elemements'>
           {location.pathname === '/' && (
             <Link
@@ -25,11 +26,16 @@ function Header({loggedIn, isBigHeader}) {
               to='/sign-in'
               className='header__nav-elemement header__nav-elemement_button app__buttons'
             >
-              <p className='header__nav-elemement header__nav-elemement_button-text'>Войти</p>
+              <p className='header__nav-elemement header__nav-elemement_button-text'>
+                Войти
+              </p>
             </Link>
           )}
         </nav>
       ) : (
+    
+        /// Переделать!!!
+
         <nav className='header__nav-elemements'>
           {location.pathname === '/' && (
             <Link

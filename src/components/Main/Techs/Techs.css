@@ -1,0 +1,145 @@
+.techs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #272727;
+  color: #fff;
+  margin: 0;
+  padding: 90px 0;
+}
+
+@media screen and (max-width: 700px) {
+  .techs {
+    padding: 70px 0;
+  }
+}
+
+.techs__title {
+  text-align: start;
+  font-size: 22px;
+  line-height: 1.227;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #dadada;
+  margin: 0 70px;
+}
+
+@media screen and (max-width: 1023px) {
+  .techs__title {
+    margin: 0 50px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .techs__title {
+    font-size: 18px;
+    line-height: 1.22;
+    padding-bottom: 28px;
+    margin: 0 18px;
+  }
+}
+
+.techs__topic {
+  text-align: center;
+  font-size: 50px;
+  line-height: 1.16;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin: 90px auto 26px;
+  padding: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .techs__topic {
+    margin: 80px auto 22px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .techs__topic {
+    font-size: 30px;
+    line-height: 1.2;
+    margin: 61px auto 24px;
+  }
+}
+
+.techs__about {
+  max-width: 465px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin: 0 auto 100px;
+  padding: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .techs__about {
+    max-width: 430px;
+    font-size: 12px;
+    line-height: 1.43;
+    margin: 0 auto 83px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .techs__about {
+    max-width: 280px;
+    font-size: 11px;
+    line-height: 1.455;
+    margin: 0 auto 50px;
+  }
+}
+
+.techs__techs-stack {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-flow: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 700px) {
+  .techs__techs-stack {
+    justify-content: start;
+    margin: 0 71px;
+  }
+}
+
+.techs__one-of-them {
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.21;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  height: 40px;
+  width: 90px;
+  background-color: #303030;
+  border-radius: 10px;
+  margin: 0;
+  padding: 22px 0 0;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+@media screen and (max-width: 1023px) {
+  .techs__one-of-them {
+    font-size: 12px;
+    line-height: 1.25;
+    height: 35px;
+    width: 84px;
+    padding: 22px 0 0;
+  }
+}
+
+.techs__one-of-them:hover {
+  color: black;
+  cursor: pointer;
+  font-weight: 500;
+}
