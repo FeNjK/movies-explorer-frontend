@@ -1,4 +1,3 @@
-// Рыба
 import { useEffect, useState } from 'react';
 import { useNavigate, Routes, Route } from 'react-router-dom';
 import apiAuth from '../../utils/ApiAuth';
@@ -9,6 +8,7 @@ import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import initialCards from '../../utils/initialCards';
+import Profile from '../Profile/Profile';
 import './App.css';
 
 function App() {
@@ -19,12 +19,12 @@ function App() {
   // передрать с макета или создать свои карточки с фильмами для теста
 
   const [currentUser, setCurrentUser] = useState({});
-  /* const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [authorizationEmail, setAuthorizationEmail] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  /* const [authorizationEmail, setAuthorizationEmail] = useState('');
   const [registration, setRegistration] = useState(null); */
   const [movies, setMovies] = useState(initialCards); // временное решение
 
-  /* const history = useNavigate();
+  /* const navigate = useNavigate();
 
   function handleTokenCheck() {
     const jwt = localStorage.getItem('jwt');
@@ -38,7 +38,7 @@ function App() {
         setAuthorizationEmail(data.email);
         localStorage.setItem('jwt', data.token);
         setIsLoggedIn(true);
-        history('/');
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);
@@ -51,9 +51,9 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      history('/');
+      navigate('/'); // или на '/movies' ?!.
     }
-  }, [isLoggedIn, history]);
+  }, [isLoggedIn, navigate]);
 
   function handleLogin(data) {
     apiAuth
@@ -63,7 +63,7 @@ function App() {
         console.log(res.token);
         setAuthorizationEmail(data.email);
         localStorage.setItem('jwt', res.token);
-        history('/');
+        navigate('/');
       })
       .catch((err) => {
         console.log(`Возникла ошибка при авторизации пользователя ${err}`);
@@ -77,7 +77,7 @@ function App() {
       .then(() => {
         setRegistration(true);
         handleInfoToolTipMessage();
-        history('/sign-in');
+        navigate('/sign-in');
       })
       .catch((err) => {
         console.log(`Возникла ошибка при регистрации пользователя ${err}`);
@@ -89,7 +89,7 @@ function App() {
   function handleSignOut() {
     setIsLoggedIn(false);
     localStorage.removeItem('token');
-    history('/sign-in');
+    navigate('/sign-in');
   } */
 
   return (
@@ -99,8 +99,9 @@ function App() {
           <Route exact strict path='/' element={<Main />}/>
           <Route exact strict path='/sign-in' element={<Login /* onLogin={handleLogin}  *//>}/>
           <Route exact strict path='/sign-up' element={<Register /* onRegister={handleRegister}  *//>}/>
-          <Route exact strict path='/movies' element={<Movies movies={movies} /* isLoggedIn={isLoggedIn} */ />}/>
-          <Route exact strict path='/saved-movies' element={<SavedMovies movies={movies} /* isLoggedIn={isLoggedIn} */ />}/>
+          <Route exact strict path='/movies' element={<Movies movies={movies} isLoggedIn={isLoggedIn} />}/>
+          <Route exact strict path='/saved-movies' element={<SavedMovies movies={movies} isLoggedIn={isLoggedIn} />}/>
+          <Route exact strict path='/profile' element={<Profile isLoggedIn={isLoggedIn}/>}/>
         </Routes>
       </div>
     </CurrentUserContext.Provider>

@@ -10,7 +10,7 @@ import Footer from '../Footer/Footer';
 function Main({ isLoggedIn }) {
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} isBigHeader={true} />
+      <Header isLoggedIn={isLoggedIn} />
       <main className='main'>
         <Promo />
         <AboutProject />

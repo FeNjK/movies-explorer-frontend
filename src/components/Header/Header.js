@@ -1,16 +1,63 @@
 /* import { useState } from 'react'; */
 import './Header.css';
 import Logo from '../Logo/Logo';
+import Navigation from '../Navigation/Navigation'
 import { Link, useLocation } from 'react-router-dom';
 
-function Header({ loggedIn, isBigHeader }) {
+function Header({ loggedIn }) {
   const location = useLocation();
-  /* const [isLoggedIn, setIsLoggedIn] = useState(false); */
+/*   const [isLoggedIn, setIsLoggedIn] = useState(true); */
 
   return (
     <header className='header'>
       <Logo />
-      {/* !loggedIn ? ( */
+      <nav className='header__nav-elemements'>
+          {location.pathname === '/' && (
+            <ul className='header__nav-list'>
+              <li className='header__nav-list-item'>
+                <Link
+                  to='/sign-up'
+                  className='header__nav-link app__links'
+                >
+                  Регистрация
+                </Link>
+              </li>
+              <li className='header__nav-list-item'>
+                <Link
+                  to='/sign-in'
+                  className='header__nav-list-item header__nav-button app__buttons'
+                >
+                  <p className='header__nav-list-item header__nav-button-text'>
+                    Войти
+                  </p>
+                </Link>
+              </li>
+            </ul>
+          )}
+          {location.pathname === '/movies' && (
+            <Navigation />
+          )}
+          {location.pathname === '/saved-movies' && (
+            <Navigation />
+          )}
+          {location.pathname === '/profile' && (
+            <Navigation />
+          )}
+        </nav>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      {/* {isLoggedIn ? (
         <nav className='header__nav-elemements'>
           {location.pathname === '/' && (
             <>
@@ -31,21 +78,19 @@ function Header({ loggedIn, isBigHeader }) {
             </>
           )}
         </nav>
-      /* ) : ( */
-        /// Переделать!!!
-
-        /* {/* <nav className='header__nav-elemements'>
-          {location.pathname === '/' && (
+      ) : (
+       <nav className='header__nav-elemements'>
+          {location.pathname === '/movies' && (
             <>
               <Link
-                to='/sign-up'
+                to='/movies'
                 className='header__nav-elemement header__nav-elemement_link app__links'
               >
-                Регистрация
+                Фильмы
               </Link>
               <Link
-                to='/sign-in'
-                className='header__nav-elemement header__nav-elemement_button app__buttons'
+                to='/saved-movies'
+                className='header__nav-elemement header__nav-elemement_link app__links'
               >
                 <p className='header__nav-elemement_button-text'>Войти</p>
               </Link>

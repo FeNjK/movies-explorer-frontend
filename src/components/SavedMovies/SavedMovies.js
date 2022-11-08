@@ -1,8 +1,17 @@
 import './SavedMovies.css'
+import Header from '../Header/Header';
+import MoviesCardList from './MoviesCardList/MoviesCardList.js';
+import Footer from '../Footer/Footer';
 
-function SavedMovies() {
+function SavedMovies({ isLoggedIn, movies }) {
   return (
-    <div>Тут сохранённые фильмы</div>
+    <>
+      <Header isLoggedIn={isLoggedIn} />
+      <main className='movies'>
+        <MoviesCardList movies={movies} />
+      </main>
+      <Footer />
+    </>
   )
 }
 

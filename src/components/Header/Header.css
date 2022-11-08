@@ -25,27 +25,36 @@
     margin: 21px 14px 21px 0;
   }
 }
-.header__nav-elemement {
+
+.header__nav-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__nav-list-item {
   font-size: 12px;
   line-height: 1.22;
   font-weight: 500;
-  cursor: pointer;
-  text-decoration: none;
+  margin: 0;
+  padding: 0;
 }
 
 @media screen and (max-width: 700px) {
-  .header__nav-elemement {
+  .header__nav-list-item {
     font-size: 10px;
     line-height: 1.6;
   }
 }
 
-.header__nav-elemement_link {
+.header__nav-link {
   color: #fff;
   margin: 0;
 }
 
-.header__nav-elemement_button {
+.header__nav-button {
   height: 32px;
   width: 76px;
   background-color: #3DDC84;
@@ -61,18 +70,18 @@
 }
 
 @media screen and (max-width: 700px) {
-  .header__nav-elemement_button {
+  .header__nav-button {
     height: 26px;
     width: 54px;
     margin-left: 14px;
   }
 }
 
-.header__nav-elemement_button:hover {
+.header__nav-button:hover {
   box-shadow: 0 0 20px #3DDC84;
 }
 
-.header__nav-elemement_button-text {
+.header__nav-button-text {
   font-size: 12px;
   line-height: 1.22;
   font-weight: 500;
@@ -81,14 +90,14 @@
 }
 
 @media screen and (max-width: 700px) {
-  .header__nav-elemement_button-text {
+  .header__nav-button-text {
     font-size: 10px;
     line-height: 1.6;
   }
 }
 
-.header__nav-elemement_button:hover
-.header__nav-elemement_button-text {
+.header__nav-button:hover
+.header__nav-button-text {
   color: #000;
   font-size: calc(+130%);
   line-height: calc(+130%);

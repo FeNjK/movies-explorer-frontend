@@ -20,11 +20,11 @@ class ApiAuth {
         );
   }
 
-  register({ email, password }) {
+  register({ name, email, password }) {
     return fetch(`${this._url}/signup`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ name, email, password }),
       credentials: 'include',
     }).then((res) => this._ringingServer(res));
   }
