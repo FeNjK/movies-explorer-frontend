@@ -10,9 +10,9 @@ function Navigation({ onMobileMenu }) {
   
   useEffect(() => {
    const handleResizeWindow = () => setWidth(window.innerWidth);
-    window.addEventListener("resize", handleResizeWindow);
+    window.addEventListener('resize', handleResizeWindow);
     return () => {
-      window.removeEventListener("resize", handleResizeWindow);
+      window.removeEventListener('resize', handleResizeWindow);
     };
   }, []);
 
@@ -65,7 +65,12 @@ function Navigation({ onMobileMenu }) {
     );
   } else {
     return (
-      <button className='navigation__mobile-button app__buttons' onClick={onMobileMenu}/>
+      <button
+        className='navigation__mobile-button app__buttons'
+        type='button'
+        onClick={onMobileMenu}
+        aria-label='Кнопка меню'
+      />
     );
   }
     

@@ -3,11 +3,9 @@ import './Header.css';
 import Logo from '../Logo/Logo';
 import Navigation from '../Navigation/Navigation'
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 
 function Header({ loggedIn, onMobileMenu }) {
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <header className='header'>

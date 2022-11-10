@@ -14,18 +14,18 @@ import m12 from '../images/По волнам Искусство звука в к
 
 //Массив карточек с изображениями и подписями к ним
 const movies = [
-  {image: m1, nameRu: '33 слова о дизайне', duration: 107},
-  {image: m2, nameRu: 'Киноальманах «100 лет дизайна»', duration: 63},
-  {image: m3, nameRu: 'В погоне за Бенкси', duration: 102},
-  {image: m4, nameRu: 'Баския: Взрыв реальности', duration: 81},
-  {image: m5, nameRu: 'Бег это свобода', duration: 104},
-  {image: m6, nameRu: 'Книготорговцы', duration: 97},
-  {image: m7, nameRu: 'Когда я думаю о Германии ночью', duration: 116},
-  {image: m8, nameRu: 'Gimme Danger: История Игги и The Stooge', duration: 119},
-  {image: m9, nameRu: 'Дженис: Маленькая девочка грустит', duration: 102},
-  {image: m10, nameRu: 'Соберись перед прыжком', duration: 70},
-  {image: m11, nameRu: 'Пи Джей Харви: A dog called money', duration: 64},
-  {image: m12, nameRu: 'По волнам: Искусство звука в кино', duration: 67},
+  {image: m1, nameRu: '33 слова о дизайне', duration: 107, id: 111},
+  {image: m2, nameRu: 'Киноальманах «100 лет дизайна»', duration: 63, id: 222},
+  {image: m3, nameRu: 'В погоне за Бенкси', duration: 102, id: 333},
+  {image: m4, nameRu: 'Баския: Взрыв реальности', duration: 81, id: 444},
+  {image: m5, nameRu: 'Бег это свобода', duration: 104, id: 555},
+  {image: m6, nameRu: 'Книготорговцы', duration: 97, id: 666},
+  {image: m7, nameRu: 'Когда я думаю о Германии ночью', duration: 116, id: 777},
+  {image: m8, nameRu: 'Gimme Danger: История Игги и The Stooge', duration: 119, id: 888},
+  {image: m9, nameRu: 'Дженис: Маленькая девочка грустит', duration: 102, id: 999},
+  {image: m10, nameRu: 'Соберись перед прыжком', duration: 70, id: 1010},
+  {image: m11, nameRu: 'Пи Джей Харви: A dog called money', duration: 64, id: 1111},
+  {image: m12, nameRu: 'По волнам: Искусство звука в кино', duration: 67, id: 1212},
 ];
 
 export default movies;

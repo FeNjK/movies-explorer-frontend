@@ -1,10 +1,10 @@
 import './Profile.css'
 import Header from '../Header/Header';
 
-function Profile({ isLoggedIn, isSignOut }) {
+function Profile({ isLoggedIn, isSignOut, onMobileMenu }) {
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header isLoggedIn={isLoggedIn} onMobileMenu={onMobileMenu}/>
       <main className='profile'>
         <div className='profile__conteiner'>
           <h3 className='profile__title'>Привет, Виталий!</h3>
@@ -26,7 +26,6 @@ function Profile({ isLoggedIn, isSignOut }) {
                 value='Виталий'/* {profileData.name} */
                 /* onChange={handleChange} */
                 autoComplete='off'
-                disabled
               />
               <span className='profile__placeholder profile__placeholder-position_second'>E-mail</span>
               <input
@@ -40,7 +39,6 @@ function Profile({ isLoggedIn, isSignOut }) {
                 value='pochta@yandex.ru'/* {profilerData.email} */
                 /* onChange={handleChange} */
                 autoComplete='off'
-                disabled
               />
               <div className='profile__buttons'>
                 <button className='profile__edit-button app__links'>Редактировать</button>

@@ -104,14 +104,77 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className='app'>
         <Routes>
-          <Route exact strict path='/' element={<Main />}/>
-          <Route exact strict path='/sign-in' element={<Login /* onLogin={handleLogin}  *//>}/>
-          <Route exact strict path='/sign-up' element={<Register /* onRegister={handleRegister}  *//>}/>
-          <Route exact strict path='/movies' element={<Movies /* movies={movies} */ /* isLoggedIn={isLoggedIn} */ />}/>
-          <Route exact strict path='/saved-movies' element={<SavedMovies /* movies={movies} */ isLoggedIn={isLoggedIn} />}/>
-          <Route exact strict path='/profile' element={<Profile isLoggedIn={isLoggedIn} /* isSignOut={handleSignOut} *//>}/>
+          <Route
+            exact
+            strict
+            path='/'
+            element={
+              <Main
+                onMobileMenu={handleMobileMenuClick}
+              />
+            }
+          />
+          <Route
+            exact
+            strict
+            path='/sign-in'
+            element={
+              <Login 
+                /* onLogin={handleLogin}  */ 
+              />
+            }
+          />
+          <Route
+            exact
+            strict
+            path='/sign-up'
+            element={
+              <Register
+                /* onRegister={handleRegister}  */
+              />
+            }
+          />
+          <Route
+            exact
+            strict
+            path='/movies'
+            element={
+              <Movies
+                onMobileMenu={handleMobileMenuClick}
+                /* movies={movies} */ 
+                isLoggedIn={isLoggedIn}
+              />
+            }
+          />
+          <Route
+            exact
+            strict
+            path='/saved-movies'
+            element={
+              <SavedMovies
+                onMobileMenu={handleMobileMenuClick}
+                /* movies={movies} */ 
+                isLoggedIn={isLoggedIn}
+              />
+            }
+          />
+          <Route
+            exact
+            strict
+            path='/profile'
+            element={
+              <Profile
+                isLoggedIn={isLoggedIn}
+                onMobileMenu={handleMobileMenuClick}
+                /* isSignOut={handleSignOut} */
+              />
+            }
+          />
         </Routes>
-        <MobileMenu isOpen={isMobileMenuOpen} />
+        <MobileMenu
+          isOpen={isMobileMenuOpen}
+          onClose={closeAllPopups}
+          />
       </div>
     </CurrentUserContext.Provider>
   );
