@@ -29,7 +29,7 @@ function Navigation({ onMobileMenu }) {
               className={({ isActive }) =>
                 isActive ? activeMoviesLink : 'navigation__link app__links'
               }
-            >
+            end>
               Фильмы
             </NavLink>
           </li>
@@ -39,7 +39,7 @@ function Navigation({ onMobileMenu }) {
               className={({ isActive }) =>
                 isActive ? activeMoviesLink : 'navigation__link app__links'
               }
-              >
+            end>
               Сохранённые фильмы
             </NavLink>
           </li>
@@ -49,7 +49,7 @@ function Navigation({ onMobileMenu }) {
               className={({ isActive }) =>
                 isActive ? activeProfileLink : 'navigation__profile-link app__links'
               }
-            >
+            end>
               Аккаунт
             </NavLink>
             <div className='navigation__profile-image-blok'>

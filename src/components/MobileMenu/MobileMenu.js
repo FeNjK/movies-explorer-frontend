@@ -26,7 +26,7 @@ function MobileMenu({ isOpen, onClose }) {
               className={({ isActive }) =>
                 isActive ? activeMoviesLink : 'app__popup-navigation-link app__links'
               }
-            >
+            end>
               Главная
             </NavLink>
           </li>
@@ -36,7 +36,7 @@ function MobileMenu({ isOpen, onClose }) {
               className={({ isActive }) =>
                 isActive ? activeMoviesLink : 'app__popup-navigation-link app__links'
               }
-            >
+            end>
               Фильмы
             </NavLink>
           </li>
@@ -46,7 +46,7 @@ function MobileMenu({ isOpen, onClose }) {
               className={({ isActive }) =>
                 isActive ? activeMoviesLink : 'app__popup-navigation-link app__links'
               }
-            >
+            end>
               Сохранённые фильмы
             </NavLink>
           </li>
@@ -57,7 +57,7 @@ function MobileMenu({ isOpen, onClose }) {
               className={({ isActive }) =>
                 isActive ? activeProfileLink : 'app__popup-navigation-profile-link app__links'
               }
-            >
+            end>
               Аккаунт
             </NavLink>
             <div className='app__popup-navigation-profile-image-blok'>
