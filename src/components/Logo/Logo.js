@@ -15,6 +15,9 @@ function Logo() {
       {location.pathname === '/saved-movies' && (
       <Link to='/' className='logo logo_top app__buttons' /> 
       )}
+      {location.pathname === '/profile' && (
+      <Link to='/' className='logo logo_top app__buttons' /> 
+      )}
       {location.pathname === '/sign-up' && (
       <Link to='/' className='logo logo_center app__buttons' /> 
       )}

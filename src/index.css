@@ -1,6 +1,6 @@
-/* body, header, main, Link, footer, section, span, input, button, nav, div, h1, h2, h3, h4, h5, h6, p, a, link, ul, li, img, article {
+body, header, main, Link, footer, section, span,form, input, button, nav, div, h1, h2, h3, h4, h5, h6, p, a, link, ul, li, img, article {
   border: 1px solid rgba(250, 50, 50, 0.7);
-} */
+}
 @import url(./vendor/normalize.css);
 @import url(./vendor/fonts/fonts.css);
 @import url(./components/App/App.css);

@@ -3,10 +3,11 @@ import './Header.css';
 import Logo from '../Logo/Logo';
 import Navigation from '../Navigation/Navigation'
 import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
-function Header({ loggedIn }) {
+function Header({ loggedIn, onMobileMenu }) {
   const location = useLocation();
-/*   const [isLoggedIn, setIsLoggedIn] = useState(true); */
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <header className='header'>
@@ -35,13 +36,13 @@ function Header({ loggedIn }) {
             </ul>
           )}
           {location.pathname === '/movies' && (
-            <Navigation />
+            <Navigation onMobileMenu={onMobileMenu} />
           )}
           {location.pathname === '/saved-movies' && (
-            <Navigation />
+            <Navigation onMobileMenu={onMobileMenu}/>
           )}
           {location.pathname === '/profile' && (
-            <Navigation />
+            <Navigation onMobileMenu={onMobileMenu}/>
           )}
         </nav>
       

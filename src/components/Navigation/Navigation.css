@@ -30,7 +30,7 @@
 }
 
 .navigation__link_active {
-  font-weight: 500;
+  box-shadow: 0 5px 0 #3DDC84;
 }
 
 .navigation__profile-link {
@@ -63,4 +63,13 @@
   height: 10.38px;
   object-fit: cover;
   object-position: center;
+}
+
+.navigation__mobile-button {
+  background-color: #202020;
+  background-image: url('../../images/burger-img.svg');
+  cursor: pointer;
+  border: none;
+  width: 44px;
+  height: 44px;
 }

@@ -1,0 +1,151 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 auto;
+}
+
+.profile__conteiner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.profile__title {
+  text-align: center;
+  font-size: 24px;
+  line-height: 1.21;
+  font-weight: 500;
+  color: #fff;
+  margin: 74px 0 123px;
+}
+
+@media screen and (max-width: 1023px) {
+  .profile__title  {
+    margin: 236px 0 96px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .profile__title  {
+    margin: 70px 0 80px;
+  }
+}
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  width: 416px;
+  color: #fff;
+  position: relative;
+}
+
+@media screen and (max-width: 1023px) {
+  .profile__form  {
+    margin: 0 179px;
+    max-width: 410px;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .profile__form {
+    margin: 0 30px;
+    max-width: 260px;
+    width: 100%;
+  }
+}
+
+.profile__placeholder {
+  text-align: start;
+  font-size: 11px;
+  line-height: 1.08;
+  font-weight: 500;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+
+.profile__placeholder-position_first {
+  top: 2px;
+  left: 4px;
+}
+
+.profile__placeholder-position_second {
+  top: 50px;
+  left: 4px;
+}
+
+.profile__input {
+  text-align: end;
+  font-size: 11px;
+  line-height: 1.08;
+  font-weight: 400;
+  padding: 0 0 16px;
+  border: none;
+  border-bottom: 1px solid #424242;
+  background-color: #202020;
+  color: #fff;
+  width: 99%;
+  outline: none;
+  background-clip: padding-box;
+}
+
+.profile__input:last-of-type {
+  padding: 17px 0 0;
+  border: none;
+  margin: 0;
+}
+
+.profile__buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 220px auto 70px;
+}
+
+@media screen and (max-width: 1023px) {
+  .profile__buttons  {
+    margin: 210px auto 70px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .profile__buttons {
+    margin: 379px auto 40px;
+  }
+}
+
+.profile__edit-button {
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.23;
+  font-weight: 400;
+  border: none;
+  color: #fff;
+  background-color: #202020;
+  margin: 0 0 13px;
+}
+
+.profile__sign-out-button {
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.23;
+  font-weight: 500;
+  color: #EE3465;
+  background-color: #202020;
+  margin: 0;
+}
+
+.profile__sign-out-button:hover {
+  color: #000;
+}

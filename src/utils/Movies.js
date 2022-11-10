@@ -13,7 +13,7 @@ import m11 from '../images/Пи Джей Харви A dog called money.jpg';
 import m12 from '../images/По волнам Искусство звука в кино.jpg';
 
 //Массив карточек с изображениями и подписями к ним
-const initialCards = [
+const movies = [
   {image: m1, nameRu: '33 слова о дизайне', duration: 107},
   {image: m2, nameRu: 'Киноальманах «100 лет дизайна»', duration: 63},
   {image: m3, nameRu: 'В погоне за Бенкси', duration: 102},
@@ -28,4 +28,4 @@ const initialCards = [
   {image: m12, nameRu: 'По волнам: Искусство звука в кино', duration: 67},
 ];
 
-export default initialCards;
+export default movies;
