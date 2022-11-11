@@ -16,24 +16,32 @@
   padding: 0;
 }
 
+@media screen and (max-width: 700px) {
+  .profile__conteiner {
+    margin: 0 30px;
+    max-width: 260px;
+    width: 100%;
+  }
+}
+
 .profile__title {
   text-align: center;
   font-size: 24px;
   line-height: 1.21;
   font-weight: 500;
   color: #fff;
-  margin: 74px 0 123px;
+  margin: 74px 0 107px;
 }
 
 @media screen and (max-width: 1023px) {
   .profile__title  {
-    margin: 236px 0 96px;
+    margin: 230px 0 80px;
   }
 }
 
 @media screen and (max-width: 700px) {
   .profile__title  {
-    margin: 70px 0 80px;
+    margin: 64px 0;
   }
 }
 
@@ -51,7 +59,7 @@
 @media screen and (max-width: 1023px) {
   .profile__form  {
     margin: 0 179px;
-    max-width: 410px;
+    max-width: 416px;
     width: 100%;
   }
 }
@@ -76,13 +84,25 @@
 }
 
 .profile__placeholder-position_first {
-  top: 2px;
+  top: 18px;
   left: 4px;
 }
 
+@media screen and (max-width: 700px) {
+  .profile__placeholder-position_first  {
+    left: 0;
+  }
+}
+
 .profile__placeholder-position_second {
-  top: 50px;
+  top: 66px;
   left: 4px;
+}
+
+@media screen and (max-width: 700px) {
+  .profile__placeholder-position_second  {
+    left: 0;
+  }
 }
 
 .profile__input {
@@ -90,7 +110,7 @@
   font-size: 11px;
   line-height: 1.08;
   font-weight: 400;
-  padding: 0 0 16px;
+  padding: 16px 0;
   border: none;
   border-bottom: 1px solid #424242;
   background-color: #202020;
@@ -101,27 +121,37 @@
 }
 
 .profile__input:last-of-type {
-  padding: 17px 0 0;
+  padding: 17px 0;
   border: none;
   margin: 0;
+}
+
+.profile__input:focus {
+  cursor: default;
+  background-color: #424242;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 .profile__buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 220px auto 70px;
+  margin: 202px auto 70px;
 }
 
 @media screen and (max-width: 1023px) {
   .profile__buttons  {
-    margin: 210px auto 70px;
+    margin: 192px auto 70px;
   }
 }
 
 @media screen and (max-width: 700px) {
   .profile__buttons {
-    margin: 379px auto 40px;
+    margin: 360px auto 40px;
   }
 }
 
@@ -136,6 +166,12 @@
   margin: 0 0 13px;
 }
 
+@media screen and (max-width: 700px) {
+  .profile__edit-button {
+    letter-spacing: -0.05em;
+  }
+}
+
 .profile__sign-out-button {
   text-align: center;
   font-size: 13px;
@@ -148,4 +184,10 @@
 
 .profile__sign-out-button:hover {
   color: #000;
+}
+
+@media screen and (max-width: 700px) {
+  .profile__sign-out-button {
+    letter-spacing: -0.04em;
+  }
 }

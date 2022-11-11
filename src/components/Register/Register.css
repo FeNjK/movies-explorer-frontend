@@ -79,10 +79,22 @@
 
 .register__input:hover {
   cursor: pointer;
+  background-color: #424242;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 .register__input:focus {
   cursor: default;
+  background-color: #424242;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 .register__button {
