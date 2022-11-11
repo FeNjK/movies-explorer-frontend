@@ -99,6 +99,7 @@
 .app__popup-navigation {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   margin: 0;
   padding: 166px 0 90px;
@@ -136,9 +137,16 @@
 
 .app__popup-navigation-profile {
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin: 595px 0 0;
+  margin: calc(100vh - 383px) 0 46px;
   padding: 0;
+}
+
+@media screen and (max-height: 400px) {
+  .app__popup-navigation-profile {
+    margin: 0;
+  }
 }
 
 .app__popup-navigation-profile-link {
