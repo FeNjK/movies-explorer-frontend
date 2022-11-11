@@ -59,14 +59,15 @@ function MobileMenu({ isOpen, onClose }) {
               }
             end>
               Аккаунт
-            </NavLink>
-            <div className='app__popup-navigation-profile-image-blok'>
-              <img
-                className='app__popup-navigation-profile-image'
-                src={accountImg}
-                alt='Значoк аккаунта'
-              />
+              <div className='app__popup-navigation-profile-image-blok'>
+                <img
+                  className='app__popup-navigation-profile-image'
+                  src={accountImg}
+                  alt='Значoк аккаунта'
+                />
             </div>
+            </NavLink>
+            
           </div>
       </nav>
       </div>

@@ -2,13 +2,19 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr minmax(min-content, max-content);
-  grid-template-rows: 203px 1fr;
+  grid-template-rows: 190px 1fr;
   column-gap: 12px;
   margin: 0;
   padding: 0;
   background: #222222;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
+}
+
+@media screen and (max-width: 700px) {
+  .movie-card {
+    grid-template-rows: 167px 1fr;
+  }
 }
 
 .movie-card__image {
@@ -26,12 +32,6 @@
   padding: 0;
 }
 
-@media screen and (max-width: 700px) {
-  .movies {
-    padding: 80px 14px;
-  }
-}
-
 .movie__title {
   grid-column-start: 1;
   grid-column-end: 2;
@@ -44,7 +44,6 @@
   text-align: start;
   margin: 16px 0 0 16px;
   padding: 0;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -117,6 +116,12 @@
 .movie__mark_active {
   background-image: url(../../images/liked-mark.svg);
   opacity: 1;
+}
+
+@media screen and (max-width: 700px) {
+  .movie__mark {
+    margin: 19px 20px 0 0;
+  }
 }
 
 .movie__trash {

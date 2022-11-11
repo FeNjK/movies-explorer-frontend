@@ -148,6 +148,8 @@
   line-height: .92;
   font-weight: 500;
   margin: 0 0 0 5px;
+  display: flex;
+  align-items: center;
 }
 
 .app__popup-navigation-profile-image-blok {

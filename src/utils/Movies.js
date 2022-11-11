@@ -21,7 +21,7 @@ const movies = [
   {image: m5, nameRu: 'Бег это свобода', duration: 104, id: 555},
   {image: m6, nameRu: 'Книготорговцы', duration: 97, id: 666},
   {image: m7, nameRu: 'Когда я думаю о Германии ночью', duration: 116, id: 777},
-  {image: m8, nameRu: 'Gimme Danger: История Игги и The Stooge', duration: 119, id: 888},
+  {image: m8, nameRu: 'Gimme Danger: История Игги', duration: 119, id: 888},
   {image: m9, nameRu: 'Дженис: Маленькая девочка грустит', duration: 102, id: 999},
   {image: m10, nameRu: 'Соберись перед прыжком', duration: 70, id: 1010},
   {image: m11, nameRu: 'Пи Джей Харви: A dog called money', duration: 64, id: 1111},

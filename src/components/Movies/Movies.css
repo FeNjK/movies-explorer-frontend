@@ -10,13 +10,13 @@
 
 @media screen and (max-width: 1023px) {
   .movies {
-    padding: 80px 30px;
+    padding: 74px 30px;
   }
 }
 
 @media screen and (max-width: 700px) {
   .movies {
-    padding: 80px 14px;
+    padding: 74px 10px;
   }
 }
 

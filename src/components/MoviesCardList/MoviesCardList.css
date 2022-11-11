@@ -12,7 +12,7 @@
 
 @media screen and (max-width: 700px) {
   .movies-library {
-    padding: 80px 0 76px;
+    padding: 49.5px 0 76px;
   }
 }
 
@@ -20,7 +20,7 @@
   width: 100%;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   row-gap: 37px;
   column-gap: 24px;
   margin: 0;
@@ -29,14 +29,13 @@
 
 @media screen and (max-width: 1023px) {
   .movies-library__card-list {
-    grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(299px, 1fr));
+    gap: 26px;
   }
 }
 
 @media screen and (max-width: 700px) {
   .movies-library__card-list {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 14px;
+    gap: 13px;
   }
 }

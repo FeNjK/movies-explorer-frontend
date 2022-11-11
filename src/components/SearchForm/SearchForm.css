@@ -10,6 +10,12 @@
   border-bottom: 1px solid #424242;
 }
 
+@media screen and (max-width: 700px) {
+  .search {
+    padding-bottom: 43px;
+  }
+}
+
 .search__form {
   display: flex;
   align-items: center;
@@ -19,7 +25,7 @@
 
 @media screen and (max-width: 700px) {
   .search__form {
-    margin: 0 0 45px;
+    margin: 0 0 43px;
   }
 }
 
@@ -45,8 +51,11 @@
 
 @media screen and (max-width: 700px) {
   .search__input {
+    height: 42px;
     font-size: 12px;
-  line-height: 1.5;
+    line-height: 1.5;
+    margin: 0 10px 0 4px;
+    padding: 2px 16px;
   }
 }
 
@@ -62,6 +71,14 @@
   border-radius: 3px;
   border: none;
   color: #fff;
+  margin: 0;
+}
+
+@media screen and (max-width: 700px) {
+  .search__button {
+    width: 115px;
+    margin: 0 5px 0 0;
+  }
 }
 
 .search__button:hover {
