@@ -39,7 +39,7 @@
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   background-color: #2f2f2f;
-  padding: 2px 24px;
+  padding: 2px 23px;
   outline: none;
   background-clip: padding-box;
   border: none;
@@ -72,6 +72,12 @@
   border: none;
   color: #fff;
   margin: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .search__button {
+    width: 87px;
+  }
 }
 
 @media screen and (max-width: 700px) {

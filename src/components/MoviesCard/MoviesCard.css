@@ -2,13 +2,19 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr minmax(min-content, max-content);
-  grid-template-rows: 190px 1fr;
+  grid-template-rows: 203px 1fr;
   column-gap: 12px;
   margin: 0;
   padding: 0;
   background: #222222;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
+}
+
+@media screen and (max-width: 1023px) {
+  .movie-card {
+    grid-template-rows: 190px 1fr;
+  }
 }
 
 @media screen and (max-width: 700px) {

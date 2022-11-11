@@ -51,14 +51,14 @@ function Navigation({ onMobileMenu }) {
               }
             end>
               Аккаунт
+              <div className='navigation__profile-image-blok'>
+                <img
+                  className='navigation__profile-image'
+                  src={accountImg}
+                  alt='Значoк аккаунта'
+                />
+              </div>
             </NavLink>
-            <div className='navigation__profile-image-blok'>
-              <img
-                className='navigation__profile-image'
-                src={accountImg}
-                alt='Значoк аккаунта'
-              />
-            </div>
           </li>
         </ul>
       </nav>

@@ -21,7 +21,7 @@
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  row-gap: 37px;
+  row-gap: 34px;
   column-gap: 24px;
   margin: 0;
   padding: 0;
@@ -30,7 +30,7 @@
 @media screen and (max-width: 1023px) {
   .movies-library__card-list {
     grid-template-columns: repeat(auto-fit, minmax(299px, 1fr));
-    gap: 26px;
+    gap: 27px;
   }
 }
 

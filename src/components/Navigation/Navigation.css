@@ -40,6 +40,8 @@
   line-height: .92;
   font-weight: 400;
   margin: 0 0 0 41px;
+  display: flex;
+  align-items: center;
 }
 
 .navigation__profile-image-blok {
@@ -54,7 +56,7 @@
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
-  margin: 0 0 0 7px;
+  margin: 0 0 0 13px;
   padding: 0;
 }
 
