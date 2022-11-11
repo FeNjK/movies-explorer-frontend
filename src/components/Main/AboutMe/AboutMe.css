@@ -1,0 +1,327 @@
+.about-me {
+  max-width: 1140px;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  margin: 0;
+  padding: 108px 70px 85px;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me {
+    padding: 90px 50px 52px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-me {
+    padding: 70px 15px;
+  }
+}
+
+.about-me__title {
+  text-align: start;
+  font-size: 22px;
+  line-height: 1.227;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #dadada;
+  margin: 0;
+}
+
+@media screen and (max-width: 700px) {
+  .about-me__title {
+    font-size: 18px;
+    line-height: 1.22;
+    padding-bottom: 28px;
+  }
+}
+
+.about-me__characteristic {
+  display: grid;
+  grid-template-columns: minmax(min-content, max-content) minmax(min-content, 245px);
+  grid-template-rows: repeat(5, minmax(min-content, max-content));
+  margin: 66px 0 0;
+  padding: 0;
+  column-gap: 100px;
+  position: relative;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me__characteristic {
+    grid-template-columns: minmax(min-content, max-content) minmax(min-content, 230px);
+    column-gap: 50px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .about-me__characteristic {
+    grid-template-columns: minmax(min-content, max-content);
+    grid-template-rows: repeat(6, minmax(min-content, max-content));
+    margin: 60px 0 0;
+    column-gap: 0;
+  }
+}
+
+.about-me__name {
+  text-align: start;
+  font-size: 50px;
+  line-height: 1.16;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin: 0;
+  padding: 0;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me__name {
+    font-size: 40px;
+    line-height: 1;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .about-me__name {
+    font-size: 30px;
+    line-height: 1.2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    margin: 40px 0 0;
+  }
+}
+
+.about-me__profession {
+  text-align: start;
+  font-size: 18px;
+  line-height: 1.11;
+  font-weight: 500;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  margin: 18px 0 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me__profession {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 16px 0 0;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .about-me__profession {
+    font-size: 11px;
+    line-height: 1.455;
+    margin: 20px 0 0;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+  }
+}
+
+.about-me__description {
+  text-align: start;
+  font-size: 14px;
+  line-height: 1.57;
+  font-weight: 400;
+  mix-blend-mode: normal;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  margin: 26px 0 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me__description {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 20px 0 0;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .about-me__description {
+    font-size: 11px;
+    line-height: 1.455;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 4;
+    grid-row-end: 5;
+  }
+}
+
+.about-me__git-hub-link {
+  max-width: 50px;
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
+  text-align: start;
+  font-size: 14px;
+  line-height: 1.21;
+  font-weight: 400;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 4;
+  grid-row-end: 5;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me__git-hub-link {
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .about-me__git-hub-link {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 5;
+    grid-row-end: 6;
+    margin: 40px 0 0;
+    position: static;
+  }
+}
+
+.about-me__my-photo {
+  max-width: 100%;
+  max-height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+  margin: 0;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 5;
+}
+
+@media screen and (max-width: 750px) {
+  .about-me__my-photo {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+}
+
+.about-me__portfolio {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  font-size: 18px;
+  line-height: 1.11;
+  font-weight: 400;
+  color: #8b8b8b;
+  margin: 101px 0 50px;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me__portfolio {
+    margin: 91px 0 0;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .about-me__portfolio {
+    font-size: 14px;
+    line-height: 1.43;
+    margin: 70px 0 0;
+    padding: 0;
+  }
+}
+
+.about-me__portfolio-link-container {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .about-me__portfolio-link-container {
+    margin: 48px 0 0;
+  }
+}
+
+.about-me__portfolio-link-blok {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 19px;
+  border-bottom: 1px solid #dadada;
+  margin: 0 0 19px;
+}
+
+@media screen and (max-width: 750px) {
+  .about-me__portfolio-link-blok {
+    margin: 40px 0 0;
+  }
+}
+
+.about-me__portfolio-link-name {
+  text-align: start;
+  font-size: 30px;
+  line-height: 1.67;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me__portfolio-link-name {
+    font-size: 28px;
+    line-height: 1.786;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .about-me__portfolio-link-name {
+    font-size: 18px;
+    line-height: 1.556;
+  }
+}
+
+.about-me__portfolio-link {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 5px 5px 0 0;
+}
+
+.about-me__portfolio-link-image {
+  max-width: 29px;
+  max-height: 29px;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-me__portfolio-link-image {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-me__portfolio-link-image {
+    width: 11px;
+    height: 11px;
+  }
+}

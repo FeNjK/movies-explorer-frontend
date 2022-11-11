@@ -1,0 +1,222 @@
+.about-project {
+  max-width: 1140px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 70px;
+  padding: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-project {
+    margin: 0 50px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-project {
+    margin: 0 18px;
+  }
+}
+
+.about-project__title {
+  text-align: start;
+  font-size: 22px;
+  line-height: 1.227;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: #fff;
+  margin: 110px 0 0;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #DADADA;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-project__title {
+    margin: 90px 0 0;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-project__title {
+    font-size: 18px;
+    line-height: 1.22;
+    padding-bottom: 28px;
+    margin: 70px 0 0;
+  }
+}
+
+.about-project__elements {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  margin: 70px 0 110px;
+  padding: 0;
+  color: #fff;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-project__elements {
+    margin: 70px 0 93px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-project__elements {
+    margin: 60px 0 60px;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.about-project__element {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.about-project__element:last-child {
+  margin-left: 40px;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-project__element:last-child {
+    margin-left: 30px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-project__element:last-child {
+    margin-top: 56px;
+    margin-left: 0;
+  }
+}
+
+.about-project__element-title {
+  text-align: start;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin: 0 0 26px;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-project__element-title {
+    margin: 0 0 22px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-project__element-title {
+    font-size: 18px;
+    line-height: 1.22;
+    margin: 0 0 16px;
+  }
+}
+
+.about-project__element-paragraph {
+  text-align: start;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
+  margin: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-project__element-paragraph {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-project__element-paragraph {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+}
+
+.about-project__training-period {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 228px auto;
+  grid-template-rows: repeat(2, 36px);
+  row-gap: 5px;
+  margin: 0 0 100px;
+  padding: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-project__training-period {
+    grid-template-columns: 140px auto;
+    margin: 0 0 80px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-project__training-period {
+    grid-template-columns: 100px auto;
+    grid-template-rows: repeat(2, 35px);
+    margin: 0 0 58px;
+    row-gap: 0;
+  }
+}
+
+.about-project__first-training-part {
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  background-color: #3DDC84;
+  margin: 0;
+  padding: 0;
+}
+
+.about-project__training-period_text {
+  font-size: 14px;
+  line-height: 1.21;
+  font-weight: 400;
+  text-align: center;
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 700px) {
+  .about-project__training-period_text {
+    font-size: 11px;
+    line-height: 1.81;
+    margin: 9px 0 0 0;
+  }
+}
+
+.about-project__second-training-part {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  background: #303030;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.about-project__description-first-training-part {
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  color: #8B8B8B;
+  margin: 0;
+  padding: 0;
+}
+
+.about-project__description-second-training-part {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  color: #8B8B8B;
+  margin: 0;
+  padding: 0;
+}
