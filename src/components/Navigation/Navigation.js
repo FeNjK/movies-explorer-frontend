@@ -3,7 +3,7 @@ import accountImg from '../../images/Значек аккаунта.svg';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-function Navigation({ onMobileMenu }) {
+function Navigation({ onMobileMenu, authorizationEmail }) {
   const [width, setWidth] = useState(window.innerWidth);
 
   const breakpoint = 1023;
@@ -50,7 +50,7 @@ function Navigation({ onMobileMenu }) {
                 isActive ? activeProfileLink : 'navigation__profile-link app__links'
               }
             end>
-              Аккаунт
+              {authorizationEmail}
               <div className='navigation__profile-image-blok'>
                 <img
                   className='navigation__profile-image'
@@ -69,6 +69,7 @@ function Navigation({ onMobileMenu }) {
         className='navigation__mobile-button app__buttons'
         type='button'
         onClick={onMobileMenu}
+        authorizationEmail={authorizationEmail}
         aria-label='Кнопка меню'
       />
     );

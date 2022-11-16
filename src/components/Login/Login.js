@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './Login.css';
 
-function Login(/* { onLogin } */) {
-  /* const [loginData, setLoginData] = useState({
+function Login({ onLogin }) {
+  const [loginData, setLoginData] = useState({
     email: '',
     password: '',
   });
@@ -20,7 +20,7 @@ function Login(/* { onLogin } */) {
   function handleSubmit(e) {
     e.preventDefault();
     onLogin(loginData);
-  } */
+  }
 
   return (
     <div className='login'>
@@ -29,7 +29,7 @@ function Login(/* { onLogin } */) {
         <h3 className='login__title'>Рады видеть!</h3>
         <form
           className='login__form'
-          /* onSubmit={handleSubmit} */
+          onSubmit={handleSubmit}
           /* noValidate */
           /* autoComplete='off' */
         >
@@ -42,8 +42,8 @@ function Login(/* { onLogin } */) {
             minLength='6'
             maxLength='40'
             required
-            /* value={loginData.email || ''}
-            onChange={handleChange} */
+            value={loginData.email || ''}
+            onChange={handleChange}
           />
           {/* Заготовка под валидацию формы по аналогии с попапами*/}
           {/* <span
@@ -59,8 +59,8 @@ function Login(/* { onLogin } */) {
             minLength='6'
             maxLength='40'
             required
-            /* value={loginData.password || ''}
-            onChange={handleChange} */
+            value={loginData.password || ''}
+            onChange={handleChange}
             autoComplete='off'
           />
           {/* Заготовка под валидацию формы по аналогии с попапами*/}
@@ -74,7 +74,7 @@ function Login(/* { onLogin } */) {
         </form>
         <span className='login__help'>
           Ещё не зарегистрированы?
-          <Link className='login__link app__links' to='/sign-up'>
+          <Link className='login__link app__links' to='/signup'>
             Регистрация
           </Link>
         </span>

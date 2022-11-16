@@ -1,11 +1,11 @@
-/* import { useState } from 'react'; */
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './Register.css';
 
-function Register(/* { onRegister } */) {
+function Register({ onRegister }) {
 
-  /* const [registerData, setRegisterData] = useState({
+  const [registerData, setRegisterData] = useState({
     name: '',
     email: '',
     password: '',
@@ -22,7 +22,7 @@ function Register(/* { onRegister } */) {
   function handleSubmit(e) {
     e.preventDefault();
     onRegister(registerData);
-  } */
+  }
 
   return (
     <div className='register'>
@@ -31,7 +31,7 @@ function Register(/* { onRegister } */) {
         <h3 className='register__title'>Добро пожаловать!</h3>
         <form
           className='register__form'
-          /* onSubmit={handleSubmit} */
+          onSubmit={handleSubmit}
           /* noValidate */
           /* autoComplete='off' */
         >
@@ -44,8 +44,8 @@ function Register(/* { onRegister } */) {
             minLength='2'
             maxLength='30'
             required
-            /* value={registerData.name}
-            onChange={handleChange} */
+            value={registerData.name}
+            onChange={handleChange}
             autoComplete='off'
           />
           <span className='register__placeholder'>E-mail</span>
@@ -57,8 +57,8 @@ function Register(/* { onRegister } */) {
             minLength='6'
             maxLength='40'
             required
-            /* value={registerData.email}
-            onChange={handleChange} */
+            value={registerData.email}
+            onChange={handleChange}
             autoComplete='off'
           />
           {/* Заготовка под валидацию формы по аналогии с попапами*/}
@@ -75,8 +75,8 @@ function Register(/* { onRegister } */) {
             minLength='6'
             maxLength='40'
             required
-            /* value={registerData.password}
-            onChange={handleChange} */
+            value={registerData.password}
+            onChange={handleChange}
             autoComplete='off'
           />
           {/* Заготовка под валидацию формы по аналогии с попапами*/}
@@ -90,7 +90,7 @@ function Register(/* { onRegister } */) {
         </form>
         <span className='register__help'>
           Уже зарегистрированы?
-          <Link className='register__link app__links' to='/sign-in'>
+          <Link className='register__link app__links' to='/signin'>
             Войти
           </Link>
         </span>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, Routes, Route } from 'react-router-dom';
-/* import apiAuth from '../../utils/ApiAuth'; */
+import { useNavigate, Routes, Route, Navigate } from 'react-router-dom';
+
+import mainApi from '../../utils/MainApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import Login from '../Login/Login.js';
 import Register from '../Register/Register.js';
@@ -9,22 +10,21 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import MobileMenu from '../MobileMenu/MobileMenu';
+import PageNotFound from '../PageNotFound/PageNotFound';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import './App.css';
 
+
 function App() {
-  // сделать асинхронные GET- и POST-запросы к API на 3 этапе
-  // написать все запросы к нашему и стороннему API на 3 этапе
-  // защитить роуты /saved-movies, /profile и /movies авторизацией
-
-  // передрать с макета или создать свои карточки с фильмами для теста
-
   const [currentUser, setCurrentUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  /* const [authorizationEmail, setAuthorizationEmail] = useState('');
-  const [registration, setRegistration] = useState(null); */
+  const [infoToolTipMessage, setInfoToolTipMessage] = useState(false);
+  const [authorizationEmail, setAuthorizationEmail] = useState('');
+  const [registration, setRegistration] = useState(null);
 
-  /* const navigate = useNavigate();
+  const navigate = useNavigate();
 
   function handleTokenCheck() {
     const jwt = localStorage.getItem('jwt');
@@ -32,9 +32,12 @@ function App() {
       return;
     }
 
-    apiAuth
-      .getEmail(jwt)
+    mainApi
+      .getToken(jwt)
+      console.log(jwt)
       .then((data) => {
+        console.log(data);
+        console.log(data.email);
         setAuthorizationEmail(data.email);
         localStorage.setItem('jwt', data.token);
         setIsLoggedIn(true);
@@ -51,19 +54,20 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('/'); // или на '/movies' ?!.
+      navigate('/movies');
     }
   }, [isLoggedIn, navigate]);
 
   function handleLogin(data) {
-    apiAuth
-      .autorise(data)
+    mainApi
+      .login(data)
       .then((res) => {
         setIsLoggedIn(true);
-        console.log(res.token);
+        console.log(data.email);
         setAuthorizationEmail(data.email);
         localStorage.setItem('jwt', res.token);
-        navigate('/');
+        console.log(res.token);
+        navigate('/movies');
       })
       .catch((err) => {
         console.log(`Возникла ошибка при авторизации пользователя ${err}`);
@@ -72,12 +76,13 @@ function App() {
   }
 
   function handleRegister(data) {
-    apiAuth
+    mainApi
       .register(data)
       .then(() => {
+        /* console.log(data); */
         setRegistration(true);
         handleInfoToolTipMessage();
-        navigate('/sign-in');
+        navigate('/signin'); // глянуть ТЗ, может сразу на фильмы отправить...
       })
       .catch((err) => {
         console.log(`Возникла ошибка при регистрации пользователя ${err}`);
@@ -88,22 +93,73 @@ function App() {
 
   function handleSignOut() {
     setIsLoggedIn(false);
+    setCurrentUser({});
     localStorage.removeItem('token');
     navigate('/');
-  } */
+  }
+
+  useEffect(() => {
+    // Запрос к Api за информацией о пользователе
+    // и массиве карточек выполняется единожды, при монтировании
+    if (isLoggedIn) {
+      mainApi
+        .getUserInfo()
+        .then((userData) => {
+          setCurrentUser(userData);
+        })
+        .catch((err) => {
+          console.log(
+            `Тут какая-то ошибка с получением пользовательских данных ${err}`
+          );
+        });
+
+        /* mainApi
+        .getInitialCards()
+        .then((card) => {
+          setCards(card);
+        })
+        .catch((err) => {
+          console.log(
+            `Тут какая-то ошибка с получением массива карточек ${err}`
+          );
+        }); */
+    }
+  }, [isLoggedIn]);
+
+  function handleUpdateUser(userData) {
+    mainApi
+      .editUserInfo(userData)
+      .then((newUserData) => {
+        setCurrentUser(newUserData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(
+          `Тут какая-то ошибка с обновлением пользовательских данных ${err}`
+        );
+      });
+  }
 
   function handleMobileMenuClick() {
     setMobileMenuOpen(true);
   }
 
+  function handleInfoToolTipMessage() {
+    setInfoToolTipMessage(true);
+  }
+
   function closeAllPopups() {
     setMobileMenuOpen(false);
+    setInfoToolTipMessage(false);
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='app'>
         <Routes>
+          {/* <Route>
+            {isLoggedIn ? <Navigate to='/' /> : <Navigate to='/signin' />}
+          </Route> */}
           <Route
             exact
             strict
@@ -111,26 +167,31 @@ function App() {
             element={
               <Main
                 onMobileMenu={handleMobileMenuClick}
+                authorizationEmail={authorizationEmail}
               />
             }
           />
           <Route
             exact
             strict
-            path='/sign-in'
+            path='/signin'
             element={
-              <Login 
-                /* onLogin={handleLogin}  */ 
-              />
+              isLoggedIn
+              ? <Navigate to='/movies' />
+              : <Login
+                onLogin={handleLogin}
+                />
             }
           />
           <Route
             exact
             strict
-            path='/sign-up'
+            path='/signup'
             element={
-              <Register
-                /* onRegister={handleRegister}  */
+              isLoggedIn
+              ? <Navigate to='/signin' />
+              : <Register
+                onRegister={handleRegister}
               />
             }
           />
@@ -139,11 +200,13 @@ function App() {
             strict
             path='/movies'
             element={
-              <Movies
-                onMobileMenu={handleMobileMenuClick}
-                /* movies={movies} */ 
-                isLoggedIn={isLoggedIn}
-              />
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <Movies
+                  onMobileMenu={handleMobileMenuClick}
+                  authorizationEmail={authorizationEmail}
+                  isLoggedIn={isLoggedIn}
+                />
+              </ProtectedRoute>
             }
           />
           <Route
@@ -151,11 +214,13 @@ function App() {
             strict
             path='/saved-movies'
             element={
-              <SavedMovies
-                onMobileMenu={handleMobileMenuClick}
-                /* movies={movies} */ 
-                isLoggedIn={isLoggedIn}
-              />
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <SavedMovies
+                  onMobileMenu={handleMobileMenuClick}
+                  authorizationEmail={authorizationEmail}
+                  isLoggedIn={isLoggedIn}
+                />
+              </ProtectedRoute>
             }
           />
           <Route
@@ -163,18 +228,33 @@ function App() {
             strict
             path='/profile'
             element={
-              <Profile
-                isLoggedIn={isLoggedIn}
-                onMobileMenu={handleMobileMenuClick}
-                /* isSignOut={handleSignOut} */
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <Profile
+                  onMobileMenu={handleMobileMenuClick}
+                  authorizationEmail={authorizationEmail}
+                  isSignOut={handleSignOut}
+                  isLoggedIn={isLoggedIn}
               />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='*'
+            element={
+              <PageNotFound />
             }
           />
         </Routes>
         <MobileMenu
           isOpen={isMobileMenuOpen}
           onClose={closeAllPopups}
-          />
+          authorizationEmail={authorizationEmail}
+        />
+        <InfoTooltip
+          isOpen={infoToolTipMessage}
+          onClose={closeAllPopups}
+          isRegistrationGood={registration}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

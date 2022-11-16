@@ -1,7 +1,7 @@
 import accountImg from '../../images/Значек аккаунта.svg';
 import { NavLink } from 'react-router-dom';
 
-function MobileMenu({ isOpen, onClose }) {
+function MobileMenu({ isOpen, onClose, authorizationEmail }) {
   let activeMoviesLink =
     'app__popup-navigation-link app__popup-navigation-link_active app__links';
   let activeProfileLink =
@@ -15,7 +15,7 @@ function MobileMenu({ isOpen, onClose }) {
     >
       <div className='app__popup-content'>
         <button
-          className='app__popup-close-button app__popup-close-button_window-мobile-мenu'
+          className='app__popup-close-button /* app__popup-close-button_window-мobile-мenu */'
           type='button'
           title='Закрыть окно'
           onClick={onClose}
@@ -72,7 +72,7 @@ function MobileMenu({ isOpen, onClose }) {
               }
               end
             >
-              Аккаунт
+              {authorizationEmail}
               <div className='app__popup-navigation-profile-image-blok'>
                 <img
                   className='app__popup-navigation-profile-image'

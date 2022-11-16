@@ -6,13 +6,17 @@ import Footer from '../Footer/Footer';
 import { useLocation } from 'react-router-dom';
 /* import { useState } from 'react'; */
 
-function Movies({ isLoggedIn, movies, onMobileMenu }) {
+function Movies({ isLoggedIn, movies, onMobileMenu, authorizationEmail }) {
   const location = useLocation();
   /* const [isLoggedIn, setIsLoggedIn] = useState(true); */
 
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} onMobileMenu={onMobileMenu}/>
+      <Header
+        isLoggedIn={isLoggedIn}
+        onMobileMenu={onMobileMenu}
+        authorizationEmail={authorizationEmail}
+      />
       <main className='movies'>
         <SearchForm />
         <MoviesCardList movies={movies} />
