@@ -16,11 +16,15 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import './App.css';
 
-
 function App() {
-  const [currentUser, setCurrentUser] = useState({ name: '', email: '', password: '' });
+  const [currentUser, setCurrentUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
   const [savedMovies, setSavedMovies] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [infoToolTipMessage, setInfoToolTipMessage] = useState(false);
   const [authorizationEmail, setAuthorizationEmail] = useState('');
@@ -28,31 +32,39 @@ function App() {
 
   const navigate = useNavigate();
 
-  /* function handleTokenCheck() {
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) {
-      return;
-    }
-
+  function handleDataCheck() {
     mainApi
-      .getToken(jwt)
-      console.log(jwt)
-      .then((data) => {
-        console.log(data);
-        console.log(data.email);
-        setAuthorizationEmail(data.email);
-        localStorage.setItem('jwt', data.token);
-        setIsLoggedIn(true);
-        navigate('/movies');
+      .getUserInfo()
+      .then((userData) => {
+        setCurrentUser(userData);
+        /* console.log(userData) */
+        localStorage.setItem('userData', JSON.stringify(userData));
       })
       .catch((err) => {
-        console.log(err);
+        console.log(
+          `Ошибка при получении пользовательских данных ${err}`
+        );
+      });
+
+    mainApi
+      .getSavedMovies()
+      .then((savedMovies) => {
+        setSavedMovies(savedMovies);
+        localStorage.setItem('movies', JSON.stringify(savedMovies));
+      })
+      .catch((err) => {
+        console.log(
+          `Ошибка при получении массива сохранённых фильмов ${err}`
+        );
       });
   }
 
   useEffect(() => {
-    handleTokenCheck();
-  }, []); */
+    if (localStorage.isLoggedIn === true) {
+      handleDataCheck();
+      /* console.log(localStorage) */
+    }
+  }, []);
 
   /* useEffect(() => {
     if (isLoggedIn) {
@@ -60,22 +72,60 @@ function App() {
     }
   }, [isLoggedIn, navigate]); */
 
+  /* useEffect(() => {
+    // Запрос к Api за информацией о пользователе
+    // и массиве карточек выполняется единожды, при монтировании
+    if (isLoggedIn) {
+      mainApi
+        .getUserInfo()
+        .then((userData) => {
+          setCurrentUser(userData);
+          localStorage.setItem('userData', JSON.stringify(userData));
+          setIsLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(
+            `Тут какая-то ошибка с получением пользовательских данных ${err}`
+          );
+        });
+
+      setIsLoading(true)
+      mainApi
+        .getSavedMovies()
+        .then((moviesCards) => {
+          setSavedMovies(moviesCards);
+        })
+        .catch((err) => {
+          console.log(
+            `Тут какая-то ошибка с получением массива сохранённых фильмов ${err}`
+          );
+        });
+      .finally(() => {
+          setIsLoading(false)
+        });
+    }
+  }, [isLoggedIn]); */
+
+  /* useEffect(() => {
+    if (localStorage.isLoggedIn === true) {
+      console.log(localStorage.isLoggedIn);
+    }
+  }, [isLoggedIn, navigate]); */
+
   function handleLogin(data) {
     mainApi
       .login(data)
-      /* console.log(data) */
-      .then((res) => {
+      .then(() => {
         setIsLoggedIn(true);
         handleGetMovies();
         setAuthorizationEmail(data.email);
-        /* localStorage.setItem('isLoggedIn', true); */
-        /* localStorage.setItem('jwt', res.token); */
+        localStorage.setItem('isLoggedIn', true);
         navigate('/movies');
       })
       .catch((err) => {
         console.log(`Возникла ошибка при авторизации пользователя ${err}`);
         handleInfoToolTipMessage();
-        /* localStorage.setItem('isLoggedIn', false); */
+        localStorage.setItem('isLoggedIn', false);
       });
   }
 
@@ -83,7 +133,6 @@ function App() {
     mainApi
       .register(data)
       .then(() => {
-        /* console.log(data); */
         setRegistration(true);
         handleInfoToolTipMessage();
         navigate('/signin'); // глянуть ТЗ, может сразу на фильмы отправить...
@@ -98,37 +147,9 @@ function App() {
   function handleSignOut() {
     setIsLoggedIn(false);
     setCurrentUser({});
-    localStorage.removeItem('token');
+    localStorage.clear();
     navigate('/');
   }
-
-  useEffect(() => {
-    // Запрос к Api за информацией о пользователе
-    // и массиве карточек выполняется единожды, при монтировании
-    if (isLoggedIn) {
-      mainApi
-        .getUserInfo()
-        .then((userData) => {
-          setCurrentUser(userData);
-        })
-        .catch((err) => {
-          console.log(
-            `Тут какая-то ошибка с получением пользовательских данных ${err}`
-          );
-        });
-
-        mainApi
-        .getSavedMovies()
-        .then((moviesCard) => {
-          setSavedMovies(moviesCard);
-        })
-        .catch((err) => {
-          console.log(
-            `Тут какая-то ошибка с получением массива сохранённых фильмов ${err}`
-          );
-        });
-    }
-  }, [isLoggedIn]);
 
   function handleGetMovies() {
     moviesApi
@@ -137,9 +158,7 @@ function App() {
         localStorage.setItem('movies', JSON.stringify(moviesData));
       })
       .catch((err) => {
-        console.log(
-          `Тут какая-то ошибка с получением перечня фильмов ${err}`
-        );
+        console.log(`Тут какая-то ошибка с получением списка фильмов ${err}`);
       });
   }
 
@@ -193,11 +212,11 @@ function App() {
             strict
             path='/signin'
             element={
-              isLoggedIn
-              ? <Navigate to='/movies' />
-              : <Login
-                onLogin={handleLogin}
-                />
+              isLoggedIn ? (
+                <Navigate to='/movies' />
+              ) : (
+                <Login onLogin={handleLogin} />
+              )
             }
           />
           <Route
@@ -205,11 +224,11 @@ function App() {
             strict
             path='/signup'
             element={
-              isLoggedIn
-              ? <Navigate to='/signin' />
-              : <Register
-                onRegister={handleRegister}
-              />
+              isLoggedIn ? (
+                <Navigate to='/signin' />
+              ) : (
+                <Register onRegister={handleRegister} />
+              )
             }
           />
           <Route
@@ -251,16 +270,11 @@ function App() {
                   authorizationEmail={authorizationEmail}
                   isSignOut={handleSignOut}
                   isLoggedIn={isLoggedIn}
-              />
+                />
               </ProtectedRoute>
             }
           />
-          <Route
-            path='*'
-            element={
-              <PageNotFound />
-            }
-          />
+          <Route path='*' element={<PageNotFound />} />
         </Routes>
         <MobileMenu
           isOpen={isMobileMenuOpen}
