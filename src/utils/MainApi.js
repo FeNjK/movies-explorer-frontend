@@ -32,7 +32,7 @@ class MainApi {
     }).then((res) => this._ringingServer(res));
   }
 
-  getToken(token) {
+  /* getToken(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
@@ -41,7 +41,7 @@ class MainApi {
       },
       credentials: 'include',
     }).then((res) => this._ringingServer(res));
-  }
+  } */
 
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
@@ -56,6 +56,14 @@ class MainApi {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, about }),
+      credentials: 'include',
+    }).then((res) => this._ringingServer(res));
+  }
+
+  getSavedMovies() {
+    return fetch(`${this._url}/movies`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     }).then((res) => this._ringingServer(res));
   }

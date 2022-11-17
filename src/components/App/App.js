@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Routes, Route, Navigate } from 'react-router-dom';
 
 import mainApi from '../../utils/MainApi';
+import moviesApi from '../../utils/MoviesApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import Login from '../Login/Login.js';
 import Register from '../Register/Register.js';
@@ -17,7 +18,8 @@ import './App.css';
 
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({ name: '', email: '', password: '' });
+  const [savedMovies, setSavedMovies] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [infoToolTipMessage, setInfoToolTipMessage] = useState(false);
@@ -26,7 +28,7 @@ function App() {
 
   const navigate = useNavigate();
 
-  function handleTokenCheck() {
+  /* function handleTokenCheck() {
     const jwt = localStorage.getItem('jwt');
     if (!jwt) {
       return;
@@ -41,7 +43,7 @@ function App() {
         setAuthorizationEmail(data.email);
         localStorage.setItem('jwt', data.token);
         setIsLoggedIn(true);
-        navigate('/');
+        navigate('/movies');
       })
       .catch((err) => {
         console.log(err);
@@ -50,28 +52,30 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
-  }, []);
+  }, []); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (isLoggedIn) {
       navigate('/movies');
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate]); */
 
   function handleLogin(data) {
     mainApi
       .login(data)
+      /* console.log(data) */
       .then((res) => {
         setIsLoggedIn(true);
-        console.log(data.email);
+        handleGetMovies();
         setAuthorizationEmail(data.email);
-        localStorage.setItem('jwt', res.token);
-        console.log(res.token);
+        /* localStorage.setItem('isLoggedIn', true); */
+        /* localStorage.setItem('jwt', res.token); */
         navigate('/movies');
       })
       .catch((err) => {
         console.log(`Возникла ошибка при авторизации пользователя ${err}`);
         handleInfoToolTipMessage();
+        /* localStorage.setItem('isLoggedIn', false); */
       });
   }
 
@@ -113,18 +117,31 @@ function App() {
           );
         });
 
-        /* mainApi
-        .getInitialCards()
-        .then((card) => {
-          setCards(card);
+        mainApi
+        .getSavedMovies()
+        .then((moviesCard) => {
+          setSavedMovies(moviesCard);
         })
         .catch((err) => {
           console.log(
-            `Тут какая-то ошибка с получением массива карточек ${err}`
+            `Тут какая-то ошибка с получением массива сохранённых фильмов ${err}`
           );
-        }); */
+        });
     }
   }, [isLoggedIn]);
+
+  function handleGetMovies() {
+    moviesApi
+      .getMovies()
+      .then((moviesData) => {
+        localStorage.setItem('movies', JSON.stringify(moviesData));
+      })
+      .catch((err) => {
+        console.log(
+          `Тут какая-то ошибка с получением перечня фильмов ${err}`
+        );
+      });
+  }
 
   function handleUpdateUser(userData) {
     mainApi

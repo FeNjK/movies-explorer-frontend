@@ -7,17 +7,25 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
   const [width, setWidth] = useState(window.innerWidth);
 
   const breakpoint = 1023;
-  
+
   useEffect(() => {
-   const handleResizeWindow = () => setWidth(window.innerWidth);
+    const handleResizeWindow = () => setWidth(window.innerWidth);
     window.addEventListener('resize', handleResizeWindow);
     return () => {
       window.removeEventListener('resize', handleResizeWindow);
     };
   }, []);
 
+  /* useEffect(() => {
+    setWidth(JSON.parse(window.localStorage.getItem('width')));
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('width', width);
+  }, [width]); */
+
   let activeMoviesLink = 'navigation__link navigation__link_active app__links';
-  let activeProfileLink = 'navigation__profile-link navigation__link_active app__links';
+  let activeProfileLink ='navigation__profile-link navigation__link_active app__links';
 
   if (width > breakpoint) {
     return (
@@ -29,7 +37,8 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
               className={({ isActive }) =>
                 isActive ? activeMoviesLink : 'navigation__link app__links'
               }
-            end>
+              end
+            >
               Фильмы
             </NavLink>
           </li>
@@ -39,7 +48,8 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
               className={({ isActive }) =>
                 isActive ? activeMoviesLink : 'navigation__link app__links'
               }
-            end>
+              end
+            >
               Сохранённые фильмы
             </NavLink>
           </li>
@@ -47,9 +57,12 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
             <NavLink
               to='/profile'
               className={({ isActive }) =>
-                isActive ? activeProfileLink : 'navigation__profile-link app__links'
+                isActive
+                  ? activeProfileLink
+                  : 'navigation__profile-link app__links'
               }
-            end>
+              end
+            >
               {authorizationEmail}
               <div className='navigation__profile-image-blok'>
                 <img
@@ -69,12 +82,10 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
         className='navigation__mobile-button app__buttons'
         type='button'
         onClick={onMobileMenu}
-        authorizationEmail={authorizationEmail}
         aria-label='Кнопка меню'
       />
     );
   }
-    
 }
 
 export default Navigation;

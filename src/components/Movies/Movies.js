@@ -4,11 +4,9 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
 import Footer from '../Footer/Footer';
 import { useLocation } from 'react-router-dom';
-/* import { useState } from 'react'; */
 
 function Movies({ isLoggedIn, movies, onMobileMenu, authorizationEmail }) {
   const location = useLocation();
-  /* const [isLoggedIn, setIsLoggedIn] = useState(true); */
 
   return (
     <>
