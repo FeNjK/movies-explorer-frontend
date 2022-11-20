@@ -1,6 +1,6 @@
 import './SearchTumbler.css';
 
-function SearchTumbler() {
+function SearchTumbler({ checked, onCheckbox }) {
   return (
     <div className='search-tumbler'>
       <label
@@ -11,6 +11,8 @@ function SearchTumbler() {
           role='switch'
           id='switch'
           className='search-tumbler__checkbox-track'
+          checked={checked}
+          onChange={onCheckbox}
         />
         Короткометражки
       </label>

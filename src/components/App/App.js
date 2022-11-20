@@ -22,9 +22,15 @@ function App() {
     email: '',
     password: '',
   });
+  const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
+
+  const [searchableText, setSearchableText] = useState('');
+  const [searchedFilms, setSearchedFilms] = useState([]);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [infoToolTipMessage, setInfoToolTipMessage] = useState(false);
   const [authorizationEmail, setAuthorizationEmail] = useState('');
@@ -37,80 +43,35 @@ function App() {
       .getUserInfo()
       .then((userData) => {
         setCurrentUser(userData);
-        /* console.log(userData) */
+        setIsLoggedIn(true);
+        setAuthorizationEmail(userData.email);
         localStorage.setItem('userData', JSON.stringify(userData));
       })
       .catch((err) => {
-        console.log(
-          `Ошибка при получении пользовательских данных ${err}`
-        );
+        console.log(`Ошибка при получении пользовательских данных ${err}`);
       });
 
     mainApi
       .getSavedMovies()
-      .then((savedMovies) => {
-        setSavedMovies(savedMovies);
-        localStorage.setItem('movies', JSON.stringify(savedMovies));
+      .then((userMovies) => {
+        setSavedMovies(userMovies);
+        setIsLoggedIn(true);
+        localStorage.setItem('userMovies', JSON.stringify(userMovies));
       })
       .catch((err) => {
-        console.log(
-          `Ошибка при получении массива сохранённых фильмов ${err}`
-        );
+        console.log(`Ошибка при получении массива сохранённых фильмов ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
   useEffect(() => {
-    if (localStorage.isLoggedIn === true) {
+    if (localStorage.isLoggedIn === JSON.stringify(true)) {
       handleDataCheck();
-      /* console.log(localStorage) */
+      handleGetMovies();
     }
   }, []);
-
-  /* useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/movies');
-    }
-  }, [isLoggedIn, navigate]); */
-
-  /* useEffect(() => {
-    // Запрос к Api за информацией о пользователе
-    // и массиве карточек выполняется единожды, при монтировании
-    if (isLoggedIn) {
-      mainApi
-        .getUserInfo()
-        .then((userData) => {
-          setCurrentUser(userData);
-          localStorage.setItem('userData', JSON.stringify(userData));
-          setIsLoggedIn(true);
-        })
-        .catch((err) => {
-          console.log(
-            `Тут какая-то ошибка с получением пользовательских данных ${err}`
-          );
-        });
-
-      setIsLoading(true)
-      mainApi
-        .getSavedMovies()
-        .then((moviesCards) => {
-          setSavedMovies(moviesCards);
-        })
-        .catch((err) => {
-          console.log(
-            `Тут какая-то ошибка с получением массива сохранённых фильмов ${err}`
-          );
-        });
-      .finally(() => {
-          setIsLoading(false)
-        });
-    }
-  }, [isLoggedIn]); */
-
-  /* useEffect(() => {
-    if (localStorage.isLoggedIn === true) {
-      console.log(localStorage.isLoggedIn);
-    }
-  }, [isLoggedIn, navigate]); */
 
   function handleLogin(data) {
     mainApi
@@ -135,7 +96,7 @@ function App() {
       .then(() => {
         setRegistration(true);
         handleInfoToolTipMessage();
-        navigate('/signin'); // глянуть ТЗ, может сразу на фильмы отправить...
+        navigate('/signin');
       })
       .catch((err) => {
         console.log(`Возникла ошибка при регистрации пользователя ${err}`);
@@ -145,20 +106,17 @@ function App() {
   }
 
   function handleSignOut() {
-    setIsLoggedIn(false);
-    setCurrentUser({});
-    localStorage.clear();
-    navigate('/');
-  }
-
-  function handleGetMovies() {
-    moviesApi
-      .getMovies()
-      .then((moviesData) => {
-        localStorage.setItem('movies', JSON.stringify(moviesData));
+    mainApi
+      .signout()
+      .then(() => {
+        setIsLoggedIn(false);
+        setCurrentUser({});
+        setMovies([]);
+        localStorage.clear();
+        navigate('/');
       })
       .catch((err) => {
-        console.log(`Тут какая-то ошибка с получением списка фильмов ${err}`);
+        console.log(`Возникла ошибка при очистке данных ${err}`);
       });
   }
 
@@ -175,6 +133,66 @@ function App() {
         );
       });
   }
+
+  function handleGetMovies() {
+    setIsLoading(true);
+    moviesApi
+      .getBeatfilmMovies()
+      .then((beatfilmMovies) => {
+        setMovies(beatfilmMovies);
+        localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies));
+      })
+      .catch((err) => {
+        console.log(`Тут какая-то ошибка с получением списка фильмов ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  // В этой функции фильтрации мы ищем фильмы
+  // по названию на русском или на английском языках
+  // (поиск фильмов регистронезависимый)
+  /* function handleSearchOnKeyword(beatfilmMovies, searchableText) {
+    return beatfilmMovies.filter((movie) => {
+      return (
+        movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
+        movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
+      )
+    })
+  } */
+
+  // Во входных данных мы вводим значение атрибута onChange
+  // в качестве ниже указанной функции
+  function handleSearchChangeByText(e) {
+    setSearchableText(e.target.value);
+  }
+
+  // По нажатию на кнопку "Найти"
+  // происходит поиск фильмов по ключевым словам
+  function handlerSubmitOnMoviesRoute(e) {
+    e.preventDefault();
+    setIsLoading(true);
+    const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
+    const searchedFilms = beatfilmMovies.filter((movie) => {
+      return (
+        movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
+        movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
+      )
+    })
+
+    /* const searchedFilms = handleSearchOnKeyword(beatfilmMovies, searchableText); */
+    setSearchedFilms(searchedFilms);
+    setIsLoading(false);
+    console.log(searchedFilms);
+  }
+
+  // Набросок
+  /* function handleSearchOnDuration(movies) {
+    return movies.filter((movie) => {
+      return movie.duration <= 40;
+    })
+  } */
 
   function handleMobileMenuClick() {
     setMobileMenuOpen(true);
@@ -193,9 +211,6 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className='app'>
         <Routes>
-          {/* <Route>
-            {isLoggedIn ? <Navigate to='/' /> : <Navigate to='/signin' />}
-          </Route> */}
           <Route
             exact
             strict
@@ -241,6 +256,11 @@ function App() {
                   onMobileMenu={handleMobileMenuClick}
                   authorizationEmail={authorizationEmail}
                   isLoggedIn={isLoggedIn}
+                  isLoading={isLoading}
+                  movies={movies}
+                  handlerSubmit={handlerSubmitOnMoviesRoute}
+                  searchableText={searchableText}
+                  handleChange={handleSearchChangeByText}
                 />
               </ProtectedRoute>
             }
@@ -255,6 +275,7 @@ function App() {
                   onMobileMenu={handleMobileMenuClick}
                   authorizationEmail={authorizationEmail}
                   isLoggedIn={isLoggedIn}
+                  isLoading={isLoading}
                 />
               </ProtectedRoute>
             }

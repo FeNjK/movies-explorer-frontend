@@ -7,17 +7,13 @@ class MainApi {
   _ringingServer(res) {
     return res.ok
       ? res.json()
-      : Promise.reject(
-          new Error(
-            `${res.status} ${res.statusText}`
-          )
-        );
+      : Promise.reject(new Error(`${res.status} ${res.statusText}`));
   }
 
-  register({ name, email, password }) {
+  register({ name, email, password }) { // на сервере контроллер createUser
     return fetch(`${this._url}/signup`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: this._headers,
       body: JSON.stringify({ name, email, password }),
       credentials: 'include',
     }).then((res) => this._ringingServer(res));
@@ -26,44 +22,62 @@ class MainApi {
   login({ email, password }) {
     return fetch(`${this._url}/signin`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: this._headers,
       body: JSON.stringify({ email, password }),
       credentials: 'include',
     }).then((res) => this._ringingServer(res));
   }
 
-  /* getToken(token) {
+  getUserInfo() { // на сервере контроллер getUserMe
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-      credentials: 'include',
-    }).then((res) => this._ringingServer(res));
-  } */
-
-  getUserInfo() {
-    return fetch(`${this._url}/users/me`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      headers: this._headers,
       credentials: 'include',
     }).then((res) => this._ringingServer(res));
   }
 
-  editUserInfo({ name, about }) {
+  editUserInfo({ name, email }) { // на сервере контроллер editUserData
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, about }),
+      headers: this._headers,
+      body: JSON.stringify({ name, email }),
       credentials: 'include',
     }).then((res) => this._ringingServer(res));
   }
 
-  getSavedMovies() {
+  getSavedMovies() { // на сервере контроллер getUserMovies
     return fetch(`${this._url}/movies`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      headers: this._headers,
+      credentials: 'include',
+    }).then((res) => this._ringingServer(res));
+  }
+
+  savedMovies(movie) { // на сервере контроллер saveMovie
+    return fetch(`${this._url}/movies`, {
+      method: 'POST',
+      headers: this._headers,
+      credentials: 'include',
+      body: JSON.stringify({
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: `https://api.nomoreparties.co${ movie.image.url }`,
+        trailerLink: movie.trailerLink,
+        thumbnail: `https://api.nomoreparties.co${ movie.image.formats.thumbnail.url }`,
+        movieId: movie.id,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+      }),
+    }).then((res) => this._ringingServer(res));
+  }
+
+  signout() {
+    return fetch(`${this.url}/signout`, {
+      method: 'POST',
+      headers: this._headers,
       credentials: 'include',
     }).then((res) => this._ringingServer(res));
   }
@@ -72,6 +86,7 @@ class MainApi {
 const mainApi = new MainApi({
   /* url: 'https://api.find-and-save.nomoredomains.icu', */
   url: 'http://localhost:3000',
+  headers: { 'Content-type': 'application/json' },
 });
 
 export default mainApi;

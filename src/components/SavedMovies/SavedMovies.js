@@ -1,10 +1,19 @@
 import './SavedMovies.css';
 import Header from '../Header/Header';
+import Preloader from '../Preloader/Preloader';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
 import Footer from '../Footer/Footer';
 
-function SavedMovies({ isLoggedIn, movies, onMobileMenu, authorizationEmail }) {
+function SavedMovies({
+  isLoading,
+  isLoggedIn,
+  movies,
+  onMovieDelete,
+  onMovieSave,
+  onMobileMenu,
+  authorizationEmail,
+}) {
   return (
     <>
       <Header
@@ -13,8 +22,18 @@ function SavedMovies({ isLoggedIn, movies, onMobileMenu, authorizationEmail }) {
         authorizationEmail={authorizationEmail}
       />
       <main className='saved-movies'>
-        <SearchForm />
-        <MoviesCardList movies={movies} />
+        {isLoading ? (
+          <Preloader />
+        ) : (
+          <>
+            <SearchForm />
+            <MoviesCardList
+              movies={movies}
+              onMovieDelete={onMovieDelete}
+              onMovieSave={onMovieSave}
+            />
+          </>
+        )}
       </main>
       <Footer />
     </>
