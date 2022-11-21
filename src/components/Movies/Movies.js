@@ -4,24 +4,22 @@ import Preloader from '../Preloader/Preloader';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
 import Footer from '../Footer/Footer';
-import { useLocation } from 'react-router-dom';
 
 function Movies({
   isLoading,
   isLoggedIn,
+  notFoundError,
   movies,
   handlerSubmit,
   searchableText,
   handleChange,
-  checked,
+  unchecked,
   onCheckbox,
   onMovieDelete,
   onMovieSave,
   onMobileMenu,
   authorizationEmail,
 }) {
-  const location = useLocation();
-
   return (
     <>
       <Header
@@ -35,26 +33,22 @@ function Movies({
           searchableText={searchableText}
           handleChange={handleChange}
           isLoading={isLoading}
-          checked={checked}
+          unchecked={unchecked}
           onCheckbox={onCheckbox}
         />
-        {isLoading && movies.length > 0 ? (
-          <Preloader />
-        ) : (
+        {isLoading && <Preloader />}
+        {!isLoading && movies.length > 0 && (
           <>
             <MoviesCardList
               movies={movies}
               onMovieDelete={onMovieDelete}
               onMovieSave={onMovieSave}
             />
-            {location.pathname === '/movies' && (
-              <button
-                className='movies__button-more app__buttons'
-              >
-                Ещё
-              </button>
-            )}
+            <button className='movies__button-more app__buttons'>Ещё</button>
           </>
+        )}
+        {notFoundError && movies.length === 0 && (
+          <h2 className='movies__not-found-error'>{notFoundError}&#128577;</h2>
         )}
       </main>
       <Footer />

@@ -7,7 +7,7 @@ function SearchForm({
   searchableText,
   handleChange,
   isLoading,
-  checked,
+  unchecked,
   onCheckbox,
 }) {
 
@@ -38,8 +38,9 @@ function SearchForm({
         </button>
       </form>
       <SearchTumbler
-        checked={checked}
+        unchecked={unchecked}
         onCheckbox={onCheckbox}
+        disabled={isLoading}
       />
     </section>
   );

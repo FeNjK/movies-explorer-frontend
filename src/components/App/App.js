@@ -24,13 +24,11 @@ function App() {
   });
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
-
   const [searchableText, setSearchableText] = useState('');
-  const [searchedFilms, setSearchedFilms] = useState([]);
-
+  const [notFoundError, setNotFoundError] = useState('');
+  const [unsortedOnMovieRoute, setSortOnMovieRoute] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [infoToolTipMessage, setInfoToolTipMessage] = useState(false);
   const [authorizationEmail, setAuthorizationEmail] = useState('');
@@ -146,17 +144,43 @@ function App() {
         )
       })
     localStorage.setItem('searchableText', JSON.stringify(searchableText));
-    setSearchedFilms(searchedFilms);
+    if (searchedFilms.length === 0) {
+      setNotFoundError('Ничего не найдено');
+    } else {
+      setNotFoundError ('');
+    }
+    handleSearchOnDuration(searchedFilms);
     setMovies(searchedFilms);
-    console.log(searchedFilms);
     setIsLoading(false);
+  }
+
+  function toggleSearchTumbler() {
+    setSortOnMovieRoute(!unsortedOnMovieRoute);
+  }
+
+  function handleSearchOnDuration(searchedFilms, searchableText) {
+      if (unsortedOnMovieRoute && !searchableText) {
+        setIsLoading(true);
+        setSortOnMovieRoute(true);
+        localStorage.setItem('unsortedOnMovieRoute', true);
+        const sortingShortFilms = searchedFilms.filter((movie) => {
+          return movie.duration <= 40;
+        })
+        /* localStorage.setItem('sortingShortFilms', JSON.stringify(sortingShortFilms)); */
+        /* setMovies(sortingShortFilms); */
+        setIsLoading(false);
+        return sortingShortFilms;
+      }
+      setSortOnMovieRoute(false);
+      return localStorage.setItem('unsortedOnMovieRoute', false);
   }
 
   useEffect(() => {
     if (localStorage.isLoggedIn === JSON.stringify(true)) {
       handleDataCheck();
       handleGetMovies();
-
+      setSearchableText(JSON.parse(localStorage.getItem('searchableText')));
+      const searchableText = JSON.parse(localStorage.getItem('searchableText'));
       const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
       const filteredFilms = beatfilmMovies.filter((movie) => {
         return (
@@ -164,19 +188,10 @@ function App() {
           movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
           )
         })
-      setSearchedFilms(filteredFilms);
-      setMovies(searchedFilms); // обрати внимание. Благодаря этому стейт выше щадействован
-      console.log(filteredFilms);
+      setMovies(filteredFilms);
     }
   }, []);
   
-  // Набросок
-  /* function handleSearchOnDuration(movies) {
-    return movies.filter((movie) => {
-      return movie.duration <= 40;
-    })
-  } */
-
   function handleSignOut() {
     mainApi
       .signout()
@@ -255,10 +270,13 @@ function App() {
                   authorizationEmail={authorizationEmail}
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
+                  notFoundError={notFoundError}
                   movies={movies}
                   handlerSubmit={handlerSubmitOnMoviesRoute}
                   searchableText={searchableText}
                   handleChange={handleSearchChangeByText}
+                  unchecked={unsortedOnMovieRoute}
+                  onCheckbox={toggleSearchTumbler}
                 />
               </ProtectedRoute>
             }
