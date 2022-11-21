@@ -66,12 +66,19 @@ function App() {
       });
   }
 
-  useEffect(() => {
-    if (localStorage.isLoggedIn === JSON.stringify(true)) {
-      handleDataCheck();
-      handleGetMovies();
-    }
-  }, []);
+  function handleUpdateUser(userData) {
+    mainApi
+      .editUserInfo(userData)
+      .then((newUserData) => {
+        setCurrentUser(newUserData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(
+          `Тут какая-то ошибка с обновлением пользовательских данных ${err}`
+        );
+      });
+  }
 
   function handleLogin(data) {
     mainApi
@@ -105,41 +112,11 @@ function App() {
       });
   }
 
-  function handleSignOut() {
-    mainApi
-      .signout()
-      .then(() => {
-        setIsLoggedIn(false);
-        setCurrentUser({});
-        setMovies([]);
-        localStorage.clear();
-        navigate('/');
-      })
-      .catch((err) => {
-        console.log(`Возникла ошибка при очистке данных ${err}`);
-      });
-  }
-
-  function handleUpdateUser(userData) {
-    mainApi
-      .editUserInfo(userData)
-      .then((newUserData) => {
-        setCurrentUser(newUserData);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(
-          `Тут какая-то ошибка с обновлением пользовательских данных ${err}`
-        );
-      });
-  }
-
   function handleGetMovies() {
     setIsLoading(true);
     moviesApi
       .getBeatfilmMovies()
       .then((beatfilmMovies) => {
-        setMovies(beatfilmMovies);
         localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies));
       })
       .catch((err) => {
@@ -149,18 +126,6 @@ function App() {
         setIsLoading(false);
       });
   }
-
-  // В этой функции фильтрации мы ищем фильмы
-  // по названию на русском или на английском языках
-  // (поиск фильмов регистронезависимый)
-  /* function handleSearchOnKeyword(beatfilmMovies, searchableText) {
-    return beatfilmMovies.filter((movie) => {
-      return (
-        movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
-        movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
-      )
-    })
-  } */
 
   // Во входных данных мы вводим значение атрибута onChange
   // в качестве ниже указанной функции
@@ -178,21 +143,54 @@ function App() {
       return (
         movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
         movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
-      )
-    })
-
-    /* const searchedFilms = handleSearchOnKeyword(beatfilmMovies, searchableText); */
+        )
+      })
+    localStorage.setItem('searchableText', JSON.stringify(searchableText));
     setSearchedFilms(searchedFilms);
-    setIsLoading(false);
+    setMovies(searchedFilms);
     console.log(searchedFilms);
+    setIsLoading(false);
   }
 
+  useEffect(() => {
+    if (localStorage.isLoggedIn === JSON.stringify(true)) {
+      handleDataCheck();
+      handleGetMovies();
+
+      const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
+      const filteredFilms = beatfilmMovies.filter((movie) => {
+        return (
+          movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
+          movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
+          )
+        })
+      setSearchedFilms(filteredFilms);
+      setMovies(searchedFilms); // обрати внимание. Благодаря этому стейт выше щадействован
+      console.log(filteredFilms);
+    }
+  }, []);
+  
   // Набросок
   /* function handleSearchOnDuration(movies) {
     return movies.filter((movie) => {
       return movie.duration <= 40;
     })
   } */
+
+  function handleSignOut() {
+    mainApi
+      .signout()
+      .then(() => {
+        setIsLoggedIn(false);
+        setCurrentUser({});
+        setMovies([]);
+        localStorage.clear();
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log(`Возникла ошибка при очистке данных ${err}`);
+      });
+  }
 
   function handleMobileMenuClick() {
     setMobileMenuOpen(true);
