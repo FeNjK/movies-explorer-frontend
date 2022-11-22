@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './Register.css';
@@ -23,6 +23,10 @@ function Register({ onRegister }) {
     e.preventDefault();
     onRegister(registerData);
   }
+
+  useEffect(() => {
+    document.title = 'Регистрация нового пользователя';
+  }, []);
 
   return (
     <div className='register'>

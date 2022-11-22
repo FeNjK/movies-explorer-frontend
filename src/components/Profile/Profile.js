@@ -6,6 +6,9 @@ import CurrentUserContext from '../../contexts/CurrentUserContext';
 function Profile({ isLoggedIn, isSignOut, onMobileMenu, authorizationEmail }) {
   const currentUser = useContext(CurrentUserContext);
 
+  useEffect(() => {
+    document.title = 'Ваш профиль';
+  }, []);
 
   return (
     <>

@@ -26,7 +26,7 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [searchableText, setSearchableText] = useState('');
   const [notFoundError, setNotFoundError] = useState('');
-  const [unsortedOnMovieRoute, setSortOnMovieRoute] = useState(false);
+  const [checkedCheckbox, setCheckedCheckbox] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -131,63 +131,101 @@ function App() {
     setSearchableText(e.target.value);
   }
 
-  // По нажатию на кнопку "Найти"
-  // происходит поиск фильмов по ключевым словам
+  function handlerFilter(beatfilmMovies) {
+    return beatfilmMovies.filter((movie) => {
+      if (!checkedCheckbox && movie.duration > 40) {
+        return false;
+      }
+      return (
+        movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
+        movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
+      );
+    })
+  }
+
   function handlerSubmitOnMoviesRoute(e) {
     e.preventDefault();
     setIsLoading(true);
     const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
-    const searchedFilms = beatfilmMovies.filter((movie) => {
-      return (
-        movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
-        movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
-        )
-      })
+    const searchedFilms = handlerFilter(beatfilmMovies);
+    console.log(searchedFilms);
     localStorage.setItem('searchableText', JSON.stringify(searchableText));
+    localStorage.setItem('checkedCheckbox', JSON.stringify(false));
     if (searchedFilms.length === 0) {
       setNotFoundError('Ничего не найдено');
     } else {
       setNotFoundError ('');
     }
-    handleSearchOnDuration(searchedFilms);
     setMovies(searchedFilms);
+    /* handleSearchOnDuration(searchedFilms) */
+    setIsLoading(false);
+    }
+
+    /* function handleSearchChangeByСheckbox(e) {
+      setSearchableText(e.target.value);
+      console.log(e.target.value);
+    } */
+  
+  function handleSearchOnDuration() {
+    setIsLoading(true);
+    setCheckedCheckbox(!checkedCheckbox);
+    const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
+    if (!checkedCheckbox) {
+      const searchedShortFilms = beatfilmMovies.filter((movie) => {
+        return movie.duration <= 40;
+      })
+      localStorage.setItem('searchableText', JSON.stringify(searchableText));
+      localStorage.setItem('checkedCheckbox', JSON.stringify(true));
+      console.log(searchedShortFilms);
+      setMovies(searchedShortFilms);
+    } else {
+      setCheckedCheckbox(!checkedCheckbox);
+      const searchedLongFilms = handlerFilter(beatfilmMovies);
+      localStorage.setItem('searchableText', JSON.stringify(searchableText));
+      localStorage.setItem('checkedCheckbox', JSON.stringify(false));
+      console.log(searchedLongFilms);
+      setMovies(searchedLongFilms);
+    }
     setIsLoading(false);
   }
 
-  function toggleSearchTumbler() {
-    setSortOnMovieRoute(!unsortedOnMovieRoute);
-  }
+  /* function handleSearchOnDuration() {
+    setIsLoading(true);
+    setCheckedCheckbox(!checkedCheckbox);
+    const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
+    const searchedShortFilms = handlerFilter(beatfilmMovies);
+    console.log(searchedShortFilms);
+    localStorage.setItem('searchableText', JSON.stringify(searchableText));
+    if (localStorage.checkedCheckbox === 'false') {
+      setCheckedCheckbox(checkedCheckbox);
+      localStorage.setItem('checkedCheckbox', JSON.stringify(true));
+    } else {
+      localStorage.setItem('checkedCheckbox', JSON.stringify(false));
+    }
 
-  function handleSearchOnDuration(searchedFilms, searchableText) {
-      if (unsortedOnMovieRoute && !searchableText) {
-        setIsLoading(true);
-        setSortOnMovieRoute(true);
-        localStorage.setItem('unsortedOnMovieRoute', true);
-        const sortingShortFilms = searchedFilms.filter((movie) => {
-          return movie.duration <= 40;
-        })
-        /* localStorage.setItem('sortingShortFilms', JSON.stringify(sortingShortFilms)); */
-        /* setMovies(sortingShortFilms); */
-        setIsLoading(false);
-        return sortingShortFilms;
-      }
-      setSortOnMovieRoute(false);
-      return localStorage.setItem('unsortedOnMovieRoute', false);
-  }
+    if (searchedShortFilms.length === 0) {
+      setNotFoundError('Ничего не найдено');
+    } else {
+      setNotFoundError ('');
+    }
+    setMovies(searchedShortFilms);
+    setIsLoading(false);
+  } */
 
   useEffect(() => {
     if (localStorage.isLoggedIn === JSON.stringify(true)) {
       handleDataCheck();
       handleGetMovies();
+
+      /* if (localStorage.checkedCheckbox === JSON.stringify(true)) {
+        setCheckedCheckbox(!checkedCheckbox);
+      }
+      setCheckedCheckbox(checkedCheckbox); */
+
       setSearchableText(JSON.parse(localStorage.getItem('searchableText')));
       const searchableText = JSON.parse(localStorage.getItem('searchableText'));
       const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
-      const filteredFilms = beatfilmMovies.filter((movie) => {
-        return (
-          movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
-          movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
-          )
-        })
+      const filteredFilms = handlerFilter(beatfilmMovies, searchableText);
       setMovies(filteredFilms);
     }
   }, []);
@@ -219,6 +257,8 @@ function App() {
     setMobileMenuOpen(false);
     setInfoToolTipMessage(false);
   }
+
+  
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -275,8 +315,8 @@ function App() {
                   handlerSubmit={handlerSubmitOnMoviesRoute}
                   searchableText={searchableText}
                   handleChange={handleSearchChangeByText}
-                  unchecked={unsortedOnMovieRoute}
-                  onCheckbox={toggleSearchTumbler}
+                  checkedCheckbox={checkedCheckbox}
+                  onChangeCheckbox={handleSearchOnDuration}
                 />
               </ProtectedRoute>
             }

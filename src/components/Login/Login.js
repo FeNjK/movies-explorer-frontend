@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './Login.css';
@@ -21,6 +21,10 @@ function Login({ onLogin }) {
     e.preventDefault();
     onLogin(loginData);
   }
+
+  useEffect(() => {
+    document.title = 'Авторизация пользователя';
+  }, []);
 
   return (
     <div className='login'>

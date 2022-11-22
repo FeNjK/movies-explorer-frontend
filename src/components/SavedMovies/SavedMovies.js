@@ -1,4 +1,5 @@
 import './SavedMovies.css';
+import { useEffect } from 'react';
 import Header from '../Header/Header';
 import Preloader from '../Preloader/Preloader';
 import SearchForm from '../SearchForm/SearchForm';
@@ -14,6 +15,11 @@ function SavedMovies({
   onMobileMenu,
   authorizationEmail,
 }) {
+
+  useEffect(() => {
+    document.title = 'Понравившиеся вам фильмы';
+  }, []);
+
   return (
     <>
       <Header

@@ -16,14 +16,6 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
     };
   }, []);
 
-  /* useEffect(() => {
-    setWidth(JSON.parse(window.localStorage.getItem('width')));
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem('width', width);
-  }, [width]); */
-
   let activeMoviesLink = 'navigation__link navigation__link_active app__links';
   let activeProfileLink ='navigation__profile-link navigation__link_active app__links';
 

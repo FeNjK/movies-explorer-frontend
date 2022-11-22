@@ -1,4 +1,5 @@
 import './Movies.css';
+import { useEffect } from 'react';
 import Header from '../Header/Header';
 import Preloader from '../Preloader/Preloader';
 import SearchForm from '../SearchForm/SearchForm';
@@ -13,13 +14,18 @@ function Movies({
   handlerSubmit,
   searchableText,
   handleChange,
-  unchecked,
-  onCheckbox,
+  checkedCheckbox,
+  onChangeCheckbox,
   onMovieDelete,
   onMovieSave,
   onMobileMenu,
   authorizationEmail,
 }) {
+
+  useEffect(() => {
+    document.title = 'Фильмы';
+  }, []);
+
   return (
     <>
       <Header
@@ -33,8 +39,8 @@ function Movies({
           searchableText={searchableText}
           handleChange={handleChange}
           isLoading={isLoading}
-          unchecked={unchecked}
-          onCheckbox={onCheckbox}
+          checkedCheckbox={checkedCheckbox}
+          onChangeCheckbox={onChangeCheckbox}
         />
         {isLoading && <Preloader />}
         {!isLoading && movies.length > 0 && (
@@ -44,7 +50,11 @@ function Movies({
               onMovieDelete={onMovieDelete}
               onMovieSave={onMovieSave}
             />
-            <button className='movies__button-more app__buttons'>Ещё</button>
+            {/* <button
+              className='movies__button-more app__buttons'
+            >
+              Ещё
+            </button>  */}
           </>
         )}
         {notFoundError && movies.length === 0 && (
