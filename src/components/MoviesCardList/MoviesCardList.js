@@ -24,7 +24,13 @@ function MoviesCardList({
   });
 
   function changingRenderElementsQuantity() {
+    if (width > LARGE_PAGE) {
 
+    } else if (LARGE_PAGE > width > MEDIUM_PAGE) {
+
+    } else if (width < MEDIUM_PAGE) {
+      
+    }
   }
 
   function handleShowMoreMovies() {
