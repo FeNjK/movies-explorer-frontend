@@ -119,6 +119,9 @@ function App() {
       })
       .catch((err) => {
         console.log(`Тут какая-то ошибка с получением списка фильмов ${err}`);
+        setNotFoundError(
+          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
+        );
       })
       .finally(() => {
         setIsLoading(false);
@@ -133,14 +136,14 @@ function App() {
 
   function handlerFilter(beatfilmMovies) {
     return beatfilmMovies.filter((movie) => {
-      if (!checkedCheckbox && movie.duration > 40) {
+      if (checkedCheckbox && movie.duration > 40) {
         return false;
       }
       return (
         movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
         movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
       );
-    })
+    });
   }
 
   function handlerSubmitOnMoviesRoute(e) {
@@ -153,37 +156,63 @@ function App() {
     if (searchedFilms.length === 0) {
       setNotFoundError('Ничего не найдено');
     } else {
-      setNotFoundError ('');
+      setNotFoundError('');
     }
     setMovies(searchedFilms);
     setIsLoading(false);
-    }
-  
+  }
+
   function handleSearchOnDuration() {
     setCheckedCheckbox(!checkedCheckbox);
     localStorage.setItem('checkedCheckbox', JSON.stringify(true));
+    console.log(checkedCheckbox);
   }
 
   useEffect(() => {
-      const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
+    const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
+    if (beatfilmMovies !== null) {
+      console.log(checkedCheckbox);
       const filterResult = handlerFilter(beatfilmMovies);
       setMovies(filterResult);
+    }
   }, [checkedCheckbox]);
 
   useEffect(() => {
     if (localStorage.isLoggedIn === JSON.stringify(true)) {
       handleDataCheck();
       handleGetMovies();
-
+      
+      
+      setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
+      const checkedCheckbox = JSON.parse(localStorage.getItem('checkedCheckbox'));
       setSearchableText(JSON.parse(localStorage.getItem('searchableText')));
       const searchableText = JSON.parse(localStorage.getItem('searchableText'));
       const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
-      console.log(beatfilmMovies);
-      const filteredFilms = handlerFilter(beatfilmMovies, searchableText);
+      const filteredFilms = handlerFilter(
+        beatfilmMovies,
+        searchableText,
+        checkedCheckbox
+      );
       setMovies(filteredFilms);
+
+      /* console.log(filteredFilms); */
+
+      /* if (checkedCheckbox) {
+        setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
+        const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
+        const searchableText = JSON.parse(localStorage.getItem('searchableText'));
+        const filteredFilms = handlerFilter(beatfilmMovies, searchableText, checkedCheckbox);
+        setMovies(filteredFilms);
+      } else if (!checkedCheckbox) {
+        setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
+        const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
+        const searchableText = JSON.parse(localStorage.getItem('searchableText'));
+        const filteredFilms = handlerFilter(beatfilmMovies, searchableText, checkedCheckbox);
+        setMovies(filteredFilms);
+      } */
     }
   }, []);
-  
+
   function handleSignOut() {
     mainApi
       .signout()
@@ -211,8 +240,6 @@ function App() {
     setMobileMenuOpen(false);
     setInfoToolTipMessage(false);
   }
-
-  
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
