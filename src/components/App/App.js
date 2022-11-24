@@ -152,7 +152,7 @@ function App() {
     const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
     const searchedFilms = handlerFilter(beatfilmMovies);
     localStorage.setItem('searchableText', JSON.stringify(searchableText));
-    localStorage.setItem('checkedCheckbox', JSON.stringify(false));
+    localStorage.setItem('checkedCheckbox', checkedCheckbox);
     if (searchedFilms.length === 0) {
       setNotFoundError('Ничего не найдено');
     } else {
@@ -167,14 +167,12 @@ function App() {
 
   function handleSearchOnDuration() {
     setCheckedCheckbox(!checkedCheckbox);
-    localStorage.setItem('checkedCheckbox', JSON.stringify(true));
-    /* console.log(checkedCheckbox); */
+    localStorage.setItem('checkedCheckbox', checkedCheckbox);
   }
 
   useEffect(() => {
     const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
     if (beatfilmMovies !== null) {
-      /* console.log(checkedCheckbox); */
       const filterResult = handlerFilter(beatfilmMovies);
       setMovies(filterResult);
     }
@@ -186,19 +184,24 @@ function App() {
       handleGetMovies();
       
       const checkedCheckbox = JSON.parse(localStorage.getItem('checkedCheckbox'));
-      setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
-      /* setCheckedCheckbox(!checkedCheckbox); */
+      /* setCheckedCheckbox(localStorage.setItem('checkedCheckbox', checkedCheckbox)); */
+      /* setCheckedCheckbox(checkedCheckbox); */
+
       setSearchableText(JSON.parse(localStorage.getItem('searchableText')));
       const searchableText = JSON.parse(localStorage.getItem('searchableText'));
       const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
       const filteredFilms = handlerFilter(
         beatfilmMovies,
         searchableText,
-        checkedCheckbox
+        checkedCheckbox,
       );
       setMovies(filteredFilms);
 
-      const searchedFilms = handlerFilter(beatfilmMovies, searchableText, checkedCheckbox);
+      const searchedFilms = handlerFilter(
+        beatfilmMovies,
+        searchableText,
+        checkedCheckbox,
+      );
       setMovies(searchedFilms);
 
 
