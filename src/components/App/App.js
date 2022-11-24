@@ -24,9 +24,11 @@ function App() {
   });
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [searchableText, setSearchableText] = useState('');
+  const [searchableText, setSearchableText] = useState(
+    JSON.parse(localStorage.getItem('searchableText')) || '' /* || null || undefined */); //убрать после тестирования
   const [notFoundError, setNotFoundError] = useState('');
-  const [checkedCheckbox, setCheckedCheckbox] = useState(false);
+  const [checkedCheckbox, setCheckedCheckbox] = useState(
+    JSON.parse(localStorage.getItem('checkedCheckbox')) || false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -149,25 +151,27 @@ function App() {
   function handlerSubmitOnMoviesRoute(e) {
     e.preventDefault();
     setIsLoading(true);
-    const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
-    const searchedFilms = handlerFilter(beatfilmMovies);
-    localStorage.setItem('searchableText', JSON.stringify(searchableText));
-    localStorage.setItem('checkedCheckbox', checkedCheckbox);
-    if (searchedFilms.length === 0) {
-      setNotFoundError('Ничего не найдено');
+    if (JSON.parse(localStorage.getItem('beatfilmMovies')) === null) {
+      handleGetMovies();
     } else {
-      setNotFoundError('');
+      const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
+      const searchedFilms = handlerFilter(beatfilmMovies);
+      localStorage.setItem('searchableText', JSON.stringify(searchableText));
+      localStorage.setItem('checkedCheckbox', checkedCheckbox);
+      if (searchedFilms.length === 0) {
+        setNotFoundError('Ничего не найдено');
+      } else {
+        setNotFoundError('');
+      }
+      setMovies(searchedFilms);
     }
-    setMovies(searchedFilms);
     setIsLoading(false);
-
-
-    console.log(searchedFilms.length);
+    /* console.log(searchedFilms.length); */
   }
 
   function handleSearchOnDuration() {
     setCheckedCheckbox(!checkedCheckbox);
-    localStorage.setItem('checkedCheckbox', checkedCheckbox);
+    localStorage.setItem('checkedCheckbox', !checkedCheckbox);
   }
 
   useEffect(() => {
@@ -181,14 +185,10 @@ function App() {
   useEffect(() => {
     if (localStorage.isLoggedIn === JSON.stringify(true)) {
       handleDataCheck();
-      handleGetMovies();
-      
       const checkedCheckbox = JSON.parse(localStorage.getItem('checkedCheckbox'));
-      /* setCheckedCheckbox(localStorage.setItem('checkedCheckbox', checkedCheckbox)); */
-      /* setCheckedCheckbox(checkedCheckbox); */
-
-      setSearchableText(JSON.parse(localStorage.getItem('searchableText')));
+      setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
       const searchableText = JSON.parse(localStorage.getItem('searchableText'));
+      setSearchableText(JSON.parse(localStorage.getItem('searchableText')));
       const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
       const filteredFilms = handlerFilter(
         beatfilmMovies,
@@ -203,23 +203,6 @@ function App() {
         checkedCheckbox,
       );
       setMovies(searchedFilms);
-
-
-      /* console.log(filteredFilms); */
-
-      /* if (checkedCheckbox) {
-        setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
-        const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
-        const searchableText = JSON.parse(localStorage.getItem('searchableText'));
-        const filteredFilms = handlerFilter(beatfilmMovies, searchableText, checkedCheckbox);
-        setMovies(filteredFilms);
-      } else if (!checkedCheckbox) {
-        setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
-        const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
-        const searchableText = JSON.parse(localStorage.getItem('searchableText'));
-        const filteredFilms = handlerFilter(beatfilmMovies, searchableText, checkedCheckbox);
-        setMovies(filteredFilms);
-      } */
     }
   }, []);
 
@@ -323,6 +306,13 @@ function App() {
                   authorizationEmail={authorizationEmail}
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
+                  notFoundError={notFoundError}
+                  movies={savedMovies}
+                  handlerSubmit={handlerSubmitOnMoviesRoute}
+                  searchableText={searchableText}
+                  handleChange={handleSearchChangeByText}
+                  checkedCheckbox={checkedCheckbox}
+                  onChangeCheckbox={handleSearchOnDuration}
                 />
               </ProtectedRoute>
             }

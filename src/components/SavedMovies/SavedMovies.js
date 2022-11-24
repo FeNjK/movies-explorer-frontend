@@ -9,7 +9,13 @@ import Footer from '../Footer/Footer';
 function SavedMovies({
   isLoading,
   isLoggedIn,
+  notFoundError,
   movies,
+  handlerSubmit,
+  searchableText,
+  handleChange,
+  checkedCheckbox,
+  onChangeCheckbox,
   onMovieDelete,
   onMovieSave,
   onMobileMenu,
@@ -28,17 +34,26 @@ function SavedMovies({
         authorizationEmail={authorizationEmail}
       />
       <main className='saved-movies'>
-        {isLoading ? (
-          <Preloader />
-        ) : (
+      <SearchForm
+          handlerSubmit={handlerSubmit}
+          searchableText={searchableText}
+          handleChange={handleChange}
+          isLoading={isLoading}
+          checkedCheckbox={checkedCheckbox}
+          onChangeCheckbox={onChangeCheckbox}
+        />
+        {isLoading && <Preloader />}
+        {!isLoading && movies.length > 0 && (
           <>
-            <SearchForm />
             <MoviesCardList
               movies={movies}
               onMovieDelete={onMovieDelete}
               onMovieSave={onMovieSave}
             />
           </>
+        )}
+        {notFoundError && movies.length === 0 && (
+          <h2 className='movies__not-found-error'>{notFoundError}&#128577;</h2>
         )}
       </main>
       <Footer />
