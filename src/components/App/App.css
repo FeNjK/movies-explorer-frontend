@@ -37,6 +37,7 @@
 .app__buttons:hover {
   box-shadow: 0 0 20px #3DDC84;
   background-color: #3DDC84;
+  cursor: pointer;
 }
 
 .app__popup {

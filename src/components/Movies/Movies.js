@@ -50,11 +50,6 @@ function Movies({
               onMovieDelete={onMovieDelete}
               onMovieSave={onMovieSave}
             />
-            {/* <button
-              className='movies__button-more app__buttons'
-            >
-              Ещё
-            </button>  */}
           </>
         )}
         {notFoundError && movies.length === 0 && (

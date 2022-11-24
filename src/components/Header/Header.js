@@ -10,7 +10,6 @@ function Header({ isLoggedIn, onMobileMenu, authorizationEmail }) {
     <header className='header'>
       <Logo />
       <nav className='header__nav-elemements'>
-        {/* {!isLoggedIn} ? ( */}
         {!isLoggedIn && location.pathname === '/' && (
           <ul className='header__nav-list'>
             <li className='header__nav-list-item'>
@@ -30,7 +29,6 @@ function Header({ isLoggedIn, onMobileMenu, authorizationEmail }) {
             </li>
           </ul>
         )}
-        {/* ) : ( */}
         {isLoggedIn && location.pathname === '/movies' && (
           <Navigation
             onMobileMenu={onMobileMenu}
@@ -49,7 +47,6 @@ function Header({ isLoggedIn, onMobileMenu, authorizationEmail }) {
             authorizationEmail={authorizationEmail}
           />
         )}
-        {/* ) */}
       </nav>
     </header>
   );
