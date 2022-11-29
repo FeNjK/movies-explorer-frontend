@@ -43,7 +43,9 @@ function MoviesCard({ movie, savedMovies, onMovieDelete, onMovieSave }) {
       >
         <img
           className='movie-card__image'
-          src={location.pathname === '/movies' ? `https://api.nomoreparties.co${movie.image.url}` : movie.image}
+          src={location.pathname === '/movies'
+          ? `https://api.nomoreparties.co${movie.image.url}`
+          : movie.image}
           alt={movie.nameRU}
         />
       </a>

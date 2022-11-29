@@ -14,6 +14,7 @@ import MobileMenu from '../MobileMenu/MobileMenu';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { INDICATOR_OF_SHORT_MOVIE } from '../../utils/constants';
 import './App.css';
 
 function App() {
@@ -26,9 +27,13 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [searchableText, setSearchableText] = useState(
     JSON.parse(localStorage.getItem('searchableText')) || '');
+  const [searchableTextOnSavedMovies, setSearchableTextOnSavedMovies] = useState(
+    JSON.parse(localStorage.getItem('searchableTextOnSavedMovies')) || '');
   const [notFoundError, setNotFoundError] = useState('');
   const [checkedCheckbox, setCheckedCheckbox] = useState(
     JSON.parse(localStorage.getItem('checkedCheckbox')) || false);
+  const [checkedCheckboxSavedMovies, setCheckedCheckboxSavedMovies] = useState(
+    JSON.parse(localStorage.getItem('checkedCheckboxSavedMovies')) || false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -39,7 +44,8 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation()
 
-  function handleDataCheck() {
+  function handleUserDataCheck() {
+
     mainApi
       .getUserInfo()
       .then((userData) => {
@@ -54,10 +60,10 @@ function App() {
 
     mainApi
       .getSavedMovies()
-      .then((savedMovie) => {
-        setSavedMovies(savedMovie);
+      .then((savedMovies) => {
+        setSavedMovies(savedMovies);
         setIsLoggedIn(true);
-        localStorage.setItem('savedMovie', JSON.stringify(savedMovie));
+        localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
       })
       .catch((err) => {
         console.log(`Ошибка при получении массива сохранённых фильмов ${err}`);
@@ -73,6 +79,7 @@ function App() {
       .then(() => {
         setIsLoggedIn(true);
         handleGetMovies();
+        handleUserDataCheck();
         setAuthorizationEmail(data.email);
         localStorage.setItem('isLoggedIn', true);
         navigate('/movies');
@@ -90,7 +97,7 @@ function App() {
       .then(() => {
         setRegistration(true);
         handleInfoToolTipMessage();
-        navigate('/signin');
+        navigate('/movies');
       })
       .catch((err) => {
         console.log(`Ошибка при регистрации пользователя ${err}`);
@@ -133,12 +140,11 @@ function App() {
 
   function handleSaveMovie(movie) {
     setIsLoading(true);
-    console.log(movie);
     mainApi
       .saveMovies(movie)
       .then((savedMovie) => {
-        console.log(savedMovie)
-        setSavedMovies((savedMovies) => [savedMovie, ...savedMovies]);
+        setSavedMovies((savedMovies) => [...savedMovies, savedMovie]);
+        /* localStorage.setItem('savedMovies', JSON.stringify(savedMovies)); */
       })
       .catch((err) => {
         console.log(`Ошибка с сохранением фильма ${err}`);
@@ -150,6 +156,9 @@ function App() {
 
   function handleDeleteMovie(movie) {
     setIsLoading(true);
+    const savedMovie = savedMovies.find((i) => i.movieId === movie.id || movie.movieId);
+    console.log(movie.id)
+    console.log(movie.movieId)
     mainApi
       .deleteMovies(
         location.pathname === '/movies'
@@ -157,8 +166,10 @@ function App() {
         : movie.movieId
       )
       .then(() => {
-        setSavedMovies((state) => state.filter((c) => c.movieId !== movie.id));
-        /* setSavedMovies((state) => state.filter((c) => c.movieId || c.id !== movie.movieId)); */
+        setSavedMovies((state) => state.filter((c) => c.movieId /* || c.id */ !== savedMovie.movieId));
+        /* setSavedMovies((savedMovies) => savedMovies.filter((c) => c.movieId !== savedMovie.id)); */
+        console.log(savedMovie.movieId)
+        /* setSavedMovies((state) => state.filter((c) => c.movieId || c.id !== movie.id)); */
       })
       .catch((err) => {
         console.log(`Ошибка с удалением фильма ${err}`);
@@ -174,14 +185,31 @@ function App() {
     setSearchableText(e.target.value);
   }
 
+  function handleSearchChangeByTextOnSavedMovies(e) {
+    setSearchableTextOnSavedMovies(e.target.value);
+  }
+
   function handlerFilter(beatfilmMovies) {
     return beatfilmMovies.filter((movie) => {
-      if (checkedCheckbox && movie.duration > 40) {
+      if (checkedCheckbox && movie.duration > INDICATOR_OF_SHORT_MOVIE) {
         return false;
       }
       return (
         movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
         movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
+      );
+    });
+  }
+
+  function handlerSavedMoviesFilter(savedMovies) {
+    return savedMovies.filter((savedMovie) => {
+      console.log(savedMovie)
+      if (checkedCheckboxSavedMovies && savedMovie.duration > INDICATOR_OF_SHORT_MOVIE) {
+        return false;
+      }
+      return (
+        savedMovie.nameRU.toLowerCase().includes(searchableTextOnSavedMovies.toLowerCase()) ||
+        savedMovie.nameEN.toLowerCase().includes(searchableTextOnSavedMovies.toLowerCase())
       );
     });
   }
@@ -204,12 +232,36 @@ function App() {
       setMovies(searchedFilms);
     }
     setIsLoading(false);
-    /* console.log(searchedFilms.length); */
+  }
+
+  function handlerSubmitOnSavedMoviesRoute(e) {
+    e.preventDefault();
+    setIsLoading(true);
+    if (JSON.parse(localStorage.getItem('savedMovies')) === null) {
+      handleUserDataCheck();
+    } else {
+      const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+      const searchedSavedFilms = handlerSavedMoviesFilter(savedMovies);
+      /* localStorage.setItem('searchableTextOnSavedMovies', JSON.stringify(searchableTextOnSavedMovies));
+      localStorage.setItem('checkedCheckboxSavedMovies', checkedCheckboxSavedMovies); */
+      if (searchedSavedFilms.length === 0) {
+        setNotFoundError('Ничего не найдено');
+      } else {
+        setNotFoundError('');
+      }
+      setSavedMovies(searchedSavedFilms);
+    }
+    setIsLoading(false);
   }
 
   function handleSearchOnDuration() {
     setCheckedCheckbox(!checkedCheckbox);
     localStorage.setItem('checkedCheckbox', !checkedCheckbox);
+  }
+
+  function handleSearchOnDurationSavedMovies() {
+    setCheckedCheckboxSavedMovies(!checkedCheckboxSavedMovies);
+    localStorage.setItem('checkedCheckboxSavedMovies', !checkedCheckboxSavedMovies);
   }
 
   useEffect(() => {
@@ -221,8 +273,17 @@ function App() {
   }, [checkedCheckbox]);
 
   useEffect(() => {
+    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+    if (savedMovies !== null) {
+      const filterResultOfSavedMovies = handlerSavedMoviesFilter(savedMovies);
+      setSavedMovies(filterResultOfSavedMovies);
+    }
+  }, [checkedCheckboxSavedMovies]);
+
+  useEffect(() => {
     if (localStorage.isLoggedIn === JSON.stringify(true)) {
-      handleDataCheck();
+      handleUserDataCheck();
+      /* handleUserMoviesCheck(); */
       const checkedCheckbox = JSON.parse(localStorage.getItem('checkedCheckbox'));
       setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
       const searchableText = JSON.parse(localStorage.getItem('searchableText'));
@@ -241,16 +302,22 @@ function App() {
         checkedCheckbox,
       );
       setMovies(searchedFilms);
+
+      JSON.parse(localStorage.getItem('savedMovies'));
     }
   }, []);
 
-  function handleSignOut() {
+  function handleSignOut(e) {
+    e.preventDefault();
     mainApi
       .signout()
       .then(() => {
         setIsLoggedIn(false);
         setCurrentUser({});
         setMovies([]);
+        setSavedMovies([]);
+        setSearchableText('');
+        setCheckedCheckbox(false);
         localStorage.clear();
         navigate('/');
       })
@@ -350,11 +417,11 @@ function App() {
                   notFoundError={notFoundError}
                   movies={savedMovies}
                   savedMovies={savedMovies}
-                  handlerSubmit={handlerSubmitOnMoviesRoute}
-                  searchableText={searchableText}
-                  handleChange={handleSearchChangeByText}
-                  checkedCheckbox={checkedCheckbox}
-                  onChangeCheckbox={handleSearchOnDuration}
+                  handlerSubmit={handlerSubmitOnSavedMoviesRoute}
+                  searchableText={searchableTextOnSavedMovies}
+                  handleChange={handleSearchChangeByTextOnSavedMovies}
+                  checkedCheckbox={checkedCheckboxSavedMovies}
+                  onChangeCheckbox={handleSearchOnDurationSavedMovies}
                   onMovieDelete={handleDeleteMovie}
                 />
               </ProtectedRoute>
@@ -371,6 +438,7 @@ function App() {
                   authorizationEmail={authorizationEmail}
                   isSignOut={handleSignOut}
                   isLoggedIn={isLoggedIn}
+                  editUser={handleUpdateUser}
                 />
               </ProtectedRoute>
             }

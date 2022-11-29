@@ -2,6 +2,15 @@ import './MoviesCardList.css';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import {
+  LARGE_PAGE_SIZE,
+  MEDIUM_PAGE_SIZE,
+  QUANTITY_MOVIES_LARGE,
+  QUANTITY_MOVIES_MEDIUM,
+  QUANTITY_MOVIES_SMALL,
+  BIG_STEP,
+  SMALL_STEP,
+} from '../../utils/constants'
 
 function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
   const location = useLocation();
@@ -9,32 +18,26 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
   const [quantityMovies, setQuantityMovies] = useState(0);
   const [step, makeStep] = useState(0);
 
-  // Константы надо перенести в отдельный файл
-  const LARGE_PAGE_SIZE = 1178;
-  const MEDIUM_PAGE_SIZE = 700;
-
   useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', () => {
-      setTimeout(handleResizeWindow, 2000)
-    });
+    window.addEventListener('resize', handleResizeWindow);
     return () => {
       window.removeEventListener('resize', handleResizeWindow);
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (width > LARGE_PAGE_SIZE) {
-      setQuantityMovies(12);
-      makeStep(3);
+      setQuantityMovies(QUANTITY_MOVIES_LARGE);
+      makeStep(BIG_STEP);
   } else if (width < LARGE_PAGE_SIZE && width > MEDIUM_PAGE_SIZE) {
-      setQuantityMovies(8);
-      makeStep(2);
+      setQuantityMovies(QUANTITY_MOVIES_MEDIUM);
+      makeStep(SMALL_STEP);
     } else if (width <= MEDIUM_PAGE_SIZE) {
-      setQuantityMovies(5);
-      makeStep(2);
+      setQuantityMovies(QUANTITY_MOVIES_SMALL);
+      makeStep(SMALL_STEP);
     }
-  }, [width]);
+  }, [width, setQuantityMovies, makeStep]);
 
 
   function handleShowMoreMovies() {
@@ -52,8 +55,6 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
   return (
     <section className='movies-library'>
       <ul className='movies-library__card-list'>
-        {/* {location.pathname === '/movies' && (
-          <> */}
             {movies.slice(0, quantityMovies).map((movie) => {
               return (
                 <MoviesCard
@@ -65,23 +66,6 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
                 />
               );
             })}
-          {/* </>
-        )} */}
-        {/* {location.pathname === '/saved-movies' && (
-          <>
-            {savedMovies.slice(0, quantityMovies).map((movie) => {
-              return (
-                <MoviesCard
-                  movie={movie}
-                  key={movie.movieId}
-                  onMovieSave={onMovieSave}
-                  onMovieDelete={onMovieDelete}
-                />
-              );
-        })}
-          </>
-          )
-        } */}
       </ul>
       <button
         title='button'

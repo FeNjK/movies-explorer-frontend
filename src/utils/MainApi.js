@@ -91,7 +91,7 @@ class MainApi {
   } */
 
   signout() { // на сервере контроллер logout
-    return fetch(`${this.url}/signout`, {
+    return fetch(`${this._url}/signout`, {
       method: 'POST',
       headers: this._headers,
       credentials: 'include',

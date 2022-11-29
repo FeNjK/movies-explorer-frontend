@@ -24,6 +24,8 @@ function SearchForm({
           type='text'
           name='searchableText'
           placeholder='Фильм'
+          minLength='1'
+          maxLength='64'
           value={searchableText}
           onChange={handleChange}
           disabled={isLoading}
