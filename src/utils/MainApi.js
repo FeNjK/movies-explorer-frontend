@@ -53,7 +53,7 @@ class MainApi {
     }).then((res) => this._ringingServer(res));
   }
 
-  savedMovies(movie) { // на сервере контроллер saveMovie
+  saveMovies(movie) { // на сервере контроллер saveMovie
     return fetch(`${this._url}/movies`, {
       method: 'POST',
       headers: this._headers,
@@ -64,9 +64,9 @@ class MainApi {
         duration: movie.duration,
         year: movie.year,
         description: movie.description,
-        image: `https://api.nomoreparties.co${ movie.image.url }`,
+        image: `https://api.nomoreparties.co${movie.image.url}`,
         trailerLink: movie.trailerLink,
-        thumbnail: `https://api.nomoreparties.co${ movie.image.formats.thumbnail.url }`,
+        thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
         movieId: movie.id,
         nameRU: movie.nameRU,
         nameEN: movie.nameEN,
@@ -74,7 +74,23 @@ class MainApi {
     }).then((res) => this._ringingServer(res));
   }
 
-  signout() {
+  deleteMovies(movieId) { // на сервере контроллер deleteSavedMovie
+    return fetch(`${this._url}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: this._headers,
+      credentials: 'include',
+    }).then((res) => this._ringingServer(res));
+  }
+
+  /* toggleLikeCard(movie, isSaved) {
+    if (!isSaved) {
+      return this.savedMovies(movie);
+    } else {
+      return this.deleteMovies(movie);
+    }
+  } */
+
+  signout() { // на сервере контроллер logout
     return fetch(`${this.url}/signout`, {
       method: 'POST',
       headers: this._headers,

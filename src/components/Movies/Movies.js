@@ -11,6 +11,7 @@ function Movies({
   isLoggedIn,
   notFoundError,
   movies,
+  savedMovies,
   handlerSubmit,
   searchableText,
   handleChange,
@@ -47,6 +48,7 @@ function Movies({
           <>
             <MoviesCardList
               movies={movies}
+              savedMovies={savedMovies}
               onMovieDelete={onMovieDelete}
               onMovieSave={onMovieSave}
             />

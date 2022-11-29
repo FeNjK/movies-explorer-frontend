@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, Routes, Route, Navigate } from 'react-router-dom';
+import { useNavigate, useLocation, Routes, Route, Navigate } from 'react-router-dom';
 
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
@@ -25,7 +25,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [searchableText, setSearchableText] = useState(
-    JSON.parse(localStorage.getItem('searchableText')) || '' /* || null || undefined */); //убрать после тестирования
+    JSON.parse(localStorage.getItem('searchableText')) || '');
   const [notFoundError, setNotFoundError] = useState('');
   const [checkedCheckbox, setCheckedCheckbox] = useState(
     JSON.parse(localStorage.getItem('checkedCheckbox')) || false);
@@ -37,6 +37,7 @@ function App() {
   const [registration, setRegistration] = useState(null);
 
   const navigate = useNavigate();
+  const location = useLocation()
 
   function handleDataCheck() {
     mainApi
@@ -53,30 +54,16 @@ function App() {
 
     mainApi
       .getSavedMovies()
-      .then((userMovies) => {
-        setSavedMovies(userMovies);
+      .then((savedMovie) => {
+        setSavedMovies(savedMovie);
         setIsLoggedIn(true);
-        localStorage.setItem('userMovies', JSON.stringify(userMovies));
+        localStorage.setItem('savedMovie', JSON.stringify(savedMovie));
       })
       .catch((err) => {
         console.log(`Ошибка при получении массива сохранённых фильмов ${err}`);
       })
       .finally(() => {
         setIsLoading(false);
-      });
-  }
-
-  function handleUpdateUser(userData) {
-    mainApi
-      .editUserInfo(userData)
-      .then((newUserData) => {
-        setCurrentUser(newUserData);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(
-          `Тут какая-то ошибка с обновлением пользовательских данных ${err}`
-        );
       });
   }
 
@@ -91,7 +78,7 @@ function App() {
         navigate('/movies');
       })
       .catch((err) => {
-        console.log(`Возникла ошибка при авторизации пользователя ${err}`);
+        console.log(`Ошибка при авторизации пользователя ${err}`);
         handleInfoToolTipMessage();
         localStorage.setItem('isLoggedIn', false);
       });
@@ -106,9 +93,23 @@ function App() {
         navigate('/signin');
       })
       .catch((err) => {
-        console.log(`Возникла ошибка при регистрации пользователя ${err}`);
+        console.log(`Ошибка при регистрации пользователя ${err}`);
         setRegistration(false);
         handleInfoToolTipMessage();
+      });
+  }
+
+  function handleUpdateUser(userData) {
+    mainApi
+      .editUserInfo(userData)
+      .then((newUserData) => {
+        setCurrentUser(newUserData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(
+          `Ошибка с обновлением пользовательских данных ${err}`
+        );
       });
   }
 
@@ -120,10 +121,47 @@ function App() {
         localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies));
       })
       .catch((err) => {
-        console.log(`Тут какая-то ошибка с получением списка фильмов ${err}`);
+        console.log(`Ошибка с получением списка фильмов ${err}`);
         setNotFoundError(
           'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
         );
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  function handleSaveMovie(movie) {
+    setIsLoading(true);
+    console.log(movie);
+    mainApi
+      .saveMovies(movie)
+      .then((savedMovie) => {
+        console.log(savedMovie)
+        setSavedMovies((savedMovies) => [savedMovie, ...savedMovies]);
+      })
+      .catch((err) => {
+        console.log(`Ошибка с сохранением фильма ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  function handleDeleteMovie(movie) {
+    setIsLoading(true);
+    mainApi
+      .deleteMovies(
+        location.pathname === '/movies'
+        ? movie.id
+        : movie.movieId
+      )
+      .then(() => {
+        setSavedMovies((state) => state.filter((c) => c.movieId !== movie.id));
+        /* setSavedMovies((state) => state.filter((c) => c.movieId || c.id !== movie.movieId)); */
+      })
+      .catch((err) => {
+        console.log(`Ошибка с удалением фильма ${err}`);
       })
       .finally(() => {
         setIsLoading(false);
@@ -286,11 +324,14 @@ function App() {
                   isLoading={isLoading}
                   notFoundError={notFoundError}
                   movies={movies}
+                  savedMovies={savedMovies}
                   handlerSubmit={handlerSubmitOnMoviesRoute}
                   searchableText={searchableText}
                   handleChange={handleSearchChangeByText}
                   checkedCheckbox={checkedCheckbox}
                   onChangeCheckbox={handleSearchOnDuration}
+                  onMovieSave={handleSaveMovie}
+                  onMovieDelete={handleDeleteMovie}
                 />
               </ProtectedRoute>
             }
@@ -308,11 +349,13 @@ function App() {
                   isLoading={isLoading}
                   notFoundError={notFoundError}
                   movies={savedMovies}
+                  savedMovies={savedMovies}
                   handlerSubmit={handlerSubmitOnMoviesRoute}
                   searchableText={searchableText}
                   handleChange={handleSearchChangeByText}
                   checkedCheckbox={checkedCheckbox}
                   onChangeCheckbox={handleSearchOnDuration}
+                  onMovieDelete={handleDeleteMovie}
                 />
               </ProtectedRoute>
             }

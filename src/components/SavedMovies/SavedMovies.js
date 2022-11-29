@@ -11,13 +11,14 @@ function SavedMovies({
   isLoggedIn,
   notFoundError,
   movies,
+  savedMovies,
   handlerSubmit,
   searchableText,
   handleChange,
   checkedCheckbox,
   onChangeCheckbox,
-  onMovieDelete,
   onMovieSave,
+  onMovieDelete,
   onMobileMenu,
   authorizationEmail,
 }) {
@@ -43,16 +44,17 @@ function SavedMovies({
           onChangeCheckbox={onChangeCheckbox}
         />
         {isLoading && <Preloader />}
-        {!isLoading && movies.length > 0 && (
+        {!isLoading && savedMovies.length > 0 && (
           <>
             <MoviesCardList
               movies={movies}
+              savedMovies={savedMovies}
               onMovieDelete={onMovieDelete}
               onMovieSave={onMovieSave}
             />
           </>
         )}
-        {notFoundError && movies.length === 0 && (
+        {notFoundError && savedMovies.length === 0 && (
           <h2 className='movies__not-found-error'>{notFoundError}&#128577;</h2>
         )}
       </main>

@@ -1,8 +1,10 @@
 import './MoviesCardList.css';
+import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({ movies, onMovieDelete, onMovieSave }) {
+function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
+  const location = useLocation();
   const [width, setWidth] = useState(window.innerWidth);
   const [quantityMovies, setQuantityMovies] = useState(0);
   const [step, makeStep] = useState(0);
@@ -50,16 +52,36 @@ function MoviesCardList({ movies, onMovieDelete, onMovieSave }) {
   return (
     <section className='movies-library'>
       <ul className='movies-library__card-list'>
-        {movies.slice(0, quantityMovies).map((movie) => {
-          return (
-            <MoviesCard
-              movie={movie}
-              key={movie.id ? movie.id : movie.movieId}
-              onMovieSave={onMovieSave}
-              onMovieDelete={onMovieDelete}
-            />
-          );
+        {/* {location.pathname === '/movies' && (
+          <> */}
+            {movies.slice(0, quantityMovies).map((movie) => {
+              return (
+                <MoviesCard
+                  movie={movie}
+                  key={location.pathname === '/movies' ? movie.id : movie.movieId}
+                  savedMovies={savedMovies}
+                  onMovieSave={onMovieSave}
+                  onMovieDelete={onMovieDelete}
+                />
+              );
+            })}
+          {/* </>
+        )} */}
+        {/* {location.pathname === '/saved-movies' && (
+          <>
+            {savedMovies.slice(0, quantityMovies).map((movie) => {
+              return (
+                <MoviesCard
+                  movie={movie}
+                  key={movie.movieId}
+                  onMovieSave={onMovieSave}
+                  onMovieDelete={onMovieDelete}
+                />
+              );
         })}
+          </>
+          )
+        } */}
       </ul>
       <button
         title='button'

@@ -1,15 +1,22 @@
 import './MoviesCard.css';
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
 
-function MoviesCard({ movie, onMovieDelete, onMovieSave }) {
-  const location = useLocation();
-  const [isSaved, setSave] = useState(false); // не доделано. Надо поднять в App.js
+function MoviesCard({ movie, savedMovies, onMovieDelete, onMovieSave }) {
+  const location = useLocation()
 
-  const movieSaveButtonClassName = `movie__mark ${isSaved ? 'movie__mark_active' : ''}`;
+  const isSaved = savedMovies.some((m) => {
+    /* console.log(savedMovies) */
+    return m.movieId === movie.id || movie.movieId
+  })
+
+  const movieSaveButtonClassName = `movie__mark ${isSaved ? 'movie__mark_active' : ''}`
 
   function handleSaveMovie() {
-    onMovieSave(movie);
+    if (!isSaved) {
+      onMovieSave(movie);
+    } else {
+      onMovieDelete(movie);
+    }
   }
 
   function handleDeleteMovie() {
@@ -36,28 +43,27 @@ function MoviesCard({ movie, onMovieDelete, onMovieSave }) {
       >
         <img
           className='movie-card__image'
-          src={`https://api.nomoreparties.co${movie.image.url}`}
+          src={location.pathname === '/movies' ? `https://api.nomoreparties.co${movie.image.url}` : movie.image}
           alt={movie.nameRU}
         />
       </a>
         <h2 className='movie__title'>{movie.nameRU}</h2>
         <p className='movie__duration'>{handleMovieDuration(movie.duration)}</p>
-      {location.pathname === '/movies' && (
-        <button
-          className={movieSaveButtonClassName}
-          type='button'
-          onClick={handleSaveMovie}
-        />
-      )}
-      {location.pathname === '/saved-movies' && (
-        <button
-          className='movie__trash'
-          type='button'
-          onClick={handleDeleteMovie}
-        />
-      )}
-      
+        {location.pathname === '/movies' && (
+          <button
+            className={movieSaveButtonClassName}
+            type='button'
+            onClick={handleSaveMovie}
+          />
+        )}
+        {location.pathname === '/saved-movies' && (
+          <button
+            className='movie__trash'
+            type='button'
+            onClick={handleDeleteMovie}
+          />
+        )}
     </li>
-  );
+  )
 }
 export default MoviesCard;
