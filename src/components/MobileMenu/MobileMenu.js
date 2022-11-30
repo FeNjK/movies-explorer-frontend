@@ -26,9 +26,7 @@ function MobileMenu({ isOpen, onClose, authorizationEmail }) {
               <NavLink
                 to='/'
                 className={({ isActive }) =>
-                  isActive
-                    ? activeMoviesLink
-                    : 'app__popup-navigation-link app__links'
+                  isActive ? activeMoviesLink : 'app__popup-navigation-link app__links'
                 }
                 end
               >
@@ -39,9 +37,7 @@ function MobileMenu({ isOpen, onClose, authorizationEmail }) {
               <NavLink
                 to='/movies'
                 className={({ isActive }) =>
-                  isActive
-                    ? activeMoviesLink
-                    : 'app__popup-navigation-link app__links'
+                  isActive ? activeMoviesLink : 'app__popup-navigation-link app__links'
                 }
                 end
               >
@@ -52,9 +48,7 @@ function MobileMenu({ isOpen, onClose, authorizationEmail }) {
               <NavLink
                 to='/saved-movies'
                 className={({ isActive }) =>
-                  isActive
-                    ? activeMoviesLink
-                    : 'app__popup-navigation-link app__links'
+                  isActive ? activeMoviesLink : 'app__popup-navigation-link app__links'
                 }
                 end
               >
@@ -66,9 +60,7 @@ function MobileMenu({ isOpen, onClose, authorizationEmail }) {
             <NavLink
               to='/profile'
               className={({ isActive }) =>
-                isActive
-                  ? activeProfileLink
-                  : 'app__popup-navigation-profile-link app__links'
+                isActive ? activeProfileLink : 'app__popup-navigation-profile-link app__links'
               }
               end
             >

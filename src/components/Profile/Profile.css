@@ -137,6 +137,26 @@
   -o-border-radius: 5px;
 }
 
+.profile__input-error {
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: #EE3465;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+
+.profile__input-error_first {
+  top: -15px;
+  left: 0px;
+}
+
+.profile__input-error_second {
+  top: 100px;
+  left: 0px;
+}
+
 .profile__buttons {
   display: flex;
   flex-direction: column;
@@ -171,6 +191,10 @@
   .profile__edit-button {
     letter-spacing: -0.05em;
   }
+}
+
+.profile__edit-button:hover:valid {
+  color: #3DDC84;
 }
 
 .profile__sign-out-button {

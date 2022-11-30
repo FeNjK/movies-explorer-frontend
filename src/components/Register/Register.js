@@ -1,27 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './Register.css';
+/* import { VALID_NAME, VALID_EMAIL, VALID_PASSWORD } from '../../utils/constants'; */
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function Register({ onRegister }) {
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormWithValidation();
 
-  const [registerData, setRegisterData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setRegisterData({
-      ...registerData,
-      [name]: value,
-    });
-  }
+  const { name, email, password } = values;
 
   function handleSubmit(e) {
     e.preventDefault();
-    onRegister(registerData);
+    if (!isValid) {
+      return false;
+    } else {
+      onRegister(values, resetForm);
+    }
   }
 
   useEffect(() => {
@@ -36,7 +32,7 @@ function Register({ onRegister }) {
         <form
           className='register__form'
           onSubmit={handleSubmit}
-          /* noValidate */
+          noValidate
           /* autoComplete='off' */
         >
           <span className='register__placeholder'>Имя</span>
@@ -48,47 +44,53 @@ function Register({ onRegister }) {
             minLength='2'
             maxLength='30'
             required
-            value={registerData.name}
+            /* pattern={VALID_NAME} */
+            value={name || ''}
             onChange={handleChange}
-            autoComplete='off'
+            /* autoComplete='off' */
           />
+          <span className='register__input-error register__input-error_first'>
+            {errors.name}
+          </span>
           <span className='register__placeholder'>E-mail</span>
           <input
             type='email'
             name='email'
             className='register__input'
-            id='email'
             minLength='6'
             maxLength='40'
             required
-            value={registerData.email}
+            /* pattern={VALID_EMAIL} */
+            value={email || ''}
             onChange={handleChange}
-            autoComplete='off'
+            /* autoComplete='off' */
           />
-          {/* Заготовка под валидацию формы по аналогии с попапами*/}
-          {/* <span
-            className='popup__validation-message popup__validation-message_position_first'
-            id='email-error'
-          /> */}
+          <span className='register__input-error register__input-error_second'>
+            {errors.email}
+          </span>
           <span className='register__placeholder'>Пароль</span>
           <input
             type='password'
             name='password'
             className='register__input'
-            id='password'
             minLength='6'
             maxLength='40'
             required
-            value={registerData.password}
+            /* pattern={VALID_PASSWORD} */
+            value={password || ''}
             onChange={handleChange}
             autoComplete='off'
           />
-          {/* Заготовка под валидацию формы по аналогии с попапами*/}
-          {/* <span
-            className='popup__validation-message popup__validation-message_position_second'
-            id='password-error'
-          /> */}
-          <button type='submit' className='register__button app__buttons'>
+          <span className='register__input-error register__input-error_third'>
+            {errors.password}
+          </span>
+          <button
+            type='submit'
+            className={`register__button ${
+              !isValid ? 'register__button_disabled' : 'app__buttons'
+            }`}
+            disabled={!isValid ? true : false}
+          >
             Зарегистрироваться
           </button>
         </form>

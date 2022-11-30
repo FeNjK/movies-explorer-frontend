@@ -1,25 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './Login.css';
+/* import { VALID_EMAIL, VALID_PASSWORD } from '../../utils/constants'; */
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function Login({ onLogin }) {
-  const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
-  });
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormWithValidation();
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setLoginData({
-      ...loginData,
-      [name]: value,
-    });
-  }
+  const { email, password } = values;
 
   function handleSubmit(e) {
     e.preventDefault();
-    onLogin(loginData);
+    if (!isValid) {
+      return false;
+    } else {
+      onLogin(values, resetForm);
+    }
   }
 
   useEffect(() => {
@@ -34,7 +32,7 @@ function Login({ onLogin }) {
         <form
           className='login__form'
           onSubmit={handleSubmit}
-          /* noValidate */
+          noValidate
           /* autoComplete='off' */
         >
           <span className='login__placeholder'>E-mail</span>
@@ -42,37 +40,39 @@ function Login({ onLogin }) {
             type='email'
             name='email'
             className='login__input'
-            id='email'
             minLength='6'
             maxLength='40'
             required
-            value={loginData.email || ''}
+            /* pattern={VALID_EMAIL} */
+            value={email || ''}
             onChange={handleChange}
           />
-          {/* Заготовка под валидацию формы по аналогии с попапами*/}
-          {/* <span
-          className='popup__validation-message popup__validation-message_position_first'
-          id='email-error'
-        /> */}
+          <span className='login__input-error login__input-error_first'>
+            {errors.email}
+          </span>
           <span className='login__placeholder'>Пароль</span>
           <input
             type='password'
             name='password'
             className='login__input'
-            id='password'
             minLength='6'
             maxLength='40'
             required
-            value={loginData.password || ''}
+            /* pattern={VALID_PASSWORD} */
+            value={password || ''}
             onChange={handleChange}
             autoComplete='off'
           />
-          {/* Заготовка под валидацию формы по аналогии с попапами*/}
-          {/* <span
-          className='popup__validation-message popup__validation-message_position_second'
-          id='password-error'
-        /> */}
-          <button type='submit' className='login__button app__buttons'>
+          <span className='login__input-error login__input-error_second'>
+            {errors.password}
+          </span>
+          <button
+            type='submit'
+            className={`login__button ${
+              !isValid ? 'login__button_disabled' : 'app__buttons'
+            }`}
+            disabled={!isValid ? true : false}
+          >
             Войти
           </button>
         </form>

@@ -3,9 +3,7 @@ import './SearchTumbler.css';
 function SearchTumbler({ checkedCheckbox, onChangeCheckbox, disabled }) {
   return (
     <div className='search-tumbler'>
-      <label
-        className='search-tumbler__toggle-checkbox'
-        htmlFor='switch'>
+      <label className='search-tumbler__toggle-checkbox' htmlFor='switch'>
         <input
           type='checkbox'
           role='switch'

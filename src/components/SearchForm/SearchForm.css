@@ -21,6 +21,7 @@
   align-items: center;
   justify-content: space-between;
   margin: 0 0 30px;
+  position: relative;
 }
 
 @media screen and (max-width: 700px) {
@@ -62,6 +63,21 @@
 .search__input:focus {
   background-color: #5f5f5f;
   color: #202020;
+}
+
+.search__input-error {
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: #EE3465;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+
+.search__input-error_first {
+  top: 53px;
+  left: 0px
 }
 
 .search__button {

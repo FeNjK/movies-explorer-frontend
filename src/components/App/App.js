@@ -97,7 +97,7 @@ function App() {
       .then(() => {
         setRegistration(true);
         handleInfoToolTipMessage();
-        navigate('/movies');
+        navigate('/signin');
       })
       .catch((err) => {
         console.log(`Ошибка при регистрации пользователя ${err}`);
@@ -158,8 +158,6 @@ function App() {
   function handleDeleteMovie(movie) {
     setIsLoading(true);
     const savedMovie = savedMovies.find((i) => i.movieId === movie.id || movie.movieId);
-    /* console.log(movie.id)
-    console.log(movie.movieId) */
     mainApi
       .deleteMovies(
         location.pathname === '/movies'
@@ -179,8 +177,6 @@ function App() {
       });
   }
 
-  // Во входных данных мы вводим значение атрибута onChange
-  // в качестве ниже указанной функции
   function handleSearchChangeByText(e) {
     setSearchableText(e.target.value);
   }
@@ -238,7 +234,7 @@ function App() {
     e.preventDefault();
     setIsLoading(true);
     if (JSON.parse(localStorage.getItem('savedMovies')) === null) {
-      return handleUserDataCheck();
+      handleUserDataCheck();
     } else {
       const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
       const searchedSavedFilms = handlerSavedMoviesFilter(savedMovies);
@@ -412,7 +408,7 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   isLoading={isLoading}
                   notFoundError={notFoundError}
-                  movies={savedMovies}
+                  movies={movies}
                   savedMovies={savedMovies}
                   handlerSubmit={handlerSubmitOnSavedMoviesRoute}
                   searchableText={searchableTextOnSavedMovies}

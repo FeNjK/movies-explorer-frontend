@@ -55,7 +55,7 @@ function SavedMovies({
           </>
         )}
         {notFoundError && savedMovies.length === 0 && (
-          <h2 className='movies__not-found-error'>{notFoundError}&#128577;</h2>
+          <h2 className='saved-movies__not-found-error'>{notFoundError}&#128577;</h2>
         )}
       </main>
       <Footer />

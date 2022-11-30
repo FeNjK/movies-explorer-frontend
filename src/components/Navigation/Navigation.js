@@ -17,7 +17,8 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
   }, []);
 
   let activeMoviesLink = 'navigation__link navigation__link_active app__links';
-  let activeProfileLink ='navigation__profile-link navigation__link_active app__links';
+  let activeProfileLink =
+    'navigation__profile-link navigation__link_active app__links';
 
   if (width > breakpoint) {
     return (
@@ -49,9 +50,7 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
             <NavLink
               to='/profile'
               className={({ isActive }) =>
-                isActive
-                  ? activeProfileLink
-                  : 'navigation__profile-link app__links'
+                isActive ? activeProfileLink : 'navigation__profile-link app__links'
               }
               end
             >

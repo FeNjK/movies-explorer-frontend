@@ -5,10 +5,7 @@ function MoviesCard({ movie, savedMovies, onMovieDelete, onMovieSave }) {
   const location = useLocation()
 
   const isSaved = savedMovies.some((m) => {
-    /* console.log(savedMovies) */
-    /* console.log(movie.id)
-    console.log(movie.movieId) */
-    return m.movieId === movie.id/*  || movie.movieId */
+    return m.movieId === movie.id
   })
 
   const movieSaveButtonClassName = `movie__mark ${isSaved ? 'movie__mark_active' : ''}`

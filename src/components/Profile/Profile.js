@@ -1,35 +1,34 @@
 import './Profile.css';
 import Header from '../Header/Header';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
-import { VALID_NAME } from '../../utils/constants'
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+/* import { VALID_NAME, VALID_EMAIL } from '../../utils/constants' */
 
-function Profile({ isLoggedIn, isSignOut, editUser, onMobileMenu, authorizationEmail }) {
+function Profile({
+  isLoggedIn,
+  isSignOut,
+  editUser,
+  onMobileMenu,
+  authorizationEmail,
+}) {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const { values, handleChange, errors, isValid } = useFormWithValidation();
+
+  const { email = currentUser.email, name = currentUser.name } = values;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!isValid) {
+      return false;
+    } else {
+      editUser(values);
+    }
+  }
 
   useEffect(() => {
     document.title = 'Ваш профиль';
   }, []);
-
-  useEffect(() => {
-    setName(currentUser.name);
-    setEmail(currentUser.email);
-  }, [currentUser]);
-
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    editUser({ name, email })
-  }
 
   return (
     <>
@@ -44,7 +43,7 @@ function Profile({ isLoggedIn, isSignOut, editUser, onMobileMenu, authorizationE
           <form
             className='profile__form'
             onSubmit={handleSubmit}
-            /* noValidate */
+            noValidate
             /* autoComplete='off' */
           >
             <span className='profile__placeholder profile__placeholder-position_first'>
@@ -57,12 +56,15 @@ function Profile({ isLoggedIn, isSignOut, editUser, onMobileMenu, authorizationE
               id='name'
               minLength='2'
               maxLength='30'
-              pattern='VALID_NAME'
+              /* pattern={VALID_NAME} */
               required
-              value={name}
-              onChange={handleChangeName}
+              value={name || ''}
+              onChange={handleChange}
               autoComplete='off'
             />
+            <span className='profile__input-error profile__input-error_first'>
+              {errors.name}
+            </span>
             <span className='profile__placeholder profile__placeholder-position_second'>
               E-mail
             </span>
@@ -73,15 +75,22 @@ function Profile({ isLoggedIn, isSignOut, editUser, onMobileMenu, authorizationE
               id='email'
               minLength='6'
               maxLength='40'
-              pattern={VALID_NAME}
-
+              /* pattern={VALID_EMAIL} */
               required
-              value= {email}
-              onChange={handleChangeEmail}
+              value={email || ''}
+              onChange={handleChange}
               autoComplete='off'
             />
+            <span className='profile__input-error profile__input-error_second'>
+              {errors.email}
+            </span>
             <div className='profile__buttons'>
-              <button className='profile__edit-button app__links'>
+              <button
+                className={`profile__edit-button ${
+                  isValid ? 'app__links' : ''
+                }`}
+                disabled={!isValid ? true : false}
+              >
                 Редактировать
               </button>
               <button
