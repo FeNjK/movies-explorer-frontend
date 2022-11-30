@@ -143,8 +143,9 @@ function App() {
     mainApi
       .saveMovies(movie)
       .then((savedMovie) => {
-        setSavedMovies((savedMovies) => [...savedMovies, savedMovie]);
-        /* localStorage.setItem('savedMovies', JSON.stringify(savedMovies)); */
+        setSavedMovies([...savedMovies, savedMovie]);
+        console.log(savedMovie.movieId)
+        localStorage.setItem('savedMovies', JSON.stringify([...savedMovies, savedMovie]));
       })
       .catch((err) => {
         console.log(`Ошибка с сохранением фильма ${err}`);
@@ -157,8 +158,8 @@ function App() {
   function handleDeleteMovie(movie) {
     setIsLoading(true);
     const savedMovie = savedMovies.find((i) => i.movieId === movie.id || movie.movieId);
-    console.log(movie.id)
-    console.log(movie.movieId)
+    /* console.log(movie.id)
+    console.log(movie.movieId) */
     mainApi
       .deleteMovies(
         location.pathname === '/movies'
@@ -166,10 +167,9 @@ function App() {
         : movie.movieId
       )
       .then(() => {
-        setSavedMovies((state) => state.filter((c) => c.movieId /* || c.id */ !== savedMovie.movieId));
-        /* setSavedMovies((savedMovies) => savedMovies.filter((c) => c.movieId !== savedMovie.id)); */
-        console.log(savedMovie.movieId)
-        /* setSavedMovies((state) => state.filter((c) => c.movieId || c.id !== movie.id)); */
+        const updateSavedMovie = savedMovies.filter((c) => c.movieId !== savedMovie.movieId);
+        setSavedMovies(updateSavedMovie);
+        localStorage.setItem('savedMovies', JSON.stringify(updateSavedMovie));
       })
       .catch((err) => {
         console.log(`Ошибка с удалением фильма ${err}`);
@@ -203,7 +203,7 @@ function App() {
 
   function handlerSavedMoviesFilter(savedMovies) {
     return savedMovies.filter((savedMovie) => {
-      console.log(savedMovie)
+      /* console.log(savedMovie) */
       if (checkedCheckboxSavedMovies && savedMovie.duration > INDICATOR_OF_SHORT_MOVIE) {
         return false;
       }
@@ -238,12 +238,12 @@ function App() {
     e.preventDefault();
     setIsLoading(true);
     if (JSON.parse(localStorage.getItem('savedMovies')) === null) {
-      handleUserDataCheck();
+      return handleUserDataCheck();
     } else {
       const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
       const searchedSavedFilms = handlerSavedMoviesFilter(savedMovies);
-      /* localStorage.setItem('searchableTextOnSavedMovies', JSON.stringify(searchableTextOnSavedMovies));
-      localStorage.setItem('checkedCheckboxSavedMovies', checkedCheckboxSavedMovies); */
+      localStorage.setItem('searchableTextOnSavedMovies', JSON.stringify(searchableTextOnSavedMovies));
+      localStorage.setItem('checkedCheckboxSavedMovies', checkedCheckboxSavedMovies);
       if (searchedSavedFilms.length === 0) {
         setNotFoundError('Ничего не найдено');
       } else {
@@ -283,7 +283,6 @@ function App() {
   useEffect(() => {
     if (localStorage.isLoggedIn === JSON.stringify(true)) {
       handleUserDataCheck();
-      /* handleUserMoviesCheck(); */
       const checkedCheckbox = JSON.parse(localStorage.getItem('checkedCheckbox'));
       setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
       const searchableText = JSON.parse(localStorage.getItem('searchableText'));
@@ -302,8 +301,6 @@ function App() {
         checkedCheckbox,
       );
       setMovies(searchedFilms);
-
-      JSON.parse(localStorage.getItem('savedMovies'));
     }
   }, []);
 

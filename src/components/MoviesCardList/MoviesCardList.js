@@ -10,7 +10,7 @@ import {
   QUANTITY_MOVIES_SMALL,
   BIG_STEP,
   SMALL_STEP,
-} from '../../utils/constants'
+} from '../../utils/constants';
 
 function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
   const location = useLocation();
@@ -30,7 +30,7 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
     if (width > LARGE_PAGE_SIZE) {
       setQuantityMovies(QUANTITY_MOVIES_LARGE);
       makeStep(BIG_STEP);
-  } else if (width < LARGE_PAGE_SIZE && width > MEDIUM_PAGE_SIZE) {
+    } else if (width < LARGE_PAGE_SIZE && width > MEDIUM_PAGE_SIZE) {
       setQuantityMovies(QUANTITY_MOVIES_MEDIUM);
       makeStep(SMALL_STEP);
     } else if (width <= MEDIUM_PAGE_SIZE) {
@@ -39,40 +39,38 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
     }
   }, [width, setQuantityMovies, makeStep]);
 
-
   function handleShowMoreMovies() {
     setQuantityMovies((movies) => movies + step);
-    
+
     /* console.log(movies.length);
     console.log(quantityMovies); */
-  };
+  }
 
   let visibleButtonMore =
     'movies-library__button-more movies-library__button-more_visible app__buttons';
-  let unVisibleButtonMore = 
-    'movies-library__button-more app__buttons';
+  let unVisibleButtonMore = 'movies-library__button-more app__buttons';
 
   return (
     <section className='movies-library'>
       <ul className='movies-library__card-list'>
-            {movies.slice(0, quantityMovies).map((movie) => {
-              return (
-                <MoviesCard
-                  movie={movie}
-                  key={location.pathname === '/movies' ? movie.id : movie.movieId}
-                  savedMovies={savedMovies}
-                  onMovieSave={onMovieSave}
-                  onMovieDelete={onMovieDelete}
-                />
-              );
-            })}
+          {movies.slice(0, quantityMovies).map((movie) => {
+            return (
+              <MoviesCard
+                movie={movie}
+                key={location.pathname === '/movies' ? movie.id : movie.movieId}
+                savedMovies={savedMovies}
+                onMovieSave={onMovieSave}
+                onMovieDelete={onMovieDelete}
+              />
+            );
+          })}
       </ul>
       <button
         title='button'
         className={
-        movies.length <= quantityMovies
-          ? unVisibleButtonMore
-          : visibleButtonMore
+          movies.length <= quantityMovies
+            ? unVisibleButtonMore
+            : visibleButtonMore
         }
         onClick={handleShowMoreMovies}
       >
