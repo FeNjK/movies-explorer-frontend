@@ -42,7 +42,7 @@ function SearchForm({
           placeholder='Фильм'
           minLength='1'
           maxLength='64'
-          value={/* values. */searchableText}
+          value={/* values. */searchableText || ''}
           onChange={handleChange}
           disabled={isLoading}
           required

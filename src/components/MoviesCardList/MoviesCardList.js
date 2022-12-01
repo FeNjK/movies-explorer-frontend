@@ -46,7 +46,7 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
     console.log(quantityMovies); */
   }
 
-  let moviesRoute = (location.pathname = '/movies');
+  let moviesRoute = (location.pathname === '/movies');
 
   let visibleButtonMore =
     'movies-library__button-more movies-library__button-more_visible app__buttons';
@@ -82,6 +82,7 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
       </section>
     );
   } else {
+    return (
     <section className='movies-library'>
       <ul className='movies-library__card-list'>
         {savedMovies.slice(0, quantityMovies).map((movie) => {
@@ -107,70 +108,9 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
       >
         Ещё
       </button>
-    </section>;
-  }
-
-  /* return (
-    <section className='movies-library'>
-      {
-        (moviesRoute ? (
-          <>
-            <ul className='movies-library__card-list'>
-              {movies.slice(0, quantityMovies).map((movie) => {
-                return (
-                  <MoviesCard
-                    movie={movie}
-                    key={movie.id}
-                    savedMovies={savedMovies}
-                    onMovieSave={onMovieSave}
-                    onMovieDelete={onMovieDelete}
-                  />
-                );
-              })}
-            </ul>
-            <button
-              title='button'
-              className={
-                movies.length <= quantityMovies
-                  ? unVisibleButtonMore
-                  : visibleButtonMore
-              }
-              onClick={handleShowMoreMovies}
-            >
-              Ещё
-            </button>
-          </>
-        ) : (
-          <>
-            <ul className='movies-library__card-list'>
-              {savedMovies.slice(0, quantityMovies).map((movie) => {
-                return (
-                  <MoviesCard
-                    movie={movie}
-                    key={movie.movieId}
-                    savedMovies={savedMovies}
-                    onMovieSave={onMovieSave}
-                    onMovieDelete={onMovieDelete}
-                  />
-                );
-              })}
-            </ul>
-            <button
-              title='button'
-              className={
-                movies.length <= quantityMovies
-                  ? unVisibleButtonMore
-                  : visibleButtonMore
-              }
-              onClick={handleShowMoreMovies}
-            >
-              Ещё
-            </button>
-          </>
-        ))
-      }
     </section>
-  ); */
+    )
+  }
 }
 
 export default MoviesCardList;
