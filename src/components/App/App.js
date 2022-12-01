@@ -158,6 +158,7 @@ function App() {
   function handleDeleteMovie(movie) {
     setIsLoading(true);
     const savedMovie = savedMovies.find((i) => i.movieId === movie.id || movie.movieId);
+    console.log(savedMovie.movieId)
     mainApi
       .deleteMovies(
         location.pathname === '/movies'

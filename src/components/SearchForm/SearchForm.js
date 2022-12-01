@@ -44,7 +44,7 @@ function SearchForm({
           maxLength='64'
           value={/* values. */searchableText}
           onChange={handleChange}
-          /* disabled={isLoading} */
+          disabled={isLoading}
           required
         />
         {/* <span
