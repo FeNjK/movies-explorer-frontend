@@ -83,33 +83,22 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
     );
   } else {
     return (
-    <section className='movies-library'>
-      <ul className='movies-library__card-list'>
-        {savedMovies.slice(0, quantityMovies).map((movie) => {
-          return (
-            <MoviesCard
-              movie={movie}
-              key={movie.movieId}
-              savedMovies={savedMovies}
-              onMovieSave={onMovieSave}
-              onMovieDelete={onMovieDelete}
-            />
-          );
-        })}
-      </ul>
-      <button
-        title='button'
-        className={
-          movies.length <= quantityMovies
-            ? unVisibleButtonMore
-            : visibleButtonMore
-        }
-        onClick={handleShowMoreMovies}
-      >
-        Ещё
-      </button>
-    </section>
-    )
+      <section className='movies-library'>
+        <ul className='movies-library__card-list'>
+          {savedMovies.map((movie) => {
+            return (
+              <MoviesCard
+                movie={movie}
+                key={movie.id || movie.movieId}
+                savedMovies={savedMovies}
+                onMovieSave={onMovieSave}
+                onMovieDelete={onMovieDelete}
+              />
+            );
+          })}
+        </ul>
+      </section>
+    );
   }
 }
 

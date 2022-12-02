@@ -22,7 +22,6 @@ function SavedMovies({
   onMobileMenu,
   authorizationEmail,
 }) {
-
   useEffect(() => {
     document.title = 'Понравившиеся вам фильмы';
   }, []);
@@ -35,7 +34,7 @@ function SavedMovies({
         authorizationEmail={authorizationEmail}
       />
       <main className='saved-movies'>
-      <SearchForm
+        <SearchForm
           handlerSubmit={handlerSubmit}
           searchableText={searchableText}
           handleChange={handleChange}
@@ -55,7 +54,9 @@ function SavedMovies({
           </>
         )}
         {notFoundError && savedMovies.length === 0 && (
-          <h2 className='saved-movies__not-found-error'>{notFoundError}&#128577;</h2>
+          <h2 className='saved-movies__not-found-error'>
+            {notFoundError}&#128577;
+          </h2>
         )}
       </main>
       <Footer />

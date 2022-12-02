@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  useNavigate,
+  useLocation,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
@@ -26,14 +32,19 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [searchableText, setSearchableText] = useState(
-    JSON.parse(localStorage.getItem('searchableText')) || '');
-  const [searchableTextOnSavedMovies, setSearchableTextOnSavedMovies] = useState(
-    JSON.parse(localStorage.getItem('searchableTextOnSavedMovies')) || '');
+    JSON.parse(localStorage.getItem('searchableText')) || ''
+  );
+  const [searchableTextOnSavedMovies, setSearchableTextOnSavedMovies] =
+    useState(
+      JSON.parse(localStorage.getItem('searchableTextOnSavedMovies')) || ''
+    );
   const [notFoundError, setNotFoundError] = useState('');
   const [checkedCheckbox, setCheckedCheckbox] = useState(
-    JSON.parse(localStorage.getItem('checkedCheckbox')) || false);
+    JSON.parse(localStorage.getItem('checkedCheckbox')) || false
+  );
   const [checkedCheckboxSavedMovies, setCheckedCheckboxSavedMovies] = useState(
-    JSON.parse(localStorage.getItem('checkedCheckboxSavedMovies')) || false);
+    JSON.parse(localStorage.getItem('checkedCheckboxSavedMovies')) || false
+  );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,10 +53,9 @@ function App() {
   const [registration, setRegistration] = useState(null);
 
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   function handleUserDataCheck() {
-
     mainApi
       .getUserInfo()
       .then((userData) => {
@@ -56,6 +66,8 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка при получении пользовательских данных ${err}`);
+        localStorage.clear();
+        localStorage.setItem('isLoggedIn', false);
       });
 
     mainApi
@@ -67,6 +79,8 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка при получении массива сохранённых фильмов ${err}`);
+        localStorage.clear();
+        localStorage.setItem('isLoggedIn', false);
       })
       .finally(() => {
         setIsLoading(false);
@@ -78,7 +92,7 @@ function App() {
       .login(data)
       .then(() => {
         setIsLoggedIn(true);
-        handleGetMovies();
+        handleInfoToolTipMessage();
         handleUserDataCheck();
         setAuthorizationEmail(data.email);
         localStorage.setItem('isLoggedIn', true);
@@ -88,6 +102,7 @@ function App() {
         console.log(`Ошибка при авторизации пользователя ${err}`);
         handleInfoToolTipMessage();
         localStorage.setItem('isLoggedIn', false);
+        navigate('/');
       });
   }
 
@@ -111,20 +126,21 @@ function App() {
       .editUserInfo(userData)
       .then((newUserData) => {
         setCurrentUser(newUserData);
-        closeAllPopups();
+        handleInfoToolTipMessage();
       })
       .catch((err) => {
-        console.log(
-          `Ошибка с обновлением пользовательских данных ${err}`
-        );
+        console.log(`Ошибка с обновлением пользовательских данных ${err}`);
+        handleInfoToolTipMessage();
       });
   }
 
-  function handleGetMovies() {
+  async function handleGetMovies() {
     setIsLoading(true);
-    moviesApi
+    await moviesApi
       .getBeatfilmMovies()
       .then((beatfilmMovies) => {
+        setMovies(beatfilmMovies);
+        console.log(beatfilmMovies);
         localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies));
       })
       .catch((err) => {
@@ -144,8 +160,10 @@ function App() {
       .saveMovies(movie)
       .then((savedMovie) => {
         setSavedMovies([...savedMovies, savedMovie]);
-        console.log(savedMovie.movieId)
-        localStorage.setItem('savedMovies', JSON.stringify([...savedMovies, savedMovie]));
+        localStorage.setItem(
+          'savedMovies',
+          JSON.stringify([...savedMovies, savedMovie])
+        );
       })
       .catch((err) => {
         console.log(`Ошибка с сохранением фильма ${err}`);
@@ -157,16 +175,15 @@ function App() {
 
   function handleDeleteMovie(movie) {
     setIsLoading(true);
-    const savedMovie = savedMovies.find((i) => i.movieId === movie.id || movie.movieId);
-    console.log(savedMovie.movieId)
+    const savedMovie = savedMovies.find(
+      (i) => i.movieId === movie.id || movie.movieId
+    );
     mainApi
-      .deleteMovies(
-        location.pathname === '/movies'
-        ? movie.id
-        : movie.movieId
-      )
+      .deleteMovies(location.pathname === '/movies' ? movie.id : movie.movieId)
       .then(() => {
-        const updateSavedMovie = savedMovies.filter((c) => c.movieId !== savedMovie.movieId);
+        const updateSavedMovie = savedMovies.filter(
+          (c) => c.movieId !== savedMovie.movieId
+        );
         setSavedMovies(updateSavedMovie);
         localStorage.setItem('savedMovies', JSON.stringify(updateSavedMovie));
       })
@@ -200,23 +217,30 @@ function App() {
 
   function handlerSavedMoviesFilter(savedMovies) {
     return savedMovies.filter((savedMovie) => {
-      /* console.log(savedMovie) */
-      if (checkedCheckboxSavedMovies && savedMovie.duration > INDICATOR_OF_SHORT_MOVIE) {
+      if (
+        checkedCheckboxSavedMovies &&
+        savedMovie.duration > INDICATOR_OF_SHORT_MOVIE
+      ) {
         return false;
       }
       return (
-        savedMovie.nameRU.toLowerCase().includes(searchableTextOnSavedMovies.toLowerCase()) ||
-        savedMovie.nameEN.toLowerCase().includes(searchableTextOnSavedMovies.toLowerCase())
+        savedMovie.nameRU
+          .toLowerCase()
+          .includes(searchableTextOnSavedMovies.toLowerCase()) ||
+        savedMovie.nameEN
+          .toLowerCase()
+          .includes(searchableTextOnSavedMovies.toLowerCase())
       );
     });
   }
 
-  function handlerSubmitOnMoviesRoute(e) {
+  async function handlerSubmitOnMoviesRoute(e) {
     e.preventDefault();
-    setIsLoading(true);
-    if (JSON.parse(localStorage.getItem('beatfilmMovies')) === null) {
-      handleGetMovies();
+    if (searchableText === '') {
+      return;
     } else {
+      setIsLoading(true);
+      await handleGetMovies();
       const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
       const searchedFilms = handlerFilter(beatfilmMovies);
       localStorage.setItem('searchableText', JSON.stringify(searchableText));
@@ -227,28 +251,27 @@ function App() {
         setNotFoundError('');
       }
       setMovies(searchedFilms);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
 
   function handlerSubmitOnSavedMoviesRoute(e) {
     e.preventDefault();
-    setIsLoading(true);
-    if (JSON.parse(localStorage.getItem('savedMovies')) === null) {
-      handleUserDataCheck();
+    if (searchableTextOnSavedMovies === '') {
+      return;
     } else {
+      setIsLoading(true);
+      handleUserDataCheck();
       const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
       const searchedSavedFilms = handlerSavedMoviesFilter(savedMovies);
-      localStorage.setItem('searchableTextOnSavedMovies', JSON.stringify(searchableTextOnSavedMovies));
-      localStorage.setItem('checkedCheckboxSavedMovies', checkedCheckboxSavedMovies);
       if (searchedSavedFilms.length === 0) {
         setNotFoundError('Ничего не найдено');
       } else {
         setNotFoundError('');
       }
       setSavedMovies(searchedSavedFilms);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
 
   function handleSearchOnDuration() {
@@ -258,7 +281,6 @@ function App() {
 
   function handleSearchOnDurationSavedMovies() {
     setCheckedCheckboxSavedMovies(!checkedCheckboxSavedMovies);
-    localStorage.setItem('checkedCheckboxSavedMovies', !checkedCheckboxSavedMovies);
   }
 
   useEffect(() => {
@@ -280,29 +302,10 @@ function App() {
   useEffect(() => {
     if (localStorage.isLoggedIn === JSON.stringify(true)) {
       handleUserDataCheck();
-      const checkedCheckbox = JSON.parse(localStorage.getItem('checkedCheckbox'));
-      setCheckedCheckbox(JSON.parse(localStorage.getItem('checkedCheckbox')));
-      const searchableText = JSON.parse(localStorage.getItem('searchableText'));
-      setSearchableText(JSON.parse(localStorage.getItem('searchableText')));
-      const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
-      const filteredFilms = handlerFilter(
-        beatfilmMovies,
-        searchableText,
-        checkedCheckbox,
-      );
-      setMovies(filteredFilms);
-
-      const searchedFilms = handlerFilter(
-        beatfilmMovies,
-        searchableText,
-        checkedCheckbox,
-      );
-      setMovies(searchedFilms);
     }
   }, []);
 
-  function handleSignOut(e) {
-    e.preventDefault();
+  function handleSignOut() {
     mainApi
       .signout()
       .then(() => {
@@ -377,24 +380,28 @@ function App() {
             strict
             path='/movies'
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <Movies
-                  onMobileMenu={handleMobileMenuClick}
-                  authorizationEmail={authorizationEmail}
-                  isLoggedIn={isLoggedIn}
-                  isLoading={isLoading}
-                  notFoundError={notFoundError}
-                  movies={movies}
-                  savedMovies={savedMovies}
-                  handlerSubmit={handlerSubmitOnMoviesRoute}
-                  searchableText={searchableText}
-                  handleChange={handleSearchChangeByText}
-                  checkedCheckbox={checkedCheckbox}
-                  onChangeCheckbox={handleSearchOnDuration}
-                  onMovieSave={handleSaveMovie}
-                  onMovieDelete={handleDeleteMovie}
-                />
-              </ProtectedRoute>
+              isLoggedIn ? (
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Movies
+                    onMobileMenu={handleMobileMenuClick}
+                    authorizationEmail={authorizationEmail}
+                    isLoggedIn={isLoggedIn}
+                    isLoading={isLoading}
+                    notFoundError={notFoundError}
+                    movies={movies}
+                    savedMovies={savedMovies}
+                    handlerSubmit={handlerSubmitOnMoviesRoute}
+                    searchableText={searchableText}
+                    handleChange={handleSearchChangeByText}
+                    checkedCheckbox={checkedCheckbox}
+                    onChangeCheckbox={handleSearchOnDuration}
+                    onMovieSave={handleSaveMovie}
+                    onMovieDelete={handleDeleteMovie}
+                  />
+                </ProtectedRoute>
+              ) : (
+                <Navigate to='/signin' />
+              )
             }
           />
           <Route
@@ -402,23 +409,27 @@ function App() {
             strict
             path='/saved-movies'
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <SavedMovies
-                  onMobileMenu={handleMobileMenuClick}
-                  authorizationEmail={authorizationEmail}
-                  isLoggedIn={isLoggedIn}
-                  isLoading={isLoading}
-                  notFoundError={notFoundError}
-                  movies={movies}
-                  savedMovies={savedMovies}
-                  handlerSubmit={handlerSubmitOnSavedMoviesRoute}
-                  searchableText={searchableTextOnSavedMovies}
-                  handleChange={handleSearchChangeByTextOnSavedMovies}
-                  checkedCheckbox={checkedCheckboxSavedMovies}
-                  onChangeCheckbox={handleSearchOnDurationSavedMovies}
-                  onMovieDelete={handleDeleteMovie}
-                />
-              </ProtectedRoute>
+              isLoggedIn ? (
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <SavedMovies
+                    onMobileMenu={handleMobileMenuClick}
+                    authorizationEmail={authorizationEmail}
+                    isLoggedIn={isLoggedIn}
+                    isLoading={isLoading}
+                    notFoundError={notFoundError}
+                    movies={movies}
+                    savedMovies={savedMovies}
+                    handlerSubmit={handlerSubmitOnSavedMoviesRoute}
+                    searchableText={searchableTextOnSavedMovies}
+                    handleChange={handleSearchChangeByTextOnSavedMovies}
+                    checkedCheckbox={checkedCheckboxSavedMovies}
+                    onChangeCheckbox={handleSearchOnDurationSavedMovies}
+                    onMovieDelete={handleDeleteMovie}
+                  />
+                </ProtectedRoute>
+              ) : (
+                <Navigate to='/signin' />
+              )
             }
           />
           <Route
@@ -426,15 +437,19 @@ function App() {
             strict
             path='/profile'
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <Profile
-                  onMobileMenu={handleMobileMenuClick}
-                  authorizationEmail={authorizationEmail}
-                  isSignOut={handleSignOut}
-                  isLoggedIn={isLoggedIn}
-                  editUser={handleUpdateUser}
-                />
-              </ProtectedRoute>
+              isLoggedIn ? (
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile
+                    onMobileMenu={handleMobileMenuClick}
+                    authorizationEmail={authorizationEmail}
+                    isSignOut={handleSignOut}
+                    isLoggedIn={isLoggedIn}
+                    editUser={handleUpdateUser}
+                  />
+                </ProtectedRoute>
+              ) : (
+                <Navigate to='/signin' />
+              )
             }
           />
           <Route path='*' element={<PageNotFound />} />
@@ -447,7 +462,7 @@ function App() {
         <InfoTooltip
           isOpen={infoToolTipMessage}
           onClose={closeAllPopups}
-          isRegistrationGood={registration}
+          isRegistrationGood={registration || authorizationEmail}
         />
       </div>
     </CurrentUserContext.Provider>

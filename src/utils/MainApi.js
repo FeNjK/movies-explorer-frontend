@@ -82,14 +82,6 @@ class MainApi {
     }).then((res) => this._ringingServer(res));
   }
 
-  /* toggleLikeCard(movie, isSaved) {
-    if (!isSaved) {
-      return this.savedMovies(movie);
-    } else {
-      return this.deleteMovies(movie);
-    }
-  } */
-
   signout() { // на сервере контроллер logout
     return fetch(`${this._url}/signout`, {
       method: 'POST',
@@ -100,8 +92,8 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  /* url: 'https://api.find-and-save.nomoredomains.icu', */
-  url: 'http://localhost:3000',
+  url: 'https://api.find-and-save.nomoredomains.icu',
+  /* url: 'http://localhost:3000', */
   headers: { 'Content-type': 'application/json' },
 });
 

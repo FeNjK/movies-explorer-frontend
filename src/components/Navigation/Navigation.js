@@ -16,7 +16,8 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
     };
   }, []);
 
-  let activeMoviesLink = 'navigation__link navigation__link_active app__links';
+  let activeMoviesLink =
+    'navigation__link navigation__link_active app__links';
   let activeProfileLink =
     'navigation__profile-link navigation__link_active app__links';
 

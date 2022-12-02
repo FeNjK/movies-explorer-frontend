@@ -22,7 +22,6 @@ function Movies({
   onMobileMenu,
   authorizationEmail,
 }) {
-
   useEffect(() => {
     document.title = 'Фильмы';
   }, []);

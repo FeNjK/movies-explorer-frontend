@@ -1,7 +1,5 @@
 import './SearchForm.css';
 import SearchTumbler from '../SearchTumbler/SearchTumbler';
-/* import { useFormWithValidation } from '../../hooks/useFormWithValidation';
-import { useEffect } from 'react'; */
 
 function SearchForm({
   handlerSubmit,
@@ -11,22 +9,6 @@ function SearchForm({
   checkedCheckbox,
   onChangeCheckbox,
 }) {
-  /* const { values, errors, isValid, setValues } = useFormWithValidation();
-
-  function handlSubmit(e) {
-    e.preventDefault();
-    handlerSubmit(values.searchableText);
-    if (values.searchableText === '') {
-      return !isValid;
-    } else {
-      return isValid;
-    }
-  }
-
-  useEffect(() => {
-    setValues(searchableText);
-  }, [searchableText, setValues]); */
-
   return (
     <section className='search'>
       <form
@@ -34,6 +16,7 @@ function SearchForm({
         name='search__form'
         onSubmit={handlerSubmit}
         noValidate
+        title='Введите слово, букву или цифру'
       >
         <input
           className='search__input'
@@ -42,23 +25,17 @@ function SearchForm({
           placeholder='Фильм'
           minLength='1'
           maxLength='64'
-          value={/* values. */searchableText || ''}
+          value={searchableText || ''}
           onChange={handleChange}
           disabled={isLoading}
           required
         />
-        {/* <span
-          className='search__input-error search__input-error_first'>
-            {errors.email}
-        </span> */}
         <button
           type='submit'
-          /* className={`search__button ${
-            !isValid ? 'search__button_disabled' : 'app__buttons'
-          }`} */
-          className='search__button app__buttons'
-          /* disabled={!isValid ? true : false} */
-          disabled={isLoading}
+          className={`search__button ${
+            searchableText !== '' ? 'app__buttons' : ''
+          }`}
+          disabled={!isLoading && searchableText === '' ? true : false}
         >
           Найти
         </button>

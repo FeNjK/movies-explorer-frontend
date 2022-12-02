@@ -2,8 +2,7 @@
 
 const VALID_URL =
   /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/im;
-const VALID_NAME =
-  /[A-Za-zА-Яа-яЁё\\s-]+/;
+const VALID_NAME = /[A-Za-zА-Яа-яЁё\\s-]+/;
 const VALID_PASSWORD =
   /^(?=\P{Ll}*\p{Ll})(?=\P{Lu}*\p{Lu})(?=\P{N}*\p{N})(?=[\p{L}\p{N}]*[^\p{L}\p{N}])[\s\S]{8,}$/;
 const VALID_EMAIL =
