@@ -13,3 +13,8 @@ IP 158.160.2.226
 Frontend https://find-and-save.nomoredomains.icu
 
 Backend https://api.find-and-save.nomoredomains.icu
+
+
+*** Ссылка на pull request ***
+
+https://github.com/FeNjK/movies-explorer-frontend/pull/2
