@@ -93,7 +93,7 @@ class MainApi {
 
 const mainApi = new MainApi({
   url: 'https://api.find-and-save.nomoredomains.icu',
-  /* url: 'http://localhost:3000', */
+  /* url: 'http://localhost:3002', */
   headers: { 'Content-type': 'application/json' },
 });
 

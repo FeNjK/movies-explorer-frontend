@@ -4,3 +4,12 @@
 
 *** https://disk.yandex.ru/d/5Ny1TruXQyxovA ***
 
+## Ссылки на проект
+
+Подключение к виртуальной мащине осуществляется по команде *ssh fenjk@158.160.2.226*
+
+IP 158.160.2.226
+
+Frontend https://find-and-save.nomoredomains.icu
+
+Backend https://api.find-and-save.nomoredomains.icu
