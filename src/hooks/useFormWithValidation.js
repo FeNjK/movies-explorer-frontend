@@ -29,6 +29,7 @@ export function useFormWithValidation() {
     isValid,
     setIsValid,
     resetForm,
+    setValues,
   };
 }
 

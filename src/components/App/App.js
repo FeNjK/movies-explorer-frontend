@@ -311,6 +311,7 @@ function App() {
   }, []);
 
   function handleSignOut() {
+    setIsLoading(true);
     mainApi
       .signout()
       .then(() => {
@@ -320,11 +321,16 @@ function App() {
         setSavedMovies([]);
         setSearchableText('');
         setCheckedCheckbox(false);
+        setSearchableTextOnSavedMovies('');
+        setCheckedCheckboxSavedMovies(false);
         localStorage.clear();
         navigate('/');
       })
       .catch((err) => {
         console.log(`Возникла ошибка при очистке данных ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 

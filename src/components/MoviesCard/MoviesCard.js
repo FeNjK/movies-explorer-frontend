@@ -13,7 +13,7 @@ function MoviesCard({ movie, savedMovies, onMovieDelete, onMovieSave }) {
   }`;
 
   function handleSaveMovie(e) {
-    e.preventDefault(movie);
+    e.preventDefault();
     if (!isSaved) {
       onMovieSave(movie);
     } else {
@@ -22,7 +22,7 @@ function MoviesCard({ movie, savedMovies, onMovieDelete, onMovieSave }) {
   }
 
   function handleDeleteMovie(e) {
-    e.preventDefault(movie);
+    e.preventDefault();
     onMovieDelete(movie);
   }
 

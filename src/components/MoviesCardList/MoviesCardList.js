@@ -96,7 +96,7 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
             return (
               <MoviesCard
                 movie={movie}
-                key={moviesRoute ? movie.id : movie.movieId}
+                key={movie.id || movie.movieId}
                 savedMovies={savedMovies}
                 onMovieSave={onMovieSave}
                 onMovieDelete={onMovieDelete}

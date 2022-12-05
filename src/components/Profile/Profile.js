@@ -3,7 +3,7 @@ import Header from '../Header/Header';
 import { useEffect, useContext } from 'react';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
-import { VALID_EMAIL } from '../../utils/constants';
+import { VALID_NAME, VALID_EMAIL } from '../../utils/constants';
 
 function Profile({
   isLoggedIn,
@@ -13,16 +13,31 @@ function Profile({
   authorizationEmail,
 }) {
   const currentUser = useContext(CurrentUserContext);
-  const { values, handleChange, errors, isValid } = useFormWithValidation();
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    setValues
+  } = useFormWithValidation({});
 
-  const { email = currentUser.email, name = currentUser.name } = values;
+  const unchangedData =
+    values.name === currentUser.name &&
+    values.email === currentUser.email;
+
+  useEffect(() => {
+    setValues({
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+  }, [currentUser, setValues]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!isValid) {
+    if (!isValid || unchangedData) {
       return false;
     } else {
-      editUser(values);
+      editUser({ ...values });
     }
   }
 
@@ -53,11 +68,11 @@ function Profile({
               type='text'
               name='name'
               className='profile__input'
-              id='name'
               minLength='2'
               maxLength='30'
               required
-              value={name || ''}
+              pattern={VALID_NAME}
+              value={values.name || ''}
               onChange={handleChange}
               autoComplete='off'
             />
@@ -68,15 +83,14 @@ function Profile({
               E-mail
             </span>
             <input
-              type='text'
+              type='email'
               name='email'
               className='profile__input'
-              id='email'
               minLength='6'
               maxLength='40'
               pattern={VALID_EMAIL}
               required
-              value={email || ''}
+              value={values.email || ''}
               onChange={handleChange}
               autoComplete='off'
             />
@@ -86,9 +100,9 @@ function Profile({
             <div className='profile__buttons'>
               <button
                 className={`profile__edit-button ${
-                  isValid ? 'app__links' : ''
+                  isValid && !unchangedData ? 'app__links' : ''
                 }`}
-                disabled={!isValid ? true : false}
+                disabled={!isValid || unchangedData ? true : false}
               >
                 Редактировать
               </button>

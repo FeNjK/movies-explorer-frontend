@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './Register.css';
-import { VALID_EMAIL, VALID_PASSWORD } from '../../utils/constants';
+import { VALID_NAME, VALID_EMAIL, VALID_PASSWORD } from '../../utils/constants';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function Register({ onRegister }) {
@@ -43,6 +43,7 @@ function Register({ onRegister }) {
             minLength='2'
             maxLength='30'
             required
+            pattern={VALID_NAME}
             value={name || ''}
             onChange={handleChange}
             /* autoComplete='off' */
@@ -72,7 +73,6 @@ function Register({ onRegister }) {
             name='password'
             className='register__input'
             minLength='6'
-            minLowercase='1'
             maxLength='40'
             required
             pattern={VALID_PASSWORD}
