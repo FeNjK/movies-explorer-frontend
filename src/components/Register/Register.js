@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './Register.css';
-/* import { VALID_NAME, VALID_EMAIL, VALID_PASSWORD } from '../../utils/constants'; */
+import { VALID_EMAIL, VALID_PASSWORD } from '../../utils/constants';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function Register({ onRegister }) {
@@ -40,11 +40,9 @@ function Register({ onRegister }) {
             type='name'
             name='name'
             className='register__input'
-            id='name'
             minLength='2'
             maxLength='30'
             required
-            /* pattern={VALID_NAME} */
             value={name || ''}
             onChange={handleChange}
             /* autoComplete='off' */
@@ -60,13 +58,13 @@ function Register({ onRegister }) {
             minLength='6'
             maxLength='40'
             required
-            /* pattern={VALID_EMAIL} */
+            pattern={VALID_EMAIL}
             value={email || ''}
             onChange={handleChange}
             /* autoComplete='off' */
           />
           <span className='register__input-error register__input-error_second'>
-            {errors.email}
+            {errors.email || ''}
           </span>
           <span className='register__placeholder'>Пароль</span>
           <input
@@ -74,15 +72,16 @@ function Register({ onRegister }) {
             name='password'
             className='register__input'
             minLength='6'
+            minLowercase='1'
             maxLength='40'
             required
-            /* pattern={VALID_PASSWORD} */
+            pattern={VALID_PASSWORD}
             value={password || ''}
             onChange={handleChange}
             autoComplete='off'
           />
           <span className='register__input-error register__input-error_third'>
-            {errors.password}
+            {errors.password || ''}
           </span>
           <button
             type='submit'

@@ -24,11 +24,13 @@ function InfoTooltip({ isOpen, onClose, isRegistrationGood }) {
           src={isRegistrationGood ? luckImage : unLuckImage}
         />
         <h3 className='app__popup-registration-message'>
-          {location.pathname === '/signin' &&
+          {(location.pathname === '/movies' ||
+            location.pathname === '/signup') &&
             (isRegistrationGood
               ? 'Регистрация прошла успешно!'
               : 'Что-то пошло не так! Попробуйте ещё раз.')}
-          {location.pathname === '/movies' &&
+          {(location.pathname === '/movies' ||
+            location.pathname === '/signin') &&
             (isRegistrationGood
               ? 'Вы успешно авторизованы!'
               : 'Что-то пошло не так! Попробуйте ещё раз.')}

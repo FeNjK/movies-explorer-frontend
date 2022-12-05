@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './Login.css';
-/* import { VALID_EMAIL, VALID_PASSWORD } from '../../utils/constants'; */
+import { VALID_EMAIL, VALID_PASSWORD } from '../../utils/constants';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 function Login({ onLogin }) {
@@ -43,12 +43,12 @@ function Login({ onLogin }) {
             minLength='6'
             maxLength='40'
             required
-            /* pattern={VALID_EMAIL} */
+            pattern={VALID_EMAIL}
             value={email || ''}
             onChange={handleChange}
           />
           <span className='login__input-error login__input-error_first'>
-            {errors.email}
+            {errors.email || ''}
           </span>
           <span className='login__placeholder'>Пароль</span>
           <input
@@ -58,13 +58,13 @@ function Login({ onLogin }) {
             minLength='6'
             maxLength='40'
             required
-            /* pattern={VALID_PASSWORD} */
+            pattern={VALID_PASSWORD}
             value={password || ''}
             onChange={handleChange}
             autoComplete='off'
           />
           <span className='login__input-error login__input-error_second'>
-            {errors.password}
+            {errors.password || ''}
           </span>
           <button
             type='submit'

@@ -3,7 +3,7 @@ import Header from '../Header/Header';
 import { useEffect, useContext } from 'react';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
-/* import { VALID_NAME, VALID_EMAIL } from '../../utils/constants' */
+import { VALID_EMAIL } from '../../utils/constants';
 
 function Profile({
   isLoggedIn,
@@ -56,14 +56,13 @@ function Profile({
               id='name'
               minLength='2'
               maxLength='30'
-              /* pattern={VALID_NAME} */
               required
               value={name || ''}
               onChange={handleChange}
               autoComplete='off'
             />
             <span className='profile__input-error profile__input-error_first'>
-              {errors.name}
+              {errors.name || ''}
             </span>
             <span className='profile__placeholder profile__placeholder-position_second'>
               E-mail
@@ -75,14 +74,14 @@ function Profile({
               id='email'
               minLength='6'
               maxLength='40'
-              /* pattern={VALID_EMAIL} */
+              pattern={VALID_EMAIL}
               required
               value={email || ''}
               onChange={handleChange}
               autoComplete='off'
             />
             <span className='profile__input-error profile__input-error_second'>
-              {errors.email}
+              {errors.email || ''}
             </span>
             <div className='profile__buttons'>
               <button

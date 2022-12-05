@@ -102,7 +102,7 @@ function App() {
         console.log(`Ошибка при авторизации пользователя ${err}`);
         handleInfoToolTipMessage();
         localStorage.setItem('isLoggedIn', false);
-        navigate('/');
+        navigate('/signin');
       });
   }
 
@@ -112,12 +112,13 @@ function App() {
       .then(() => {
         setRegistration(true);
         handleInfoToolTipMessage();
-        navigate('/signin');
+        navigate('/movies');
       })
       .catch((err) => {
         console.log(`Ошибка при регистрации пользователя ${err}`);
         setRegistration(false);
         handleInfoToolTipMessage();
+        navigate('/signup');
       });
   }
 
@@ -140,7 +141,6 @@ function App() {
       .getBeatfilmMovies()
       .then((beatfilmMovies) => {
         setMovies(beatfilmMovies);
-        console.log(beatfilmMovies);
         localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies));
       })
       .catch((err) => {
@@ -240,7 +240,9 @@ function App() {
       return;
     } else {
       setIsLoading(true);
-      await handleGetMovies();
+      if (JSON.parse(localStorage.getItem('beatfilmMovies')) === null) {
+        await handleGetMovies();
+      }
       const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
       const searchedFilms = handlerFilter(beatfilmMovies);
       localStorage.setItem('searchableText', JSON.stringify(searchableText));
@@ -255,13 +257,15 @@ function App() {
     }
   }
 
-  function handlerSubmitOnSavedMoviesRoute(e) {
+  async function handlerSubmitOnSavedMoviesRoute(e) {
     e.preventDefault();
     if (searchableTextOnSavedMovies === '') {
       return;
     } else {
       setIsLoading(true);
-      handleUserDataCheck();
+      if (JSON.parse(localStorage.getItem('savedMovies')) === null) {
+        await handleUserDataCheck();
+      }
       const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
       const searchedSavedFilms = handlerSavedMoviesFilter(savedMovies);
       if (searchedSavedFilms.length === 0) {
@@ -302,6 +306,7 @@ function App() {
   useEffect(() => {
     if (localStorage.isLoggedIn === JSON.stringify(true)) {
       handleUserDataCheck();
+
     }
   }, []);
 
@@ -346,6 +351,7 @@ function App() {
             path='/'
             element={
               <Main
+                isLoggedIn={isLoggedIn}
                 onMobileMenu={handleMobileMenuClick}
                 authorizationEmail={authorizationEmail}
               />
@@ -369,7 +375,7 @@ function App() {
             path='/signup'
             element={
               isLoggedIn ? (
-                <Navigate to='/signin' />
+                <Navigate to='/movies' />
               ) : (
                 <Register onRegister={handleRegister} />
               )

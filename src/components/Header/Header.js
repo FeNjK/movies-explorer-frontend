@@ -29,24 +29,16 @@ function Header({ isLoggedIn, onMobileMenu, authorizationEmail }) {
             </li>
           </ul>
         )}
-        {isLoggedIn && location.pathname === '/movies' && (
-          <Navigation
-            onMobileMenu={onMobileMenu}
-            authorizationEmail={authorizationEmail}
-          />
-        )}
-        {isLoggedIn && location.pathname === '/saved-movies' && (
-          <Navigation
-            onMobileMenu={onMobileMenu}
-            authorizationEmail={authorizationEmail}
-          />
-        )}
-        {isLoggedIn && location.pathname === '/profile' && (
-          <Navigation
-            onMobileMenu={onMobileMenu}
-            authorizationEmail={authorizationEmail}
-          />
-        )}
+        {isLoggedIn &&
+          (location.pathname === '/' ||
+            location.pathname === '/movies' ||
+            location.pathname === '/saved-movies' ||
+            location.pathname === '/profile') && (
+            <Navigation
+              onMobileMenu={onMobileMenu}
+              authorizationEmail={authorizationEmail}
+            />
+          )}
       </nav>
     </header>
   );

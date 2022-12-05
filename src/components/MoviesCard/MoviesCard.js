@@ -12,7 +12,8 @@ function MoviesCard({ movie, savedMovies, onMovieDelete, onMovieSave }) {
     isSaved ? 'movie__mark_active' : ''
   }`;
 
-  function handleSaveMovie() {
+  function handleSaveMovie(e) {
+    e.preventDefault(movie);
     if (!isSaved) {
       onMovieSave(movie);
     } else {
@@ -20,7 +21,8 @@ function MoviesCard({ movie, savedMovies, onMovieDelete, onMovieSave }) {
     }
   }
 
-  function handleDeleteMovie() {
+  function handleDeleteMovie(e) {
+    e.preventDefault(movie);
     onMovieDelete(movie);
   }
 
@@ -58,14 +60,14 @@ function MoviesCard({ movie, savedMovies, onMovieDelete, onMovieSave }) {
       {location.pathname === '/movies' && (
         <button
           className={movieSaveButtonClassName}
-          type='button'
+          type='submit'
           onClick={handleSaveMovie}
         />
       )}
       {location.pathname === '/saved-movies' && (
         <button
           className='movie__trash'
-          type='button'
+          type='submit'
           onClick={handleDeleteMovie}
         />
       )}

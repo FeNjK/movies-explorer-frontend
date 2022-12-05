@@ -41,12 +41,11 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
 
   function handleShowMoreMovies() {
     setQuantityMovies((movies) => movies + step);
-
     /* console.log(movies.length);
     console.log(quantityMovies); */
   }
 
-  let moviesRoute = (location.pathname === '/movies');
+  let moviesRoute = location.pathname === '/movies';
 
   let visibleButtonMore =
     'movies-library__button-more movies-library__button-more_visible app__buttons';
@@ -55,7 +54,11 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
   if (moviesRoute) {
     return (
       <section className='movies-library'>
-        <ul className='movies-library__card-list'>
+        <ul
+          className={`movies-library__card-list ${
+            movies.length < 2 ? 'movies-library__card-list_sticky' : ''
+          }`}
+        >
           {movies.slice(0, quantityMovies).map((movie) => {
             return (
               <MoviesCard
@@ -84,12 +87,16 @@ function MoviesCardList({ movies, savedMovies, onMovieDelete, onMovieSave }) {
   } else {
     return (
       <section className='movies-library'>
-        <ul className='movies-library__card-list'>
+        <ul
+          className={`movies-library__card-list ${
+            savedMovies.length < 2 ? 'movies-library__card-list_sticky' : ''
+          }`}
+        >
           {savedMovies.map((movie) => {
             return (
               <MoviesCard
                 movie={movie}
-                key={movie.id || movie.movieId}
+                key={moviesRoute ? movie.id : movie.movieId}
                 savedMovies={savedMovies}
                 onMovieSave={onMovieSave}
                 onMovieDelete={onMovieDelete}
