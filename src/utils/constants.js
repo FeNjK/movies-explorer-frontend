@@ -1,8 +1,8 @@
-const VALID_NAME = '[A-Za-zА-Яа-яЁё]+$';
-const VALID_PASSWORD = '^[a-zA-Z0-9]{6,40}$';
+const VALID_NAME = "[A-Za-zА-Яа-яЁё]+$";
+const VALID_PASSWORD = "^[a-zA-Z0-9]{6,40}$";
 // const VALID_EMAIL = '([A-Za-z0-9.-])+\@([a-zA-Z0-9-]{1,63})(\.([A-Za-z]{2,6}))+';
-// eslint-disable-next-line no-useless-escape
-const VALID_EMAIL = '[a-zA-Z0-9!#$%&*+/=?^_{|}~-]+(?:\.[a-zA-Z0-9!#$%&*+/=?^_{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?';
+const VALID_EMAIL =
+  "[-a-z0-9!#$%&' * +/=?^_`{|}~]+(?:\\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\\.)*(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])";
 
 const INDICATOR_OF_SHORT_MOVIE = 40;
 
