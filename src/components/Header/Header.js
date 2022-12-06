@@ -2,12 +2,9 @@ import './Header.css';
 import Logo from '../Logo/Logo';
 import Navigation from '../Navigation/Navigation';
 import { Link, useLocation } from 'react-router-dom';
-/* import { useEffect, useState } from 'react'; */
 
 function Header({ isLoggedIn, onMobileMenu, authorizationEmail }) {
   const location = useLocation();
-  /* const [requestAddress, setRequestAddress] = useState(JSON.parse(localStorage.getItem('lastLocation')) || '')
-  const lastLocation = location.pathname; */
 
   return (
     <header className='header'>

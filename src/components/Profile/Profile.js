@@ -59,7 +59,6 @@ function Profile({
             className='profile__form'
             onSubmit={handleSubmit}
             noValidate
-            /* autoComplete='off' */
           >
             <span className='profile__placeholder profile__placeholder-position_first'>
               Имя

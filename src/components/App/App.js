@@ -57,16 +57,14 @@ function App() {
   const allowedLocation = location.pathname;
 
   async function handleUserDataCheck() {
-    if (!isLoggedIn) {
-      return;
-    }
     await mainApi
       .getUserInfo()
       .then((userData) => {
         setCurrentUser(userData);
+        setIsLoggedIn(true);
         setAuthorizationEmail(userData.email);
         localStorage.setItem('userData', JSON.stringify(userData));
-        /* navigate(allowedLocation); */
+        navigate(allowedLocation);
       })
       .catch((err) => {
         console.log(`Ошибка при получении пользовательских данных ${err}`);
@@ -78,7 +76,6 @@ function App() {
       .then((savedMovies) => {
         setSavedMovies(savedMovies);
         localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
-        /* navigate(allowedLocation); */
       })
       .catch((err) => {
         console.log(`Ошибка при получении массива сохранённых фильмов ${err}`);
@@ -86,16 +83,9 @@ function App() {
       });
   }
 
-  /* useEffect(() => {
-    handleUserDataCheck();
-  }, []); */
-
   useEffect(() => {
-    if (isLoggedIn) {
-      handleUserDataCheck();
-      navigate(allowedLocation);
-    }
-  }, [isLoggedIn, navigate, allowedLocation]);
+    handleUserDataCheck();
+  }, []);
 
   function handleLogin(data) {
     mainApi
@@ -183,14 +173,14 @@ function App() {
         i.movieId ===
         (location.pathname === '/movies' ? movie.id : movie.movieId)
     );
-    console.log(movie.id || movie.movieId);
+    /* console.log(movie.id || movie.movieId); */
     mainApi
       .deleteMovies(location.pathname === '/movies' ? movie.id : movie.movieId)
       .then(() => {
         const updateSavedMovie = savedMovies.filter(
           (c) => c.movieId !== savedMovie.movieId
         );
-        console.log(savedMovie.movieId);
+        /* console.log(savedMovie.movieId); */
         setSavedMovies(updateSavedMovie);
         localStorage.setItem('savedMovies', JSON.stringify(updateSavedMovie));
       })
