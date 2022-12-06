@@ -84,7 +84,9 @@ function App() {
   }
 
   useEffect(() => {
-    handleUserDataCheck();
+    if (localStorage.isLoggedIn === JSON.stringify(true)) {
+      handleUserDataCheck();
+    }
   }, []);
 
   function handleLogin(data) {
@@ -95,11 +97,13 @@ function App() {
         handleInfoToolTipMessage();
         handleUserDataCheck();
         setAuthorizationEmail(data.email);
+        localStorage.setItem('isLoggedIn', true);
         navigate('/movies');
       })
       .catch((err) => {
         console.log(`Ошибка при авторизации пользователя ${err}`);
         handleInfoToolTipMessage();
+        localStorage.setItem('isLoggedIn', false);
         navigate('/signin');
       });
   }
@@ -173,14 +177,12 @@ function App() {
         i.movieId ===
         (location.pathname === '/movies' ? movie.id : movie.movieId)
     );
-    /* console.log(movie.id || movie.movieId); */
     mainApi
       .deleteMovies(location.pathname === '/movies' ? movie.id : movie.movieId)
       .then(() => {
         const updateSavedMovie = savedMovies.filter(
           (c) => c.movieId !== savedMovie.movieId
         );
-        /* console.log(savedMovie.movieId); */
         setSavedMovies(updateSavedMovie);
         localStorage.setItem('savedMovies', JSON.stringify(updateSavedMovie));
       })
@@ -346,7 +348,7 @@ function App() {
               <Main
                 isLoggedIn={isLoggedIn}
                 onMobileMenu={handleMobileMenuClick}
-                authorizationEmail={authorizationEmail}
+                authorizationEmail={currentUser.email}
               />
             }
           />
@@ -383,7 +385,7 @@ function App() {
                 <ProtectedRoute isLoggedIn={isLoggedIn}>
                   <Movies
                     onMobileMenu={handleMobileMenuClick}
-                    authorizationEmail={authorizationEmail}
+                    authorizationEmail={currentUser.email}
                     isLoggedIn={isLoggedIn}
                     isLoading={isLoading}
                     notFoundError={notFoundError}
@@ -412,7 +414,7 @@ function App() {
                 <ProtectedRoute isLoggedIn={isLoggedIn}>
                   <SavedMovies
                     onMobileMenu={handleMobileMenuClick}
-                    authorizationEmail={authorizationEmail}
+                    authorizationEmail={currentUser.email}
                     isLoggedIn={isLoggedIn}
                     isLoading={isLoading}
                     notFoundError={notFoundError}
@@ -440,7 +442,6 @@ function App() {
                 <ProtectedRoute isLoggedIn={isLoggedIn}>
                   <Profile
                     onMobileMenu={handleMobileMenuClick}
-                    authorizationEmail={authorizationEmail}
                     isSignOut={handleSignOut}
                     isLoggedIn={isLoggedIn}
                     editUser={handleUpdateUser}
@@ -456,7 +457,7 @@ function App() {
         <MobileMenu
           isOpen={isMobileMenuOpen}
           onClose={closeAllPopups}
-          authorizationEmail={authorizationEmail}
+          authorizationEmail={currentUser.email}
         />
         <InfoTooltip
           isOpen={infoToolTipMessage}

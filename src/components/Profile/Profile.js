@@ -10,7 +10,6 @@ function Profile({
   isSignOut,
   editUser,
   onMobileMenu,
-  authorizationEmail,
 }) {
   const currentUser = useContext(CurrentUserContext);
   const {
@@ -50,7 +49,7 @@ function Profile({
       <Header
         isLoggedIn={isLoggedIn}
         onMobileMenu={onMobileMenu}
-        authorizationEmail={authorizationEmail}
+        authorizationEmail={currentUser.email}
       />
       <main className='profile'>
         <div className='profile__conteiner'>

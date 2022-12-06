@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 function Navigation({ onMobileMenu, authorizationEmail }) {
   const [width, setWidth] = useState(window.innerWidth);
 
-  const breakpoint = 1023;
+  const breakpoint = 800;
 
   useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
