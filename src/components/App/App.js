@@ -451,9 +451,6 @@ function App() {
               )
             }
           />
-          {/* <Route>
-            {!isLoggedIn ? <Navigate to='/sign-in' /> : <Navigate to={allowedLocation} />}
-          </Route> */}
           <Route path='*' element={<PageNotFound />} />
         </Routes>
         <MobileMenu

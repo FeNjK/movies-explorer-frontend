@@ -46,7 +46,6 @@ function Register({ onRegister }) {
             pattern={VALID_NAME}
             value={name || ''}
             onChange={handleChange}
-            /* autoComplete='off' */
           />
           <span className='register__input-error register__input-error_first'>
             {errors.name}
@@ -62,7 +61,6 @@ function Register({ onRegister }) {
             pattern={VALID_EMAIL}
             value={email || ''}
             onChange={handleChange}
-            /* autoComplete='off' */
           />
           <span className='register__input-error register__input-error_second'>
             {errors.email || ''}
