@@ -1,10 +1,7 @@
 import luckImage from '../../images/luck.jpg';
 import unLuckImage from '../../images/failure.jpg';
-import { useLocation } from 'react-router-dom';
 
-function InfoTooltip({ isOpen, onClose, isRegistrationGood }) {
-  const location = useLocation();
-
+function InfoTooltip({ isOpen, onClose, isStatusGood, messageToUser }) {
   return (
     <div
       className={`app__popup app__popup-animation ${
@@ -21,23 +18,9 @@ function InfoTooltip({ isOpen, onClose, isRegistrationGood }) {
         <img
           className='app__popup-registration-result'
           alt='Индикатор состояния регистрации'
-          src={isRegistrationGood ? luckImage : unLuckImage}
+          src={isStatusGood ? luckImage : unLuckImage}
         />
-        <h3 className='app__popup-registration-message'>
-          {(location.pathname === '/signup') &&
-            (isRegistrationGood
-              ? 'Регистрация прошла успешно!'
-              : 'Что-то пошло не так! Попробуйте ещё раз.')}
-          {(location.pathname === '/movies' ||
-            location.pathname === '/signin') &&
-            (isRegistrationGood
-              ? 'Вы успешно авторизованы!'
-              : 'Что-то пошло не так! Попробуйте ещё раз.')}
-          {location.pathname === '/profile' &&
-            (isRegistrationGood
-              ? 'Ваши данные успешно обновлены!'
-              : 'Что-то пошло не так! Попробуйте ещё раз.')}
-        </h3>
+        <h3 className='app__popup-registration-message'>{messageToUser}</h3>
       </div>
     </div>
   );

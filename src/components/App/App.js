@@ -24,6 +24,8 @@ import { INDICATOR_OF_SHORT_MOVIE } from '../../utils/constants';
 import './App.css';
 
 function App() {
+  
+  // данные и их обработка
   const [currentUser, setCurrentUser] = useState({
     name: '',
     email: '',
@@ -38,7 +40,6 @@ function App() {
     useState(
       JSON.parse(localStorage.getItem('searchableTextOnSavedMovies')) || ''
     );
-  const [notFoundError, setNotFoundError] = useState('');
   const [checkedCheckbox, setCheckedCheckbox] = useState(
     JSON.parse(localStorage.getItem('checkedCheckbox')) || false
   );
@@ -46,23 +47,29 @@ function App() {
     JSON.parse(localStorage.getItem('checkedCheckboxSavedMovies')) || false
   );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  // представление данных и интерфейс
   const [isLoading, setIsLoading] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // обработка ошибок
+  const [notFoundError, setNotFoundError] = useState('');
   const [infoToolTipMessage, setInfoToolTipMessage] = useState(false);
-  const [authorizationEmail, setAuthorizationEmail] = useState('');
-  const [registration, setRegistration] = useState(null);
+  const [messageToUser, setMessageToUser] = useState('');
+  const [allGoodStatus, setAllGoodStatus] = useState(false);
 
+  // навигация
   const navigate = useNavigate();
   const location = useLocation();
   const allowedLocation = location.pathname;
 
+  // функционал приложения
   async function handleUserDataCheck() {
     await mainApi
       .getUserInfo()
       .then((userData) => {
-        setCurrentUser(userData);
         setIsLoggedIn(true);
-        setAuthorizationEmail(userData.email);
+        setCurrentUser(userData);
         localStorage.setItem('userData', JSON.stringify(userData));
         navigate(allowedLocation);
       })
@@ -94,15 +101,22 @@ function App() {
       .login(data)
       .then(() => {
         setIsLoggedIn(true);
-        handleInfoToolTipMessage();
         handleUserDataCheck();
-        setAuthorizationEmail(data.email);
+        setCurrentUser(data.email);
         localStorage.setItem('isLoggedIn', true);
         navigate('/movies');
       })
       .catch((err) => {
-        console.log(`Ошибка при авторизации пользователя ${err}`);
+        setIsLoggedIn(false);
+        setAllGoodStatus(false);
         handleInfoToolTipMessage();
+        if (err.message.includes('401')) {
+          setMessageToUser(
+            `${err}. Проверьте правильность введённых вами данных.`
+          );
+        } else {
+          setMessageToUser(`${err}. Ошибка при авторизации пользователя.`);
+        }
         localStorage.setItem('isLoggedIn', false);
         navigate('/signin');
       });
@@ -112,28 +126,71 @@ function App() {
     mainApi
       .register(data)
       .then(() => {
-        setRegistration(true);
-        handleInfoToolTipMessage();
-        navigate('/movies');
+        handleLogin(data)
       })
       .catch((err) => {
-        console.log(`Ошибка при регистрации пользователя ${err}`);
-        setRegistration(false);
+        setIsLoggedIn(false);
+        setAllGoodStatus(false);
         handleInfoToolTipMessage();
+        if (err.message.includes('409')) {
+          setMessageToUser(
+            `${err}. Пользователь с таким email уже существует.`
+          );
+        } else {
+          setMessageToUser(`${err}. Ошибка при регистрации пользователя.`);
+        }
+        localStorage.setItem('isLoggedIn', false);
         navigate('/signup');
       });
   }
 
+  function handleSignOut() {
+    setIsLoading(true);
+    mainApi
+      .signout()
+      .then(() => {
+        localStorage.clear();
+        setIsLoggedIn(false);
+        setCurrentUser({});
+        setMovies([]);
+        setSavedMovies([]);
+        setSearchableText('');
+        setCheckedCheckbox(false);
+        setSearchableTextOnSavedMovies('');
+        setCheckedCheckboxSavedMovies(false);
+        setInfoToolTipMessage(false);
+        setMessageToUser('');
+        setAllGoodStatus(false);
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log(`Возникла ошибка при очистке данных ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+  
   function handleUpdateUser(userData) {
     mainApi
       .editUserInfo(userData)
       .then((newUserData) => {
+        handleUserDataCheck();
         setCurrentUser(newUserData);
+        setAllGoodStatus(true);
         handleInfoToolTipMessage();
+        setMessageToUser(`Ваши учетные данные успешно обновлены.`);
       })
       .catch((err) => {
-        console.log(`Ошибка с обновлением пользовательских данных ${err}`);
+        setAllGoodStatus(false);
         handleInfoToolTipMessage();
+        if (err.message.includes('409')) {
+          setMessageToUser(
+            `${err}. Пользователь с таким email уже существует.`
+          );
+        } else {
+          setMessageToUser(`${err}. Ошибка при обновлении учётных данных.`);
+        }
       });
   }
 
@@ -167,7 +224,7 @@ function App() {
         );
       })
       .catch((err) => {
-        console.log(`Ошибка с сохранением фильма ${err}`);
+        console.log(`Ошибка при сохранении фильма ${err}`);
       });
   }
 
@@ -187,7 +244,7 @@ function App() {
         localStorage.setItem('savedMovies', JSON.stringify(updateSavedMovie));
       })
       .catch((err) => {
-        console.log(`Ошибка с удалением фильма ${err}`);
+        console.log(`Ошибка при удалениеи фильма ${err}`);
       });
   }
 
@@ -299,30 +356,6 @@ function App() {
     }
   }, [checkedCheckboxSavedMovies]);
 
-  function handleSignOut() {
-    setIsLoading(true);
-    mainApi
-      .signout()
-      .then(() => {
-        setIsLoggedIn(false);
-        setCurrentUser({});
-        setMovies([]);
-        setSavedMovies([]);
-        setSearchableText('');
-        setCheckedCheckbox(false);
-        setSearchableTextOnSavedMovies('');
-        setCheckedCheckboxSavedMovies(false);
-        localStorage.clear();
-        navigate('/');
-      })
-      .catch((err) => {
-        console.log(`Возникла ошибка при очистке данных ${err}`);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }
-
   function handleMobileMenuClick() {
     setMobileMenuOpen(true);
   }
@@ -401,7 +434,7 @@ function App() {
                   />
                 </ProtectedRoute>
               ) : (
-                <Navigate to='/signin' />
+                <Navigate to='/' />
               )
             }
           />
@@ -429,7 +462,7 @@ function App() {
                   />
                 </ProtectedRoute>
               ) : (
-                <Navigate to='/signin' />
+                <Navigate to='/' />
               )
             }
           />
@@ -448,7 +481,7 @@ function App() {
                   />
                 </ProtectedRoute>
               ) : (
-                <Navigate to='/signin' />
+                <Navigate to='/' />
               )
             }
           />
@@ -462,7 +495,8 @@ function App() {
         <InfoTooltip
           isOpen={infoToolTipMessage}
           onClose={closeAllPopups}
-          isRegistrationGood={registration || authorizationEmail}
+          isStatusGood={allGoodStatus}
+          messageToUser={messageToUser}
         />
       </div>
     </CurrentUserContext.Provider>
