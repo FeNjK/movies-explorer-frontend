@@ -114,9 +114,9 @@ function App() {
             `${err}. Проверьте правильность введённых вами данных.`
           );
         } else {
-          setMessageToUser(`${err}. Ошибка при авторизации пользователя.`);
+          handleSignOut();
+          console.log(`${err}. Ошибка при авторизации пользователя.`);
         }
-        handleSignOut();
         navigate('/signin');
       });
   }
@@ -136,15 +136,14 @@ function App() {
             `${err}. Пользователь с таким email уже существует.`
           );
         } else {
-          setMessageToUser(`${err}. Ошибка при регистрации пользователя.`);
+          handleSignOut();
+          console.log(`${err}. Ошибка при регистрации пользователя.`);
         }
-        handleSignOut();
         navigate('/signup');
       });
   }
 
   function handleSignOut() {
-    console.log(handleSignOut())
     setIsLoading(true);
     mainApi
       .signout()
@@ -164,8 +163,7 @@ function App() {
         navigate('/');
       })
       .catch((err) => {
-        console.log(handleSignOut())
-        console.log(`Повреждены или отсутствуют куки ${err}`);
+        console.log(`Повреждены или отсутствуют куки. ${err}`);
         navigate('/');
       })
       .finally(() => {
@@ -190,15 +188,9 @@ function App() {
           setMessageToUser(
             `${err}. Пользователь с таким email уже существует.`
           );
-        } else if (err.message.includes('401')) {
-          setMessageToUser(
-            `${err}. Вы не авторизованы.`
-          );
-          handleSignOut();
-          console.log(handleSignOut())
         } else {
-          setMessageToUser(`${err}. Ошибка при обновлении учётных данных.`);
           handleSignOut();
+          console.log(`${err} Ошибка при редактировании данных пользователя.`);
         }
       });
   }
@@ -214,6 +206,7 @@ function App() {
       .catch((err) => {
         if (err.message.includes('401')) {
           handleSignOut();
+          console.log(`Проблемы с авторизацией при получении списка фильмов. ${err}`);
         } else {
           console.log(`Ошибка с получением списка фильмов ${err}`);
           setNotFoundError(
@@ -240,6 +233,7 @@ function App() {
       .catch((err) => {
         if (err.message.includes('401')) {
           handleSignOut();
+          console.log(`Проблемы с авторизацией при попытке сохранения фильма. ${err}`);
         } else {
           setAllGoodStatus(false);
           handleInfoToolTipMessage();
@@ -266,6 +260,7 @@ function App() {
       .catch((err) => {
         if (err.message.includes('401')) {
           handleSignOut();
+          console.log(`Проблемы с авторизацией при попытке удаления фильма. ${err}`);
         } else {
           setAllGoodStatus(false);
           handleInfoToolTipMessage();
