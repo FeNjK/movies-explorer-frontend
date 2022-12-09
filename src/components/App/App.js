@@ -24,7 +24,6 @@ import { INDICATOR_OF_SHORT_MOVIE } from '../../utils/constants';
 import './App.css';
 
 function App() {
-  
   // данные и их обработка
   const [currentUser, setCurrentUser] = useState({
     name: '',
@@ -47,11 +46,11 @@ function App() {
     JSON.parse(localStorage.getItem('checkedCheckboxSavedMovies')) || false
   );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+
   // представление данных и интерфейс
   const [isLoading, setIsLoading] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+
   // обработка ошибок
   const [notFoundError, setNotFoundError] = useState('');
   const [infoToolTipMessage, setInfoToolTipMessage] = useState(false);
@@ -75,7 +74,7 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка при получении пользовательских данных ${err}`);
-        localStorage.clear();
+        handleSignOut();
       });
 
     await mainApi
@@ -86,7 +85,7 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка при получении массива сохранённых фильмов ${err}`);
-        localStorage.clear();
+        handleSignOut();
       });
   }
 
@@ -117,7 +116,7 @@ function App() {
         } else {
           setMessageToUser(`${err}. Ошибка при авторизации пользователя.`);
         }
-        localStorage.setItem('isLoggedIn', false);
+        handleSignOut();
         navigate('/signin');
       });
   }
@@ -126,7 +125,7 @@ function App() {
     mainApi
       .register(data)
       .then(() => {
-        handleLogin(data)
+        handleLogin(data);
       })
       .catch((err) => {
         setIsLoggedIn(false);
@@ -139,12 +138,13 @@ function App() {
         } else {
           setMessageToUser(`${err}. Ошибка при регистрации пользователя.`);
         }
-        localStorage.setItem('isLoggedIn', false);
+        handleSignOut();
         navigate('/signup');
       });
   }
 
   function handleSignOut() {
+    console.log(handleSignOut())
     setIsLoading(true);
     mainApi
       .signout()
@@ -164,13 +164,15 @@ function App() {
         navigate('/');
       })
       .catch((err) => {
-        console.log(`Возникла ошибка при очистке данных ${err}`);
+        console.log(handleSignOut())
+        console.log(`Повреждены или отсутствуют куки ${err}`);
+        navigate('/');
       })
       .finally(() => {
         setIsLoading(false);
       });
   }
-  
+
   function handleUpdateUser(userData) {
     mainApi
       .editUserInfo(userData)
@@ -188,8 +190,15 @@ function App() {
           setMessageToUser(
             `${err}. Пользователь с таким email уже существует.`
           );
+        } else if (err.message.includes('401')) {
+          setMessageToUser(
+            `${err}. Вы не авторизованы.`
+          );
+          handleSignOut();
+          console.log(handleSignOut())
         } else {
           setMessageToUser(`${err}. Ошибка при обновлении учётных данных.`);
+          handleSignOut();
         }
       });
   }
@@ -203,10 +212,15 @@ function App() {
         localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies));
       })
       .catch((err) => {
-        console.log(`Ошибка с получением списка фильмов ${err}`);
-        setNotFoundError(
-          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
-        );
+        if (err.message.includes('401')) {
+          handleSignOut();
+        } else {
+          console.log(`Ошибка с получением списка фильмов ${err}`);
+          setNotFoundError(
+            'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
+          );
+        }
+        navigate('/signin');
       })
       .finally(() => {
         setIsLoading(false);
@@ -224,7 +238,13 @@ function App() {
         );
       })
       .catch((err) => {
-        console.log(`Ошибка при сохранении фильма ${err}`);
+        if (err.message.includes('401')) {
+          handleSignOut();
+        } else {
+          setAllGoodStatus(false);
+          handleInfoToolTipMessage();
+          setMessageToUser(`${err}. Ошибка при сохранении фильма.`);
+        }
       });
   }
 
@@ -244,7 +264,13 @@ function App() {
         localStorage.setItem('savedMovies', JSON.stringify(updateSavedMovie));
       })
       .catch((err) => {
-        console.log(`Ошибка при удалениеи фильма ${err}`);
+        if (err.message.includes('401')) {
+          handleSignOut();
+        } else {
+          setAllGoodStatus(false);
+          handleInfoToolTipMessage();
+          setMessageToUser(`${err}. Ошибка при удалениеи фильма.`);
+        }
       });
   }
 
@@ -355,6 +381,14 @@ function App() {
       setSavedMovies(filterResultOfSavedMovies);
     }
   }, [checkedCheckboxSavedMovies]);
+
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')) || []);
+      setSearchableTextOnSavedMovies('');
+      setCheckedCheckboxSavedMovies(false);
+    }
+  }, [location]);
 
   function handleMobileMenuClick() {
     setMobileMenuOpen(true);
