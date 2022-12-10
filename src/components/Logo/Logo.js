@@ -6,26 +6,17 @@ function Logo() {
 
   return (
     <>
-      {location.pathname === '/' && (
-      <Link to='/' className='logo logo_top app__buttons' /> 
+      {(location.pathname === '/' ||
+        location.pathname === '/movies' ||
+        location.pathname === '/saved-movies' ||
+        location.pathname === '/profile') && (
+        <Link to='/' className='logo logo_top app__buttons' />
       )}
-      {location.pathname === '/movies' && (
-      <Link to='/' className='logo logo_top app__buttons' /> 
-      )}
-      {location.pathname === '/saved-movies' && (
-      <Link to='/' className='logo logo_top app__buttons' /> 
-      )}
-      {location.pathname === '/profile' && (
-      <Link to='/' className='logo logo_top app__buttons' /> 
-      )}
-      {location.pathname === '/sign-up' && (
-      <Link to='/' className='logo logo_center app__buttons' /> 
-      )}
-      {location.pathname === '/sign-in' && (
-      <Link to='/' className='logo logo_center app__buttons' /> 
+      {(location.pathname === '/signup' || location.pathname === '/signin') && (
+        <Link to='/' className='logo logo_center app__buttons' />
       )}
     </>
-  )
+  );
 }
 
 export default Logo;

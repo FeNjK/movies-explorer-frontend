@@ -37,6 +37,7 @@
 .app__buttons:hover {
   box-shadow: 0 0 20px #3DDC84;
   background-color: #3DDC84;
+  cursor: pointer;
 }
 
 .app__popup {
@@ -78,6 +79,31 @@
   padding: 0;
 }
 
+.app__popup-center-content {
+  max-width: 394px;
+  min-height: 282px;
+  width: 100%;
+  background-color: #fff;
+  color: #000;
+  position: relative;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, .15);
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  margin: auto;
+  padding: 0;
+}
+
+@media screen and (max-width: 700px) {
+  .app__popup-center-content {
+    max-width: 280px;
+    min-height: 360px;
+  }
+}
+
 .app__popup-close-button {
   height: 22px;
   width: 22px;
@@ -94,6 +120,11 @@
   position: absolute;
   top: 33px;
   right: 29px;
+}
+
+.app__popup-close-button_up {
+  top: -33px;
+  right: 0;
 }
 
 .app__popup-navigation {
@@ -183,3 +214,38 @@
   object-position: center;
 }
 
+.app__popup-registration-result {
+  margin: 60px 137px 32px;
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+@media screen and (max-width: 700px) {
+  .app__popup-registration-result {
+    margin: 70px 80px;
+  }
+}
+
+.app__popup-registration-message {
+  max-width: 300px;
+  text-align: center;
+  margin: 0 auto 60px;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.21;
+}
+
+@media screen and (max-width: 700px) {
+  .app__popup-registration-message {
+    font-size: 20px;
+    line-height: 1.2;
+    margin: 0 auto 50px;
+  }
+}

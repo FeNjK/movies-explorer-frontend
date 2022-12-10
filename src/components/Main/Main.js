@@ -7,10 +7,10 @@ import Techs from './Techs/Techs';
 import AboutMe from './AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
 
-function Main({ isLoggedIn, onMobileMenu }) {
+function Main({ isLoggedIn, onMobileMenu, authorizationEmail}) {
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} onMobileMenu={onMobileMenu} />
+      <Header isLoggedIn={isLoggedIn} onMobileMenu={onMobileMenu} authorizationEmail={authorizationEmail}/>
       <main className='main'>
         <Promo />
         <AboutProject />

@@ -14,8 +14,20 @@
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 650px) {
   .saved-movies {
     padding: 74px 10px;
   }
+}
+
+.saved-movies__not-found-error {
+  width: 100%;
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 500;
+  text-align: center;
+  color: #8b8b8b;
+  margin: 0;
+  padding: 30px 0;
+  border-bottom: 1px solid #424242;
 }

@@ -1,7 +1,7 @@
 import accountImg from '../../images/Значек аккаунта.svg';
 import { NavLink } from 'react-router-dom';
 
-function MobileMenu({ isOpen, onClose }) {
+function MobileMenu({ isOpen, onClose, authorizationEmail }) {
   let activeMoviesLink =
     'app__popup-navigation-link app__popup-navigation-link_active app__links';
   let activeProfileLink =
@@ -15,7 +15,7 @@ function MobileMenu({ isOpen, onClose }) {
     >
       <div className='app__popup-content'>
         <button
-          className='app__popup-close-button app__popup-close-button_window-мobile-мenu'
+          className='app__popup-close-button /* app__popup-close-button_window-мobile-мenu */'
           type='button'
           title='Закрыть окно'
           onClick={onClose}
@@ -26,9 +26,7 @@ function MobileMenu({ isOpen, onClose }) {
               <NavLink
                 to='/'
                 className={({ isActive }) =>
-                  isActive
-                    ? activeMoviesLink
-                    : 'app__popup-navigation-link app__links'
+                  isActive ? activeMoviesLink : 'app__popup-navigation-link app__links'
                 }
                 end
               >
@@ -39,9 +37,7 @@ function MobileMenu({ isOpen, onClose }) {
               <NavLink
                 to='/movies'
                 className={({ isActive }) =>
-                  isActive
-                    ? activeMoviesLink
-                    : 'app__popup-navigation-link app__links'
+                  isActive ? activeMoviesLink : 'app__popup-navigation-link app__links'
                 }
                 end
               >
@@ -52,9 +48,7 @@ function MobileMenu({ isOpen, onClose }) {
               <NavLink
                 to='/saved-movies'
                 className={({ isActive }) =>
-                  isActive
-                    ? activeMoviesLink
-                    : 'app__popup-navigation-link app__links'
+                  isActive ? activeMoviesLink : 'app__popup-navigation-link app__links'
                 }
                 end
               >
@@ -66,13 +60,11 @@ function MobileMenu({ isOpen, onClose }) {
             <NavLink
               to='/profile'
               className={({ isActive }) =>
-                isActive
-                  ? activeProfileLink
-                  : 'app__popup-navigation-profile-link app__links'
+                isActive ? activeProfileLink : 'app__popup-navigation-profile-link app__links'
               }
               end
             >
-              Аккаунт
+              {authorizationEmail}
               <div className='app__popup-navigation-profile-image-blok'>
                 <img
                   className='app__popup-navigation-profile-image'

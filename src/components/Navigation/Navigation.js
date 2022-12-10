@@ -3,21 +3,23 @@ import accountImg from '../../images/Значек аккаунта.svg';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-function Navigation({ onMobileMenu }) {
+function Navigation({ onMobileMenu, authorizationEmail }) {
   const [width, setWidth] = useState(window.innerWidth);
 
-  const breakpoint = 1023;
-  
+  const breakpoint = 800;
+
   useEffect(() => {
-   const handleResizeWindow = () => setWidth(window.innerWidth);
+    const handleResizeWindow = () => setWidth(window.innerWidth);
     window.addEventListener('resize', handleResizeWindow);
     return () => {
       window.removeEventListener('resize', handleResizeWindow);
     };
   }, []);
 
-  let activeMoviesLink = 'navigation__link navigation__link_active app__links';
-  let activeProfileLink = 'navigation__profile-link navigation__link_active app__links';
+  let activeMoviesLink =
+    'navigation__link navigation__link_active app__links';
+  let activeProfileLink =
+    'navigation__profile-link navigation__link_active app__links';
 
   if (width > breakpoint) {
     return (
@@ -29,7 +31,8 @@ function Navigation({ onMobileMenu }) {
               className={({ isActive }) =>
                 isActive ? activeMoviesLink : 'navigation__link app__links'
               }
-            end>
+              end
+            >
               Фильмы
             </NavLink>
           </li>
@@ -39,7 +42,8 @@ function Navigation({ onMobileMenu }) {
               className={({ isActive }) =>
                 isActive ? activeMoviesLink : 'navigation__link app__links'
               }
-            end>
+              end
+            >
               Сохранённые фильмы
             </NavLink>
           </li>
@@ -49,8 +53,9 @@ function Navigation({ onMobileMenu }) {
               className={({ isActive }) =>
                 isActive ? activeProfileLink : 'navigation__profile-link app__links'
               }
-            end>
-              Аккаунт
+              end
+            >
+              {authorizationEmail}
               <div className='navigation__profile-image-blok'>
                 <img
                   className='navigation__profile-image'
@@ -73,7 +78,6 @@ function Navigation({ onMobileMenu }) {
       />
     );
   }
-    
 }
 
 export default Navigation;
