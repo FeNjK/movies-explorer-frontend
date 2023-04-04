@@ -198,10 +198,10 @@ function App() {
   async function handleGetMovies() {
     setIsLoading(true);
     await moviesApi
-      .getBeatfilmMovies()
-      .then((beatfilmMovies) => {
-        setMovies(beatfilmMovies);
-        localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies));
+      .getBeautyFilmMovies()
+      .then((beautyFilmMovies) => {
+        setMovies(beautyFilmMovies);
+        localStorage.setItem('beautyFilmMovies', JSON.stringify(beautyFilmMovies));
       })
       .catch((err) => {
         if (err.message.includes('401')) {
@@ -264,7 +264,7 @@ function App() {
         } else {
           setAllGoodStatus(false);
           handleInfoToolTipMessage();
-          setMessageToUser(`${err}. Ошибка при удалениеи фильма.`);
+          setMessageToUser(`${err}. Ошибка при удалении фильма.`);
         }
       });
   }
@@ -277,8 +277,8 @@ function App() {
     setSearchableTextOnSavedMovies(e.target.value);
   }
 
-  function handlerFilter(beatfilmMovies) {
-    return beatfilmMovies.filter((movie) => {
+  function handlerFilter(beautyFilmMovies) {
+    return beautyFilmMovies.filter((movie) => {
       if (checkedCheckbox && movie.duration > INDICATOR_OF_SHORT_MOVIE) {
         return false;
       }
@@ -314,11 +314,11 @@ function App() {
       return;
     } else {
       setIsLoading(true);
-      if (JSON.parse(localStorage.getItem('beatfilmMovies')) === null) {
+      if (JSON.parse(localStorage.getItem('beautyFilmMovies')) === null) {
         await handleGetMovies();
       }
-      const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
-      const searchedFilms = handlerFilter(beatfilmMovies);
+      const beautyFilmMovies = JSON.parse(localStorage.getItem('beautyFilmMovies'));
+      const searchedFilms = handlerFilter(beautyFilmMovies);
       localStorage.setItem('searchableText', JSON.stringify(searchableText));
       localStorage.setItem('checkedCheckbox', checkedCheckbox);
       if (searchedFilms.length === 0) {
@@ -362,9 +362,9 @@ function App() {
   }
 
   useEffect(() => {
-    const beatfilmMovies = JSON.parse(localStorage.getItem('beatfilmMovies'));
-    if (beatfilmMovies !== null) {
-      const filterResult = handlerFilter(beatfilmMovies);
+    const beautyFilmMovies = JSON.parse(localStorage.getItem('beautyFilmMovies'));
+    if (beautyFilmMovies !== null) {
+      const filterResult = handlerFilter(beautyFilmMovies);
       setMovies(filterResult);
     }
   }, [checkedCheckbox]);

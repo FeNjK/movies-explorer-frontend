@@ -62,7 +62,7 @@
   -o-transition: visibility .4s ease-out, opacity .4s ease-in-out;
 }
 
-.app__popup_activ {
+.app__popup_active {
   visibility: visible;
   opacity: 1;
 }
