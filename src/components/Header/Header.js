@@ -9,7 +9,7 @@ function Header({ isLoggedIn, onMobileMenu, authorizationEmail }) {
   return (
     <header className='header'>
       <Logo />
-      <nav className='header__nav-elemements'>
+      <nav className='header__nav-elements'>
         {!isLoggedIn && location.pathname === '/' && (
           <ul className='header__nav-list'>
             <li className='header__nav-list-item'>

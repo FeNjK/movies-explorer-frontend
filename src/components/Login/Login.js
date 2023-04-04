@@ -26,7 +26,7 @@ function Login({ onLogin }) {
 
   return (
     <div className='login'>
-      <div className='login__conteiner'>
+      <div className='login__container'>
         <Logo />
         <h3 className='login__title'>Рады видеть!</h3>
         <form

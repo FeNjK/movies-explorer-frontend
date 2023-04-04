@@ -3,10 +3,6 @@ import { createRef } from 'react';
 import { Link } from 'react-router-dom';
 
 function NavTab() {
-  // наверное зря я это сделал,
-  // да ещё и с перезагрузкой страницы.
-  // надо будет попробовать плавный скролл
-  // или колбек... И прокинуть через родительский компонент
   let goTo = createRef();
   /* console.log(goTo); */
 
@@ -16,7 +12,7 @@ function NavTab() {
 
   return (
     <nav className='navtab'>
-      <ul className='navtab__link-conteiner'>
+      <ul className='navtab__link-container'>
         <li className='navtab__link app__buttons'>
           <Link
             to='/'
