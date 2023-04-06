@@ -199,8 +199,10 @@
 }
 
 .about-me__my-photo {
+  display: flex;
   max-width: 100%;
   max-height: 100vh;
+  justify-self: center;
   object-fit: cover;
   object-position: center;
   border-radius: 10px;
@@ -261,9 +263,9 @@
 }
 
 .about-me__portfolio-link-blok {
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; */
   padding-bottom: 19px;
   border-bottom: 1px solid #dadada;
   margin: 0 0 19px;
@@ -275,11 +277,21 @@
   }
 }
 
+.about-me__portfolio-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  margin: 0;
+  padding: 5px 5px 0 0;
+}
+
 .about-me__portfolio-link-name {
   text-align: start;
   font-size: 30px;
   line-height: 1.67;
   font-weight: 400;
+  color: #fff;
   letter-spacing: -0.04em;
   margin: 0;
 }
@@ -296,13 +308,6 @@
     font-size: 18px;
     line-height: 1.556;
   }
-}
-
-.about-me__portfolio-link {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 5px 5px 0 0;
 }
 
 .about-me__portfolio-link-image {

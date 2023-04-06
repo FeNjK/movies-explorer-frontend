@@ -8,7 +8,7 @@ function Footer() {
         Учебный проект Яндекс.Практикум х BeatFilm.
       </article>
       <nav className='footer__content'>
-        <p className='footer__copyright-symbol'>&copy; 2022</p>
+        <p className='footer__copyright-symbol'>&copy; 2022 Андрей Коростелев</p>
         <ul className='footer__links'>
           <li className='footer__link'>
             <a
