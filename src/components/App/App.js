@@ -88,7 +88,7 @@ function App() {
         handleSignOut();
       });
   }
-
+  
   useEffect(() => {
     if (localStorage.isLoggedIn === JSON.stringify(true)) {
       handleUserDataCheck();
@@ -163,7 +163,9 @@ function App() {
         navigate('/');
       })
       .catch((err) => {
-        console.log(`Повреждены или отсутствуют куки. ${err}`);
+        setMessageToUser(
+          `${err}. Повреждены или отсутствуют куки. Обратитесь к администратору сайта.`
+        );
         navigate('/');
       })
       .finally(() => {
@@ -283,8 +285,14 @@ function App() {
         return false;
       }
       return (
-        movie.nameRU.toLowerCase().includes(searchableText.toLowerCase()) ||
-        movie.nameEN.toLowerCase().includes(searchableText.toLowerCase())
+        movie
+          .nameRU
+          .toLowerCase()
+          .includes(searchableText.toLowerCase()) ||
+        movie
+          .nameEN
+          .toLowerCase()
+          .includes(searchableText.toLowerCase())
       );
     });
   }
@@ -298,10 +306,12 @@ function App() {
         return false;
       }
       return (
-        savedMovie.nameRU
+        savedMovie
+          .nameRU
           .toLowerCase()
           .includes(searchableTextOnSavedMovies.toLowerCase()) ||
-        savedMovie.nameEN
+        savedMovie
+          .nameEN
           .toLowerCase()
           .includes(searchableTextOnSavedMovies.toLowerCase())
       );

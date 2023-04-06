@@ -1,48 +1,36 @@
 import './NavTab.css';
-import { createRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-scroll';
 
 function NavTab() {
-  // наверное зря я это сделал,
-  // да ещё и с перезагрузкой страницы.
-  // надо будет попробовать плавный скролл
-  // или колбек... И прокинуть через родительский компонент
-  let goTo = createRef();
-  /* console.log(goTo); */
-
-  function handleClick() {
-    goTo.current.focus();
-  }
-
   return (
     <nav className='navtab'>
       <ul className='navtab__link-conteiner'>
         <li className='navtab__link app__buttons'>
           <Link
-            to='/'
             className='navtab__link-address'
-            /* href='#promo' */
-            onClick={handleClick}
+            to='promo'
+            smooth={true}
+            duration={500}
           >
             О проекте
           </Link>
         </li>
         <li className='navtab__link app__buttons'>
           <Link
-            to='/'
             className='navtab__link-address'
-            /* href='#techs' */
-            onClick={handleClick}
+            to='techs'
+            smooth={true}
+            duration={500}
           >
             Технологии
           </Link>
         </li>
         <li className='navtab__link app__buttons'>
-          <Link
-            to='/'
+        <Link
             className='navtab__link-address'
-            /* href='#about-me' */
-            onClick={handleClick}
+            to='about-me'
+            smooth={true}
+            duration={500}
           >
             Студент
           </Link>
