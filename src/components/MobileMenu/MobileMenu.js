@@ -10,7 +10,7 @@ function MobileMenu({ isOpen, onClose, authorizationEmail }) {
   return (
     <div
       className={`app__popup app__popup-animation ${
-        isOpen && 'app__popup_activ'
+        isOpen && 'app__popup_active'
       }`}
     >
       <div className='app__popup-content'>

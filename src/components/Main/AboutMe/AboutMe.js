@@ -50,7 +50,7 @@ function AboutMe() {
         </li>
         <li className='about-me__portfolio-link-blok app__links'>
           <a
-            href='https://fenjk.github.io/russian-travel'
+            href='https://github.com/FeNjK/russian-travel'
             className='about-me__portfolio-link'
             target='_blank'
             rel='noreferrer'
@@ -65,7 +65,7 @@ function AboutMe() {
         </li>
         <li className='about-me__portfolio-link-blok app__links'>
           <a
-            href='https://fenjk.github.io/mesto/'
+            href='https://github.com/FeNjK/mesto'
             className='about-me__portfolio-link'
             target='_blank'
             rel='noreferrer'

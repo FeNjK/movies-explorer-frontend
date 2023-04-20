@@ -161,18 +161,31 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 202px auto 70px;
+  margin: calc(100vh - 500px) 0 70px;
+  padding: 0;
 }
 
 @media screen and (max-width: 1023px) {
   .profile__buttons  {
-    margin: 192px auto 70px;
+    margin: calc(100vh - 600px) 0 70px;
   }
 }
 
 @media screen and (max-width: 700px) {
   .profile__buttons {
-    margin: 360px auto 40px;
+    margin: calc(100vh - 450px) 0 40px;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .profile__buttons {
+    margin-bottom: 60px;
+  }
+}
+
+@media screen and (max-height: 500px) {
+  .profile__buttons {
+    margin: 0;
   }
 }
 

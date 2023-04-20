@@ -9,6 +9,7 @@ import {
 
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
+
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import Login from '../Login/Login.js';
 import Register from '../Register/Register.js';
@@ -200,7 +201,7 @@ function App() {
   async function handleGetMovies() {
     setIsLoading(true);
     await moviesApi
-      .getBeautyFilmMovies()
+      .getBeatfilmMovies()
       .then((beautyFilmMovies) => {
         setMovies(beautyFilmMovies);
         localStorage.setItem('beautyFilmMovies', JSON.stringify(beautyFilmMovies));
@@ -227,10 +228,7 @@ function App() {
       .saveMovies(movie)
       .then((savedMovie) => {
         setSavedMovies([...savedMovies, savedMovie]);
-        localStorage.setItem(
-          'savedMovies',
-          JSON.stringify([...savedMovies, savedMovie])
-        );
+        localStorage.setItem('savedMovies',JSON.stringify([...savedMovies, savedMovie]));
       })
       .catch((err) => {
         if (err.message.includes('401')) {
