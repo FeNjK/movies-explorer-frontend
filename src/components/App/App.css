@@ -170,11 +170,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: calc(100vh - 383px) 0 46px;
+  margin: calc(100vh - 450px) 0 46px;
   padding: 0;
 }
 
-@media screen and (max-height: 400px) {
+@media screen and (max-height: 500px) {
   .app__popup-navigation-profile {
     margin: 0;
   }

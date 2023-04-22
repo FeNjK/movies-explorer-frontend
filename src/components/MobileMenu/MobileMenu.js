@@ -15,7 +15,7 @@ function MobileMenu({ isOpen, onClose, authorizationEmail }) {
     >
       <div className='app__popup-content'>
         <button
-          className='app__popup-close-button /* app__popup-close-button_window-мobile-мenu */'
+          className='app__popup-close-button'
           type='button'
           title='Закрыть окно'
           onClick={onClose}

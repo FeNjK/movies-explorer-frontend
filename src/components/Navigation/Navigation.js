@@ -71,7 +71,7 @@ function Navigation({ onMobileMenu, authorizationEmail }) {
   } else {
     return (
       <button
-        className='navigation__mobile-button app__buttons'
+        className='navigation__mobile-button'
         type='button'
         onClick={onMobileMenu}
         aria-label='Кнопка меню'
