@@ -115,9 +115,9 @@ ___
 ### **Ссылки**
 
 ___
-> Ссылка на сайт с дипломным проектом <a href="https://find-and-save.nomoredomains.icu"><img src="./public/favicon.ico" alt="Site" width="30" height="30" align="center" /></a>
+Ссылка на сайт с дипломным проектом <a href="https://find-and-save.nomoredomains.icu"><img src="./public/favicon.ico" alt="Site" width="30" height="30" align="center" /></a>
 
-> Ссылка на макет моего дипломного проекта. <a href="https://disk.yandex.ru/d/5Ny1TruXQyxovA"><img src="https://user-images.githubusercontent.com/25181517/189715289-df3ee512-6eca-463f-a0f4-c10d94a06b2f.png" alt="Figma" width="30" height="30" align="center" /></a>
+Ссылка на макет моего дипломного проекта. <a href="https://disk.yandex.ru/d/5Ny1TruXQyxovA"><img src="https://user-images.githubusercontent.com/25181517/189715289-df3ee512-6eca-463f-a0f4-c10d94a06b2f.png" alt="Figma" width="30" height="30" align="center" /></a>
 
 >P.S. Отступ от нижней части экрана в мобильном меню
 >у ссылки на страницу данный профиля был умышленно увеличен
