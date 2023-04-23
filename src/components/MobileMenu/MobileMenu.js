@@ -7,6 +7,8 @@ function MobileMenu({ isOpen, onClose, authorizationEmail }) {
   let activeProfileLink =
     'app__popup-navigation-profile-link app__popup-navigation-link_active app__links';
 
+   
+
   return (
     <div
       className={`app__popup app__popup-animation ${
@@ -15,7 +17,7 @@ function MobileMenu({ isOpen, onClose, authorizationEmail }) {
     >
       <div className='app__popup-content'>
         <button
-          className='app__popup-close-button /* app__popup-close-button_window-мobile-мenu */'
+          className='app__popup-close-button'
           type='button'
           title='Закрыть окно'
           onClick={onClose}

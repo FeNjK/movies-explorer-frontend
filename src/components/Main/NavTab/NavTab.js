@@ -11,6 +11,7 @@ function NavTab() {
             to='promo'
             smooth={true}
             duration={500}
+            offset={500} // смещение скролла относительно блока
           >
             О проекте
           </Link>

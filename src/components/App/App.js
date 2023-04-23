@@ -406,6 +406,39 @@ function App() {
     setInfoToolTipMessage(false);
   }
 
+  const openPopup = isMobileMenuOpen || infoToolTipMessage;
+
+  useEffect(() => {
+    const handleEscClose = (e) => {
+      if(e.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+
+    if(openPopup) {
+      document.addEventListener('keydown', handleEscClose);
+      return () => {
+        document.removeEventListener('keydown', handleEscClose);
+      }
+    }
+  }, [openPopup]);
+
+  useEffect(() => {
+    const handlePopupClose = (e) => {
+      if (e.target.classList.contains('app__popup_active') || 
+      e.target.classList.contains('app__popup-close-button')) {
+        closeAllPopups();
+      }
+    }
+
+    if(openPopup) {
+      document.addEventListener('mousedown', handlePopupClose);
+      return () => {
+        document.removeEventListener('mousedown', handlePopupClose);
+      }
+    }
+  }, [openPopup]);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='app'>

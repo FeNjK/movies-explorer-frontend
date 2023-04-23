@@ -7,7 +7,7 @@ function Header({ isLoggedIn, onMobileMenu, authorizationEmail }) {
   const location = useLocation();
 
   return (
-    <header className='header'>
+      <header className='header'>
       <Logo />
       <nav className='header__nav-elements'>
         {!isLoggedIn && location.pathname === '/' && (
