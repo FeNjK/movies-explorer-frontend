@@ -7,6 +7,8 @@ function MobileMenu({ isOpen, onClose, authorizationEmail }) {
   let activeProfileLink =
     'app__popup-navigation-profile-link app__popup-navigation-link_active app__links';
 
+   
+
   return (
     <div
       className={`app__popup app__popup-animation ${

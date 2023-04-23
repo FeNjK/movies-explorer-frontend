@@ -52,6 +52,7 @@
   visibility: hidden;
   display: flex;
   opacity: 0;
+  z-index: 100;
 }
 
 .app__popup-animation {

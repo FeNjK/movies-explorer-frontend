@@ -6,21 +6,21 @@
   align-items: center;
   box-sizing: border-box;
   border-radius: 10px;
-  margin: 20px 40px 0;
+  margin: 74px 40px 0;
   padding: 0;
 }
 
 @media screen and (max-width: 1023px) {
   .promo {
     width: 95%;
-    margin: 20px 20px 0;
+    margin: 86px 20px 0;
   }
 }
 
 @media screen and (max-width: 700px) {
   .promo {
     width: 91%;
-    margin: 14px 14px 0;
+    margin: 86px 14px 0;
   }
 }
 
